@@ -41,7 +41,7 @@ export default class chambermodule extends Component {
         if(chamberstatus.status !=this.state.status){
             console.log("status change!");
             this.setState({status:chamberstatus.status,error:false,volume:0,reject:0});
-            chamberremoveerror();
+            this.chamberremoveerror();
             return;
         }else if(this.state.status == false){
             return;

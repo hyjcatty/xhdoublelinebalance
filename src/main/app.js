@@ -382,9 +382,9 @@ class App extends Component{
         this.refs.Workview.initialize_animateview_chamber(data);
     }
 
-    seticonlist(iconlist){
+    seticonlistanddrag(iconlist,drag){
         this.setState({iconlist:iconlist});
-        this.refs.Workview.update_configuration(iconlist);
+        this.refs.Workview.update_configuration(iconlist,drag);
     }
     removeuser(){
         this.setState({userid:"user",username:this.state.language.app.userunknown});
@@ -553,7 +553,9 @@ function systemstart(){
     app_handle.loginview();
 
 
-
+    initializedrag("brickview");
+    initializedrag("NewConfigureModelContentBody");
+    initializedrag("sysconfview");
     $('#ExpiredConfirm').on('click',delete_configure);
 }
 
@@ -854,7 +856,7 @@ function xhbalanceiconlistcallback(res){
         return;
     }
     IconList = res.jsonResult.ret;
-    app_handle.seticonlist(IconList);
+    app_handle.seticonlistanddrag(IconList,initializedrag);
 }
 function xhbalancestartcase(boolinput,configure){
     let body;
@@ -1937,4 +1939,128 @@ function binb2b64(binarray) {
         }
     }
     return str;
+}
+
+function initializedrag(id){
+    var drag = function drag(id){
+        this.dragWrap = $("#"+id);
+        this.init.apply(this,arguments);
+    };
+    drag.prototype = {
+        constructor:drag,
+        _dom : {},
+        _x : 0,
+        _y : 0,
+        _top :0,
+        _left: 0,
+        move : false,
+        down : false,
+        init : function () {
+            this.bindEvent();
+        },
+        bindEvent : function () {
+            var t = this;
+            $('body').on('mousedown','#'+this.dragWrap.attr("id"),function(e){
+                //e && e.preventDefault();
+                if ( !t.move) {
+                    t.mouseDown(e);
+                }
+            });
+            $('body').on('mouseup','#'+this.dragWrap.attr("id"),function(e){
+                t.mouseUp(e);
+            });
+            $('body').on('mousemove','#'+this.dragWrap.attr("id"),function(e){
+                if (t.down) {
+                    t.mouseMove(e);
+                }
+            });
+        },
+        mouseMove : function (e) {
+            //console.log(this.dragWrap.attr("id")+" draging")
+            e && e.preventDefault();
+            this.move = true;
+            var x = this._x - e.clientX,
+                y = this._y - e.clientY,
+                dom = this.dragWrap[0];
+            dom.scrollLeft = (this._left + x);
+            dom.scrollTop = (this._top + y);
+        },
+        mouseUp : function (e) {
+                e && e.preventDefault();
+            this.move = false;
+            this.down = false;
+            this.dragWrap.css('cursor','');
+        },
+        mouseDown : function (e) {
+            this.move = false;
+            this.down = true;
+            this._x = e.clientX;
+            this._y = e.clientY;
+            this._top = this.dragWrap[0].scrollTop;
+            this._left = this.dragWrap[0].scrollLeft;
+            this.dragWrap.css('cursor','move');
+        }
+    };
+    /*
+    drag.prototype = {
+        constructor:drag,
+        _dom : {},
+        _x : 0,
+        _y : 0,
+        _top :0,
+        _left: 0,
+        move : false,
+        down : false,
+        init : function () {
+            this.bindEvent();
+        },
+        bindEvent : function () {
+            var t = this;
+            $('body').on('mousedown','#brickview',function(e){
+                e && e.preventDefault();
+                if ( !t.move) {
+                    t.mouseDown(e);
+                }
+            });
+            $('body').on('mouseup','#brickview',function(e){
+                t.mouseUp(e);
+            });
+            $('body').on('mousemove','#brickview',function(e){
+                if (t.down) {
+                    t.mouseMove(e);
+                }
+            });
+        },
+        mouseMove : function (e) {
+            e && e.preventDefault();
+            this.move = true;
+            var x = this._x - e.clientX,
+                y = this._y - e.clientY,
+                dom = document.getElementById('brickview');
+            dom.scrollLeft = (this._left + x);
+            dom.scrollTop = (this._top + y);
+        },
+        mouseUp : function (e) {
+            e && e.preventDefault();
+            this.move = false;
+            this.down = false;
+            this.dragWrap.css('cursor','');
+        },
+        mouseDown : function (e) {
+            this.move = false;
+            this.down = true;
+            this._x = e.clientX;
+            this._y = e.clientY;
+            this._top = document.getElementById('brickview').scrollTop;
+            this._left = document.getElementById('brickview').scrollLeft;
+            this.dragWrap.css('cursor','move');
+        }
+    };*/
+    var dragbrickview = new drag(id);
+    /*
+    var dragbrickview = new drag("brickview");
+    var dragNewConfigureModelContentBody = new drag("NewConfigureModelContentBody");
+    var dragsysconfview = new drag("sysconfview");
+    var dragconfigurationview = new drag("configurationview");
+    var dragiconselectview = new drag("iconselectview");*/
 }

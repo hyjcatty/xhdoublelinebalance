@@ -53,9 +53,10 @@ export default class workview extends Component {
         this.refs.Billboardview.update_size(this.state.rightwidth,this.state.height);
         this.refs.Configurationview.update_size(this.state.rightwidth,this.state.height);
     }
-    update_configuration(iconlist){
+    update_configuration(iconlist,drag){
         this.setState({iconlist:iconlist});
         this.refs.Configurationview.update_iconlist(iconlist);
+        this.refs.Configurationview.update_drag(drag);
         //this.refs.Buttonbar.update_callbacklist([null,this.billboardview()],[null,this.configurationview()]);
     }
     update_callback(back2brickviewcallback,back2alarmremovecallback){
@@ -182,7 +183,7 @@ export default class workview extends Component {
     }
     render() {
         return (
-            <div style={{position:"relative",background:"#DDDDDD",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
+            <div id="workview" style={{position:"relative",background:"#DDDDDD",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
                 <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:this.state.leftwidth,float: "left"}}>
                     <Alarmbar ref="Alarmbar" buttonclick={this._buttonremoveclick}/>
                     <Buttonbar ref="Buttonbar" button1click={this._button1click} button2click={this._button2click}/>
