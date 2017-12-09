@@ -72,6 +72,8 @@ export default class animateview extends Component {
             this.refs['Label'+i].initialize(data.labellist[i-1].title,data.labellist[i-1].note);
         }
     }
+    clearbillboard(){
+    }
     initialize_chamber(data){
         for(let i=0;i<data.array1.length;i++){
             if(data.array1[i].id >0 && data.array1[i].id<31){
@@ -137,7 +139,7 @@ export default class animateview extends Component {
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
                         {chamberlist2}
                     </div>
-                    <div style={{width:this.state.width*0.24,float: "left",position:"relative"}}>
+                    <div style={{width:this.state.width*0.24,float: "left",position:"relative",paddingTop: "15px"}}>
                         <Labelbig ref="Labelbigboard"/>
                     </div>
                     <div style={{width:this.state.width*0.74,float: "left",position:"relative"}}>

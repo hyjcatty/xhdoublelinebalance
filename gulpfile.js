@@ -17,7 +17,7 @@ var htmlmin = require('gulp-htmlmin');
 var mkdirp = require('mkdirp');
 var option = {
 
-    buildPath: "../www/doublebalance"
+    buildPath: "../www/dlbalance"
     //buildPath: "./dist"
 }
 var option_html = {

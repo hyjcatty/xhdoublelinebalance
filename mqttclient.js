@@ -11,6 +11,7 @@ var mqtt  = require('mqtt');
 //});
 
 var start = false;
+var calibration_start=false;
 
 var client  = mqtt.connect('mqtt://127.0.0.1',{
     username:'username',
@@ -23,18 +24,36 @@ client.on('connect', function () {
     client.subscribe('MQTT_XH_Double_Line_Balance_HCU');
 
     setInterval(function(){
+        if(!calibration_start) return;
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationdynamicinfo());
+    },6000);
+    setInterval(function(){
+        if(!start) return;
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
+    },600);
+    setInterval(function(){
         if(!start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildchamberinfo());
     },600);
-
     setInterval(function(){
         if(!start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildpackageinfo());
     },600);
+    /*
     setInterval(function(){
         if(!start) return;
-        client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
-    },6000);
+        client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_message());
+    },600);*/
+    setInterval(function(){
+        if(!start) return;
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildalarminfo());
+    },600000);
+    setInterval(function(){
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildversioninfo());
+    },600000);
+    setInterval(function(){
+        client.publish('MQTT_XH_Double_Line_Balance_UI', builddebuginfo());
+    },600000);
     //client.publish('MQTT_TOPIC_UI_TO_HCU', 'Hello mqtt['+i+']');
 });
 
@@ -47,15 +66,165 @@ client.on('message', function (topic, message) {
      };* */
 
      if(msg.action== "XH_Double_Line_Balance_config_start") {
-         client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_message());
+         client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
 
          start = true;
 
      }else if(msg.action== "XH_Double_Line_Balance_config_stop"){
          start = false;
+     }else if(msg.action== "XH_Double_Line_Balance_force_flush"){
+         client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
+         client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_message());
+     }else if(msg.action == "XH_Double_Line_Balance_calibration_dynamic_start"){
+         calibration_start = true
+     }else if(msg.action == "XH_Double_Line_Balance_calibration_dynamic_stop"){
+         calibration_start = false;
+     }else if(msg.action == "XH_Double_Line_Balance_calibration_zero_trigger"){
+         client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationzeroinfo());
+     }else if(msg.action == "XH_Double_Line_Balance_calibration_weight_trigger"){
+         client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationweightinfo());
      }
 
 });
+/*
+function buildstatisticsinfo(){
+    var biglabel= {
+        title: "Test BIG Title",
+        unit: "Status Report",
+        value: GetRandomNum(1,3000)+"g"
+    };
+    var colorlist=[
+        "RED",
+        "ORANGE",
+        "BLUE",
+        "GREEN",
+        "GRAY",
+        "PURPLE",
+        "LBLUE",
+        "LGRAY",
+        "DBLUE"];
+    var smalllabellist=[];
+    for(var i=0;i<9;i++){
+        var templabel={
+            title:"test title",
+            unit:"note",
+            color:colorlist[GetRandomNum(0,8)],
+            value:GetRandomNum(0,300)+"kg"
+        }
+        smalllabellist.push(templabel);
+    }
+    var ret={
+        action:"XH_Double_Line_Balance_statistics_status",
+        data:{
+            currentweight:biglabel,
+            mainvalue:smalllabellist
+        }
+    }
+    return JSON.stringify(ret);
+}*/
+function buildversioninfo(){
+    var number = GetRandomNum(1,10);
+    var ret;
+    if(number >7){
+        ret={
+            'Alarm':true,
+            'Title':'New version',
+            'HCU':"yyHCU-SW-R3.V243.DB11.PATCH xxHCU-SW-R3.V243.DB11.PATCH",
+            'IHU':"IHU-SW-R3.V243.DB11.PATCH"
+        }
+    }else{
+        ret={
+            'Alarm':false,
+            'Title':'Versoin number',
+            'HCU':"yyHCU-SW-R3.V243.DB11.PATCH xxHCU-SW-R3.V243.DB11.PATCH",
+            'IHU':"IHU-SW-R3.V243.DB11.PATCH"
+        }
+    }
+
+    var version = {
+        action:"XH_Double_Line_Balance_version_status",
+        data:ret
+    }
+    return JSON.stringify(version);
+}
+function buildalarminfo(){
+    var number = GetRandomNum(1,5);
+    var sta='true';
+    if(number == 2) sta='false';
+        ret={
+            'status':sta,
+            'auth':'true',
+            'msg':'error msg:1234567890;1234567890;1234567890'
+        }
+
+
+    var version = {
+        action:"XH_Double_Line_Balance_alarm_status",
+        data:ret
+    }
+    return JSON.stringify(version);
+}
+function builddebuginfo(){
+    var number = GetRandomNum(1,50);
+    var msg = "return msg:";
+    for(var i=0;i<number;i++){
+        msg = msg+" x"+i;
+    }
+
+
+    var version = {
+        action:"XH_Double_Line_Balance_debug_status",
+        data:msg
+    }
+    return JSON.stringify(version);
+}
+function buildcalibrationzeroinfo(){
+    var balance="1";
+    var ret = {
+        action:"XH_Double_Line_Balance_calibration_zero_status",
+        data:{
+            balance:balance,
+            msg:parseFloat(GetRandomNum(0,500))/1000
+        }
+    }
+    return JSON.stringify(ret);
+}
+function buildcalibrationweightinfo(){
+    var balance="1";
+    var ret = {
+        action:"XH_Double_Line_Balance_calibration_weight_status",
+        data:{
+            balance:balance,
+            msg:parseFloat(GetRandomNum(0,5000))
+        }
+    }
+    return JSON.stringify(ret);
+}
+function buildcalibrationdynamicinfo(){
+    var balance="1";
+    var status = false;
+    var temp = GetRandomNum(0,500);
+    if(temp>400) status = true
+    var ret = {
+        action:"XH_Double_Line_Balance_calibration_dynamic_status",
+        data:{
+                balance:balance,
+                status:status,
+                value:[{
+                    name:'trynumber',
+                    value:GetRandomNum(0,50),
+                },{
+                    name:'bias',
+                    value:GetRandomNum(0,100)+"%",
+                },{
+                    name:"msg",
+                    value:"ret msg",
+                }]
+        }
+    }
+    return JSON.stringify(ret);
+}
+
 function buildstatisticsinfo(){
     var biglabel= {
         title: "Test BIG Title",
@@ -92,12 +261,14 @@ function buildstatisticsinfo(){
     return JSON.stringify(ret);
 }
 
+
 function buildchamberinfo(){
     var number = GetRandomNum(1,30);
     var status = true;
     var error = false;
     var package = false;
     var fillin = true;
+    var chamberprocesslist=["0",'10','20','30','40','50','60','70','80','90','100'];
     var volume = GetRandomNum(0,100);;
 
     var temp = GetRandomNum(1,10);
@@ -128,9 +299,11 @@ function buildchamberinfo(){
             package:package,
             fillin:fillin,
             volume:volume,
-            reject:GetRandomNum(0,100)
+            reject:GetRandomNum(0,100),
+            chamberprocess:chamberprocesslist[GetRandomNum(0,10)]
         }
     }
+    //console.log(JSON.stringify(chamber));
     return JSON.stringify(chamber);
 }
 function buildpackageinfo(){
@@ -147,6 +320,8 @@ function buildpackageinfo(){
 function build_status_message(){
     var list1 = [];
     var list2 = [];
+
+    var chamberprocesslist=["0",'10','20','30','40','50','60','70','80','90','100'];
     for(var i=0;i<31;i++){
         var temp = {
             process:1,
@@ -156,7 +331,8 @@ function build_status_message(){
             package:false,
             fillin:false,
             volume:0,
-            reject:0
+            reject:0,
+            chamberprocess:'0'
         }
         list1.push(temp);
     }
@@ -170,7 +346,8 @@ function build_status_message(){
             package:false,
             fillin:false,
             volume:0,
-            reject:0
+            reject:0,
+            chamberprocess:'0'
         }
         list2.push(temp);
     }
@@ -183,6 +360,10 @@ function build_status_message(){
     };
     return JSON.stringify(message);
 }
+
+
+
+
 function GetRandomNum(Min,Max)
 {
     var Range = Max - Min;

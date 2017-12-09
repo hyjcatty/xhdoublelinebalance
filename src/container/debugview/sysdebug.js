@@ -51,7 +51,16 @@ export default class sysdebug extends Component {
         this.setState({configure:configure});
     }
     update_msg(msg){
-        this.setState({retmsg:msg});
+        $("#screen").prepend("<p style='width:100%'>"+msg+"</p><p style='width:100%'>----------------</p>");
+        while($("#screen").children('p').length>20){
+            $("#screen").children('p')[$("#screen").children('p').length-1].remove();
+        }
+        /*
+        let msgtemp =msg+" ------------------------------------- &nbsp;"+this.state.retmsg;
+        if(msgtemp.length>2000){
+            msgtemp = msgtemp.substring(0,2000);
+        }
+        this.setState({retmsg:msgtemp});*/
     }
     hide(){
         this.setState({hide:"none"});
@@ -465,9 +474,11 @@ export default class sysdebug extends Component {
             <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12" key={this.state.key+"output"}>
                 <div className="tile-stats" key={"debug_group_right"} style={{marginTop:"15px"}}>
                     <div key="statuspanel" className="count" style={{fontSize:24}}>{this.state.language.consoletitle}</div>
-                    <label  style={{width:"90%",height:this.state.height*0.65,marginLeft:"15px"}}>{this.state.retmsg}</label>
-                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height*0.1),width:(this.state.height*0.1)}} onClick={this.handle_click_send.bind(this)}>
-                        <i style={{color:"#333",fontSize:"15px",fontWeight:"bold"}}> {this.state.language.sendbutton}</i>
+                    <div  id="screen" style={{width:"90%",height:this.state.height*0.65,marginLeft:"15px",overflow:'scroll',overflowX:'hidden'}}>
+
+                    </div>
+                    <button  type="button" className="btn btn-warning btn-sm pull-left" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height*0.1),width:(this.state.height*0.1)}} onClick={this.handle_click_send.bind(this)}>
+                        <i style={{color:"#ffffff",fontSize:"15px",fontWeight:"bold"}}> {this.state.language.sendbutton}</i>
                     </button>
                 </div>
             </div>

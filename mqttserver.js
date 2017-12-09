@@ -21,7 +21,7 @@ MqttServer.on('clientConnected', function(client){
     }
     if(client.id == "MQTT_XH_Double_Line_Balance_HCU"){
         login = true;
-        console.log('UI connected:', client.id);
+        console.log('HCU connected:', client.id);
     }
     if(client.id == "MQTT_XH_Double_Line_Balance_PHP"){
         login = true;
@@ -37,7 +37,7 @@ MqttServer.on('published', function(packet, client) {
 });
 
 MqttServer.on('ready', function(){
-    console.log('xh doubleline balance mqtt is running...');
+    console.log('xh high speed balance mqtt is running...');
     //MqttServer.authenticate = authenticate;  
 });
 

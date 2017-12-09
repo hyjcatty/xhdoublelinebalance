@@ -310,6 +310,7 @@ switch ($key){
             );
 
             $jsonencode = _encode($retval);
+            //flushUI();
             echo $jsonencode; break;
     case "XH_Balance_status": //Use Wechat to login the Server, response is the userID in system.
             /*
@@ -370,6 +371,7 @@ switch ($key){
                              ]
                          };
             * */
+            /*
             $colorlist= array('RED','ORANGE','BLUE','GREEN','GRAY','PURPLE','LBLUE','LGREEN','LGRAY','DBLUE');
             $statusdetail=array(
                 'status'=>(string)rand(0,999),
@@ -377,8 +379,10 @@ switch ($key){
                 'error'=>(string)rand(0,999)
             );
             $mainvalue=array();
-            for($i=0;$i<6;$i++){
+            for($i=0;$i<9;$i++){
                 $temp=array(
+                    'title'=>'title'.(string)($i+1),
+                    'unit'=>'unit'.(string)($i+1),
                     'value'=>(string)rand(0,250),
                     'color'=>$colorlist[rand(0,9)]
                 );
@@ -395,6 +399,8 @@ switch ($key){
                 array_push($detailvalue,$temp);
             }
             $currentweight=array(
+            'title'=>'Current Weight',
+            'unit'=>'g',
             'value'=>(string)rand(0,250)
             );
             $ret=array(
@@ -402,16 +408,17 @@ switch ($key){
                 'mainvalue'=>$mainvalue,
                 'detailvalue'=>$detailvalue,
                 'currentweight'=>$currentweight
-            );
+            );*/
             $sta='true';
             $retval=array(
-                'ret'=>$ret,
+                //'ret'=>$ret,
                 'status'=>$sta,
                 'auth'=>'true',
                 'msg'=>'12345'
             );
 
             $jsonencode = _encode($retval);
+            flushUI();
             echo $jsonencode; break;
     case "XH_Balance_light": //Use Wechat to login the Server, response is the userID in system.
                 /*
@@ -631,6 +638,21 @@ switch ($key){
 
             $jsonencode = _encode($retval);
             echo $jsonencode; break;
+        case "XH_Balance_cali_run":
+            $body=$payload["body"];
+            $sta='true';
+            $retval=array(
+                'status'=>$sta,
+                'auth'=>'true',
+                'msg'=>'12345'
+            );
+            //send mqtt message
+            $action = $body["action"];
+            $bool = false;
+            if($action == "start") $bool=true;
+            calidynamic($bool);
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
         case "XH_Balance_cali_to_zero":
             $body=$payload["body"];
             $balance = $body["balance"];
@@ -640,10 +662,11 @@ switch ($key){
             );
             $retval=array(
                 'status'=>$sta,
-                'ret'=>$ret,
+                //'ret'=>$ret,
                 'auth'=>'true',
                 'msg'=>'12345'
             );
+            calizero();
             $jsonencode = _encode($retval);
             echo $jsonencode; break;
         case "XH_Balance_cali_to_countweight":
@@ -657,10 +680,11 @@ switch ($key){
             );
             $retval=array(
                 'status'=>$sta,
-                'ret'=>$ret,
+               // 'ret'=>$ret,
                 'auth'=>'true',
                 'msg'=>(string)$returnweight
             );
+            caliweight();
             $jsonencode = _encode($retval);
             echo $jsonencode; break;
     case "XH_Balance_get_alarm": //Use Wechat to login the Server, response is the userID in system.
@@ -756,11 +780,162 @@ switch ($key){
             $jsonencode = _encode($retval);
 
             echo $jsonencode; break;
+        case "XH_Balance_change_passwd":
+            $body=$payload["body"];
+            $username = $body["username"];
+            $password = $body["password"];
+            $newpassword = $body["newpassword"];
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'msg'=>''
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
+        case "XH_Balance_get_user_list":
+            $userlist=array();
+            for($i=0;$i<20;$i++){
+                $temp="user".(string)$i;
+                array_push($userlist,$temp);
+            }
+            $retval=array(
+                'ret'=>$userlist,
+                'status'=>'true',
+                'auth'=>'true',
+                'msg'=>''
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
+        case "XH_Balance_del_user":
+            $body=$payload["body"];
+            $user = $body["username"];
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'msg'=>''
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
+        case "XH_Balance_new_user":
+            $body=$payload["body"];
+            $user = $body["username"];
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'msg'=>''
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
+        case "XH_Balance_reset_user":
+            $body=$payload["body"];
+            $user = $body["username"];
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'msg'=>''
+            );
+            $jsonencode = _encode($retval);
+            echo $jsonencode; break;
+        case "XH_Balance_mqtt_conf":
+            $retarray = getfiledetail("./sysconf/mqtt.json");
+            //echo "file content".$retarray;
+            $obj=json_decode($retarray,true);
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'ret'=>$obj,
+                'msg'=>''
+            );
+
+            $jsonencode = _encode($retval);
+
+            echo $jsonencode; break;
 	default:
 
 	break;
 }
+function calizero(){
+    $server = "127.0.0.1";     // change if necessary
+    $port = 1883;                     // change if necessary
+    $username = "";                   // set your username
+    $password = "";                   // set your password
+    $client_id = "MQTT_XH_Double_Line_Balance_PHP"; // make sure this is unique for connecting to sever - you could use uniqid()
+    $mqtt = new phpMQTT($server, $port, $client_id);
+    if(!$mqtt->connect(true, NULL, $username, $password)) {
+        exit(1);
+    }
+    $topics['MQTT_XH_Double_Line_Balance_PHP'] = array("qos" => 0, "function" => "procmsg");
+    //$mqtt->subscribe($topics, 0);
+    $retval=array(
+                       'action'=>'XH_Double_Line_Balance_calibration_zero_trigger'
+                   );
 
+    $mqtt->publish('MQTT_XH_Double_Line_Balance_HCU', _encode($retval));
+
+    $mqtt->close();
+}
+function caliweight(){
+    $server = "127.0.0.1";     // change if necessary
+    $port = 1883;                     // change if necessary
+    $username = "";                   // set your username
+    $password = "";                   // set your password
+    $client_id = "MQTT_XH_Double_Line_Balance_PHP"; // make sure this is unique for connecting to sever - you could use uniqid()
+    $mqtt = new phpMQTT($server, $port, $client_id);
+    if(!$mqtt->connect(true, NULL, $username, $password)) {
+        exit(1);
+    }
+    $topics['MQTT_XH_Double_Line_Balance_PHP'] = array("qos" => 0, "function" => "procmsg");
+    //$mqtt->subscribe($topics, 0);
+    $retval=array(
+                       'action'=>'XH_Double_Line_Balance_calibration_weight_trigger'
+                   );
+
+    $mqtt->publish('MQTT_XH_Double_Line_Balance_HCU', _encode($retval));
+
+    $mqtt->close();
+}
+function calidynamic($bool){
+    $server = "127.0.0.1";     // change if necessary
+    $port = 1883;                     // change if necessary
+    $username = "";                   // set your username
+    $password = "";                   // set your password
+    $client_id = "MQTT_XH_Double_Line_Balance_PHP"; // make sure this is unique for connecting to sever - you could use uniqid()
+    $mqtt = new phpMQTT($server, $port, $client_id);
+    if(!$mqtt->connect(true, NULL, $username, $password)) {
+        exit(1);
+    }
+    $topics['MQTT_XH_Double_Line_Balance_PHP'] = array("qos" => 0, "function" => "procmsg");
+    //$mqtt->subscribe($topics, 0);
+    $action = 'XH_Double_Line_Balance_calibration_dynamic_stop';
+    if($bool) $action = 'XH_Double_Line_Balance_calibration_dynamic_start';
+    $retval=array(
+                       'action'=>$action
+                   );
+
+    $mqtt->publish('MQTT_XH_Double_Line_Balance_HCU', _encode($retval));
+
+    $mqtt->close();
+}
+function flushUI(){
+    $server = "127.0.0.1";     // change if necessary
+    $port = 1883;                     // change if necessary
+    $username = "";                   // set your username
+    $password = "";                   // set your password
+    $client_id = "MQTT_XH_Double_Line_Balance_PHP"; // make sure this is unique for connecting to sever - you could use uniqid()
+    $mqtt = new phpMQTT($server, $port, $client_id);
+    if(!$mqtt->connect(true, NULL, $username, $password)) {
+        exit(1);
+    }
+    $topics['MQTT_XH_Double_Line_Balance_PHP'] = array("qos" => 0, "function" => "procmsg");
+    //$mqtt->subscribe($topics, 0);
+    $retval=array(
+                       'action'=>'XH_Double_Line_Balance_force_flush'
+                   );
+
+    $mqtt->publish('MQTT_XH_Double_Line_Balance_HCU', _encode($retval));
+
+    $mqtt->close();
+}
 
 
 

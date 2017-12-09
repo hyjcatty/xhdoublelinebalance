@@ -26,12 +26,10 @@ export default class Labelbig extends Component {
     }
     render() {
         return (
-            <div className="animated flipInY" style={{paddingTop:15}}>
-                <div className="tile-stats">
-                    <h3 style={{paddingTop:10,color:"#3498db",fontWeight:"bold"}}>{this.state.title}</h3>
-                    <div key="statuspanel" className="count" style={{fontSize:60,paddingTop:20,paddingBottom:20,textAlign:"center"}}>{this.state.status}</div>
-                    <p className="pull-right" style={{fontSize:30,fontWeight:"bold",paddingRight:10,marginTop:12.5}}>{this.state.note}</p>
-                </div>
+            <div className="tile-stats">
+                <h3 style={{paddingTop:10,color:"#000000",fontWeight:"bold"}}>{this.state.title}</h3>
+                <div key="statuspanel" className="count" style={{color:"#000000",fontSize:84,marginTop:-10,marginBottom:-10,textAlign:"center",fontWeight:900}}>{this.state.status}</div>
+                <p className="pull-right" style={{fontSize:30,fontWeight:"bold",paddingRight:10,marginTop:0}}>{this.state.note}</p>
             </div>
         );
     }

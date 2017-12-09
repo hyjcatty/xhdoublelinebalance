@@ -23,16 +23,16 @@ export default class billboardview extends Component {
         super(props);
 
         this.colorlist={
-            RED:"#d95349",
-            ORANGE:"#f0ad4e",
-            BLUE:"#3498db",
-            GREEN:"#26b99a",
-            GRAY:"#73879c",
-            PURPLE:"#9B59B6",
-            LBLUE:"#5bc0de",
-            LGREEN:"#5cb85c",
-            LGRAY:"#2a3f54",
-            DBLUE:"#34495e"
+            RED:"#880000",
+            ORANGE:"#bb5500",
+            BLUE:"#000088",
+            GREEN:"#227700",
+            GRAY:"#878787",
+            PURPLE:"#4b0082",
+            LBLUE:"#003377",
+            LGREEN:"#008800",
+            LGRAY:"#696969",
+            DBLUE:"#191970"
         };
         let showlist= {
             statusdetail: {
@@ -41,14 +41,23 @@ export default class billboardview extends Component {
                 error: "123"
             },
             currentweight:{
+                "title":"Current Weight",
+                "unit":"g",
                 value:0
             },
 
-            mainvalue: [{value: 179, color: "RED"}, {value: 179, color: "RED"}, {value: 179, color: "RED"}, {
-                value: 179,
-                color: "RED"
-            }, {value: 179, color: "RED"}, {value: 179, color: "RED"}],
-            detailvalue: [{value: 179, color: "RED", subvalue: "3%", subcolor: "RED"},
+            mainvalue: [
+                {"title":"Target Weight", "unit":"g",value: 179, color: "RED"},
+                {"title":"Upper Weight", "unit":"g",value: 179, color: "RED"},
+                {"title":"Error Notes", "unit":"Please notice",value: "information", color: "RED"},
+                {"title":"Total Package", "unit":"pcs",value: 179, color: "RED"},
+                {"title":"Total Weight", "unit":"g",value: 179, color: "RED"},
+                {"title":"Speed Package", "unit":"pcs/min",value: 179, color: "RED"},
+                {"title":"Speed Weight", "unit":"g/min",value: 179, color: "RED"},
+                {"title":"Error Count", "unit":"times",value: 121, color: "RED"},
+                {"title":"Error Notes", "unit":"Please notice",value: "information", color: "RED"}],
+            detailvalue: [
+                {value: 179, color: "RED", subvalue: "3%", subcolor: "RED"},
                 {value: 179, color: "RED", subvalue: "3%", subcolor: "GREED"},
                 {value: 179, color: "RED", subvalue: "3%", subcolor: "GREED"},
                 {value: 179, color: "RED", subvalue: "3%", subcolor: "GREED"},
@@ -89,28 +98,22 @@ export default class billboardview extends Component {
             hide:"block",
             language:{
                 "Label1x1":{
-                    "title":"Target Weight",
-                    "unit":"g"
+                    "title":"Target Weight", "unit":"g"
                 },
                 "Label1x2":{
-                    "title":"Upper Weight",
-                    "unit":"g"
+                    "title":"Upper Weight", "unit":"g"
                 },
                 "Label1x3":{
-                    "title":"Total Package",
-                    "unit":"pcs"
+                    "title":"Total Package", "unit":"pcs"
                 },
                 "Label1x4":{
-                    "title":"Total Weight",
-                    "unit":"g"
+                    "title":"Total Weight", "unit":"g"
                 },
                 "Label1x5":{
-                    "title":"Speed Package",
-                    "unit":"pcs/min"
+                    "title":"Speed Package", "unit":"pcs/min"
                 },
                 "Label1x6":{
-                    "title":"Speed Weight",
-                    "unit":"g/min"
+                    "title":"Speed Weight", "unit":"g/min"
                 },
                 "Labelbigboard":{
                     "title":"Current Weight",
@@ -125,13 +128,13 @@ export default class billboardview extends Component {
         //console.log(language);
         this.setState({language:language});
 
-        this.refs['Label1x1'].initialize(language.Label1x1.title,language.Label1x1.unit);
-        this.refs['Label1x2'].initialize(language.Label1x2.title,language.Label1x2.unit);
-        this.refs['Label1x3'].initialize(language.Label1x3.title,language.Label1x3.unit);
-        this.refs['Label1x4'].initialize(language.Label1x4.title,language.Label1x4.unit);
-        this.refs['Label1x5'].initialize(language.Label1x5.title,language.Label1x5.unit);
-        this.refs['Label1x6'].initialize(language.Label1x6.title,language.Label1x6.unit);
-        this.refs.Labelbigboard.initialize(language.Labelbigboard.title,language.Labelbigboard.unit);
+        //this.refs['Label1x1'].initialize(language.Label1x1.title,language.Label1x1.unit);
+        //this.refs['Label1x2'].initialize(language.Label1x2.title,language.Label1x2.unit);
+        //this.refs['Label1x3'].initialize(language.Label1x3.title,language.Label1x3.unit);
+        //this.refs['Label1x4'].initialize(language.Label1x4.title,language.Label1x4.unit);
+        //this.refs['Label1x5'].initialize(language.Label1x5.title,language.Label1x5.unit);
+        //this.refs['Label1x6'].initialize(language.Label1x6.title,language.Label1x6.unit);
+        //this.refs.Labelbigboard.initialize(language.Labelbigboard.title,language.Labelbigboard.unit);
     }
     update_size(width,height){
         this.setState({height:height,width:width});
@@ -146,10 +149,10 @@ export default class billboardview extends Component {
         this.refs['Label3x3'].initialize("Error info","fa fa-times",width);*/
 
         //this.refs.Labelbigboard.initialize("Current Weight","g");
-        for(let i=1;i<9;i++){
-            this.refs['Light'+(2*i-1)].initialize("left",width,""+(2*i-1));
-            this.refs['Light'+(2*i)].initialize("right",width,""+(2*i));
-        }
+        //for(let i=1;i<9;i++){
+        //    this.refs['Light'+(2*i-1)].initialize("left",width,""+(2*i-1));
+        //    this.refs['Light'+(2*i)].initialize("right",width,""+(2*i));
+        //}
 
     }
     update_configuration(configuration){
@@ -163,13 +166,14 @@ export default class billboardview extends Component {
     }
     flash_light(){
         //console.log("flashlight");
-        for(let i=1;i<17;i++){
-            this.refs['Light'+i].updateprop(this.state.lightlist.lightboard[i-1].note,this.colorlist[this.state.lightlist.lightboard[i-1].colorbrick],this.colorlist[this.state.lightlist.lightboard[i-1].colornote],this.colorlist[this.state.lightlist.lightboard[i-1].colorcircle],this.state.lightlist.lightboard[i-1].blingbrick,this.state.lightlist.lightboard[i-1].blingnote,this.state.lightlist.lightboard[i-1].blingcircle,this.state.lightlist.lightboard[i-1].colorbrick,this.state.lightlist.lightboard[i-1].colornote,this.state.lightlist.lightboard[i-1].colorcircle);
-        }
+        //for(let i=1;i<17;i++){
+        //    this.refs['Light'+i].updateprop(this.state.lightlist.lightboard[i-1].note,this.colorlist[this.state.lightlist.lightboard[i-1].colorbrick],this.colorlist[this.state.lightlist.lightboard[i-1].colornote],this.colorlist[this.state.lightlist.lightboard[i-1].colorcircle],this.state.lightlist.lightboard[i-1].blingbrick,this.state.lightlist.lightboard[i-1].blingnote,this.state.lightlist.lightboard[i-1].blingcircle,this.state.lightlist.lightboard[i-1].colorbrick,this.state.lightlist.lightboard[i-1].colornote,this.state.lightlist.lightboard[i-1].colorcircle);
+        //}
     }
     flash_status(){
-        for(let i=1;i<7;i++){
+        for(let i=1;i<10;i++){
             this.refs['Label1x'+i].updateprop(this.colorlist[this.state.showlist.mainvalue[i-1].color],this.state.showlist.mainvalue[i-1].value);
+            this.refs['Label1x'+i].initialize(this.state.showlist.mainvalue[i-1].title,this.state.showlist.mainvalue[i-1].unit);
         }/*
         for(let i=1;i<7;i++){
             this.refs['Label2x'+i].updateprop(this.colorlist[this.state.showlist.detailvalue[i-1].color],this.colorlist[this.state.showlist.detailvalue[i-1].subcolor],this.state.showlist.detailvalue[i-1].value,this.state.showlist.detailvalue[i-1].subvalue);
@@ -179,11 +183,12 @@ export default class billboardview extends Component {
         this.refs['Label3x3'].updateprop("#d95349",this.state.showlist.statusdetail.error);*/
         //this.refs.Labelbigboard.updateprop(this.state.showlist.statusdetail.status,this.state.showlist.statusdetail.warning,this.state.showlist.statusdetail.error);
         this.refs.Labelbigboard.updateprop(this.state.showlist.currentweight.value);
+        this.refs.Labelbigboard.initialize(this.state.showlist.currentweight.title,this.state.showlist.currentweight.unit);
     }
     clearbillboard(){
         //this.setState({showlist:this.state.defaultshow});
         this.update_status(this.state.defaultshow);
-        this.update_light(this.state.defaultlight);
+        //this.update_light(this.state.defaultlight);
     }
     hide(){
         this.setState({hide:"none"});
@@ -194,8 +199,8 @@ export default class billboardview extends Component {
     render() {
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
-                <div key = "leftpanel" style={{width:this.state.width*0.42,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.03,marginTop:this.state.width*0.03}}>
-                    <div key = "Labelbigboard" style={{width:this.state.width*0.42,float: "left",position:"relative"}}>
+                <div key = "leftpanel" style={{width:this.state.width*0.90,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.03,marginTop:this.state.width*0.03}}>
+                    <div key = "Labelbigboard" style={{width:this.state.width*0.90,float: "left",position:"relative"}}>
                         <div className="animated flipInY">
                             <Labelbig ref="Labelbigboard"/>
                         </div>
@@ -206,70 +211,26 @@ export default class billboardview extends Component {
                     <div key = "Label1x2" style={{width:this.state.width*0.20,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
                         <Label1 ref="Label1x2"/>
                     </div>
-                    <div key = "Label1x3" style={{width:this.state.width*0.20,float: "left",position:"relative"}}>
+                    <div key = "Label1x3" style={{width:this.state.width*0.46,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
                         <Label1 ref="Label1x3"/>
                     </div>
-                    <div key = "Label1x4"  style={{width:this.state.width*0.20,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                    <div key = "Label1x4"  style={{width:this.state.width*0.20,float: "left",position:"relative"}}>
                         <Label1 ref="Label1x4"/>
                     </div>
-                    <div key = "Label1x5"  style={{width:this.state.width*0.20,float: "left",position:"relative"}}>
+                    <div key = "Label1x5"  style={{width:this.state.width*0.20,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
                         <Label1 ref="Label1x5"/>
                     </div>
-                    <div key = "Label1x6" style={{width:this.state.width*0.20,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                    <div key = "Label1x6" style={{width:this.state.width*0.46,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
                         <Label1 ref="Label1x6"/>
                     </div>
-                </div>
-                <div key="rightpanel" style={{width:this.state.width*0.45,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.03,marginTop:this.state.width*0.03}}>
-
-                    <div key = "Lightboard" style={{width:this.state.width*0.45,float: "left",position:"relative"}}>
-                        <div key ="Light1">
-                        <Light  ref="Light1"/>
-                        </div>
-                        <div key ="Light2">
-                        <Light ref="Light2"/>
-                        </div>
-                        <div key ="Light3">
-                        <Light ref="Light3"/>
-                        </div>
-                        <div key ="Light4">
-                        <Light ref="Light4"/>
-                        </div>
-                        <div key ="Light5">
-                        <Light  ref="Light5"/>
-                        </div>
-                        <div key ="Light6">
-                        <Light  ref="Light6"/>
-                        </div>
-                        <div key ="Light7">
-                        <Light ref="Light7"/>
-                        </div>
-                        <div key ="Light8">
-                        <Light ref="Light8"/>
-                        </div>
-                        <div key ="Light9">
-                        <Light ref="Light9"/>
-                        </div>
-                        <div key ="Light10">
-                        <Light ref="Light10"/>
-                        </div>
-                        <div key ="Light11">
-                        <Light ref="Light11"/>
-                        </div>
-                        <div key ="Light12">
-                        <Light ref="Light12"/>
-                        </div>
-                        <div key ="Light13">
-                        <Light ref="Light13"/>
-                        </div>
-                        <div key ="Light14">
-                        <Light  ref="Light14"/>
-                        </div>
-                        <div key ="Light15">
-                        <Light  ref="Light15"/>
-                        </div>
-                        <div key ="Light16">
-                        <Light ref="Light16"/>
-                        </div>
+                    <div key = "Label1x7"  style={{width:this.state.width*0.20,float: "left",position:"relative"}}>
+                        <Label1 ref="Label1x7"/>
+                    </div>
+                    <div key = "Label1x8" style={{width:this.state.width*0.20,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                        <Label1 ref="Label1x8"/>
+                    </div>
+                    <div key = "Label1x9" style={{width:this.state.width*0.46,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                        <Label1 ref="Label1x9"/>
                     </div>
                 </div>
             </div>

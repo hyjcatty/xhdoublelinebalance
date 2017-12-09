@@ -31,7 +31,6 @@ export default class workview extends Component {
             status:"run",
             brickviewcallback:null,
             alarmremovecallback:null,
-
         }
         this._button1click=this.button1click.bind(this);
         this._button2click=this.button2click.bind(this);
@@ -45,7 +44,7 @@ export default class workview extends Component {
         this.refs.Billboardview.update_language(language.billboardview);
     }
     update_size(width,height){
-        this.setState({height:height,width:width,leftwidth:width/6,rightwidth:(width-width/6)},this.update_subsize);
+        this.setState({height:height,width:width,leftwidth:width*0.17,rightwidth:(width-width*0.17)},this.update_subsize);
     }
     update_subsize(){
         this.refs.Buttonbar.update_size(this.state.leftwidth,this.state.height);
@@ -62,12 +61,14 @@ export default class workview extends Component {
     update_callback(back2brickviewcallback,back2alarmremovecallback){
         this.setState({brickviewcallback:back2brickviewcallback,alarmremovecallback:back2alarmremovecallback});
     }
+    /*
     update_billboard_status(status){
-        //this.refs.Billboardview.update_status(status);
+        this.refs.Billboardview.update_status(status);
     }
     update_billboard_light(light){
-        //this.refs.Billboardview.update_light(light);
-    }
+        this.refs.Billboardview.update_light(light);
+    }*/
+
     update_animateview_chamber(data){
         this.refs.Billboardview.update_chamber(data);
     }
@@ -92,7 +93,8 @@ export default class workview extends Component {
         return this.state.configuration;
     }
     modview(configuration){
-        this.props.workcontrolfoot(false,true,false,false,false,false,false,true,false);
+        this.props.workcontrolhead(true);
+        this.props.workcontrolfoot(false,true,false);
         this.setState({configuration:configuration,status:"mod"});
         this.refs.Configurationview.modify_view(configuration);
         this.refs.Billboardview.hide();
@@ -102,11 +104,12 @@ export default class workview extends Component {
         this.show();
     }
     runview(configuration){
-        this.props.workcontrolfoot(false,true,false,false,false,true,false,false,false);
+        this.props.workcontrolhead(true);
+        this.props.workcontrolfoot(false,true,false);
         if(configuration!==null){
             this.setState({configuration:configuration,status:"run"});
-            //this.refs.Billboardview.update_configuration(configuration);
-            //this.refs.Billboardview.clearbillboard();
+            this.refs.Billboardview.update_configuration(configuration);
+            this.refs.Billboardview.clearbillboard();
         }else{
             this.setState({status:"run"});
         }
@@ -118,7 +121,8 @@ export default class workview extends Component {
         this.show();
     }
     newview(configuration){
-        this.props.workcontrolfoot(false,true,false,false,false,false,false,false,false);
+        this.props.workcontrolhead(true);
+        this.props.workcontrolfoot(false,true,false);
         this.setState({configuration:configuration,status:"new"});
         let configuration_local = configuration;
         configuration_local.name="";
@@ -130,10 +134,11 @@ export default class workview extends Component {
         this.show();
     }
     runningview(configuration){
-        this.props.workcontrolfoot(false,false,false,false,false,false,false,false,false);
+        this.props.workcontrolhead(false);
+        this.props.workcontrolfoot(false,false,false);
         if(configuration!==null){
             this.setState({configuration:configuration,status:"running"});
-            //this.refs.Billboardview.update_configuration(configuration);
+            this.refs.Billboardview.update_configuration(configuration);
         }else{
             this.setState({status:"running"});
         }
@@ -183,7 +188,7 @@ export default class workview extends Component {
     }
     render() {
         return (
-            <div id="workview" style={{position:"relative",background:"#DDDDDD",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
+            <div style={{position:"relative",background:"#DDDDDD",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
                 <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:this.state.leftwidth,float: "left"}}>
                     <Alarmbar ref="Alarmbar" buttonclick={this._buttonremoveclick}/>
                     <Buttonbar ref="Buttonbar" button1click={this._button1click} button2click={this._button2click}/>

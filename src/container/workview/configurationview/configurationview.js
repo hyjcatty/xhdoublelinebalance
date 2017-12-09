@@ -497,7 +497,7 @@ export default class configurationview extends Component {
         }*/
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
-                <div className="x_content" id = 'configurationview' style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'scroll',overflowX:'hidden'}}>
+                <div className="x_content" id = 'configurationview'  style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'scroll',overflowX:'hidden'}}>
                     <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12" style={{display:this.state.head}}>
                         <h4>&nbsp;</h4>
                         <div className="col-xs-9 col-md-9 col-sm-9 col-lg-9" style={{display:this.state.head}}>
@@ -557,7 +557,7 @@ export default class configurationview extends Component {
                             <div id='iconselectview' className="modal-body" style={{height:this.state.height*0.75,maxHeight:this.state.height*0.75,overflow:"scroll",overflowX:"hidden"}}>
 
                                 <div className="col-md-12">
-                                    <div  style={{position:"relative",background:"#FFFFFF",width:'100%'}}>
+                                    <div style={{position:"relative",background:"#FFFFFF",width:'100%'}}>
                                         {conficons}
                                     </div>
                                 </div>

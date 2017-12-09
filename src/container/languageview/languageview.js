@@ -47,7 +47,7 @@ export default class languageview extends Component {
 
     }
     calculatesize(width){
-        let size = (width-30)/4;
+        let size = (width-50)/5;
         let marginsize = size*0.05;
         let bricksize = size-marginsize*2;
         //console.log("bricksize:"+bricksize+",marginsize:"+marginsize);
@@ -103,8 +103,8 @@ export default class languageview extends Component {
          </div>
          </div>
          <div className="modal-footer">
-         <button type="button" className="btn btn-default" data-dismiss="modal">·ÅÆú</button>
-         <button type="button" className="btn btn-primary" id="NewConfigureModuleConfirm" StatCode="">ÐÞ¸Ä</button>
+         <button type="button" className="btn btn-default" data-dismiss="modal">ï¿½ï¿½ï¿½ï¿½</button>
+         <button type="button" className="btn btn-primary" id="NewConfigureModuleConfirm" StatCode="">ï¿½Þ¸ï¿½</button>
          </div>
          </div>
          </div>

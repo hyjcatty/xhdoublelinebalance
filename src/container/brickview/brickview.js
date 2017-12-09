@@ -57,7 +57,7 @@ export default class brickview extends Component {
 
     }
     calculatesize(width){
-        let size = (width-30)/4;
+        let size = (width-50)/5;
         let marginsize = size*0.05;
         let bricksize = size-marginsize*2;
         //console.log("bricksize:"+bricksize+",marginsize:"+marginsize);
@@ -127,7 +127,7 @@ export default class brickview extends Component {
             );
         }
         return (
-            <div  style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'hidden',overflowX:'hidden'}}>
+            <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'hidden',overflowX:'hidden'}}>
                 <div id= 'brickview' style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'scroll',overflowX:'hidden'}}>
                     {items}
                     <div key={this.state.key+"plus"} style={{marginTop:this.state.marginsize,marginLeft:this.state.marginsize,marginRight:this.state.marginsize,marginBottom:this.state.marginsize,width:this.state.bricksize,height:this.state.bricksize,float: "left",position:"relative"}}><Plusbutton ref="Plusbutton" setclick={this._newmoduleclick}/></div>

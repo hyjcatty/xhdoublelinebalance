@@ -18,6 +18,7 @@ import Exportview from "../container/exportview/exportview"
 import Calibrationview from "../container/calibrationview/calibrationview"
 import Brickview from "../container/brickview/brickview"
 import Workview from "../container/workview/workview"
+import Userview from "../container/userview/userview"
 import './App.css';
 
 import fetch from 'isomorphic-fetch';
@@ -26,6 +27,7 @@ require('es6-promise').polyfill();
 
 var winWidth;
 var winHeight;
+var mqttconf={};
 var basic_address = getRelativeURL()+"/";
 var request_head= basic_address+"request.php";
 class App extends Component{
@@ -42,10 +44,16 @@ class App extends Component{
             buttonlist: [],
             iconlist:[],
             runcallback:null,
+            caliruncallback:null,
             stopcallback:null,
             savenewback:null,
             savemodback:null,
             forceflashback:null,
+            newusercallback:null,
+            delusercallback:null,
+            resetusercallback:null,
+            listusercallback:null,
+            changepasswordcallback:null,
             language:{
                 "app":{
                     "modalhead":"Warning",
@@ -86,16 +94,26 @@ class App extends Component{
             },
         };
         this._footcallbackreturn=this.loginview.bind(this);
+        this._footcallbackbrick=this.brickview.bind(this);
         this._footcallbackconfigure=this.sysconfview.bind(this);
         this._footcallbackdebug=this.sysdebugview.bind(this);
         this._footcallbackexport=this.exportview.bind(this);
         this._footcallbackcalibration=this.calibrationview.bind(this);
         this._footcallbacklanguage=this.languageview.bind(this);
+        this._calistartcase=this.calistart.bind(this);
+        this._calistopcase=this.calistop.bind(this);
         this._workstartcase=this.startcase.bind(this);
         this._workstopcase=this.stopcase.bind(this);
         this._workcontrolfoot=this.footButtonShow.bind(this);
+        this._workcontrolhead=this.headButtonShow.bind(this);
         this._worksavenewcase=this.savenewcase.bind(this);
         this._worksavemodcase=this.savemodcase.bind(this);
+        this._newusercallback=this.newuser.bind(this);
+        this._delusercallback=this.deluser.bind(this);
+        this._resetusercallback=this.resetuser.bind(this);
+        this._listusercallback=this.listuser.bind(this);
+        this._changepasswordcallback=this.changepassword.bind(this);
+        this._headcallbackuser=this.userview.bind(this);
     }
     updateLanguage(language){
         this.setState({language:language});
@@ -107,6 +125,7 @@ class App extends Component{
         this.refs.Brickview.update_language(language.brickview);
         this.refs.Workview.update_language(language.workview);
         this.refs.Calibrationview.update_language(language.calibrationview);
+        this.refs.Userview.update_language(language.userview);
     }
     updateVersion(version){
         this.refs.foot.updateversion(version);
@@ -127,6 +146,7 @@ class App extends Component{
         this.refs.Sysdebugview.update_size(width,canvasheight,headfootheight);
         this.refs.Exportview.update_size(width,canvasheight,headfootheight);
         this.refs.Calibrationview.update_size(width,canvasheight,headfootheight);
+        this.refs.Userview.update_size(width,canvasheight,headfootheight);
     }
     initializesysconf(callback,configure){
         this.refs.Sysconfview.update_callback(callback);
@@ -155,17 +175,17 @@ class App extends Component{
     initializehead(){
         this.refs.head.update_username(this.state.username);
     }
-    initializefoot(callback_back,callback_save,callback_tozero,callback_delete){
+    initializefoot(callback_save,callback_tozero,callback_delete){
         this.refs.foot.hide_all();
         //this.refs.foot.update_callback_return(callback_return);
-        this.refs.foot.update_callback_back(callback_back);
+        //this.refs.foot.update_callback_back(callback_back);
         this.refs.foot.update_callback_save(callback_save);
         this.refs.foot.update_callback_tozero(callback_tozero);
         this.refs.foot.update_callback_delete(callback_delete);
         //this.refs.foot.update_callback_configure(callback_configure);
     }
-    initializerunstop(runcallback,stopcallback){
-        this.setState({runcallback:runcallback,stopcallback:stopcallback});
+    initializerunstop(runcallback,stopcallback,caliruncallback){
+        this.setState({runcallback:runcallback,stopcallback:stopcallback,caliruncallback:caliruncallback});
     }
     initializerunsave(newsave,modsave){
         this.setState({savenewback:newsave,savemodback:modsave});
@@ -179,23 +199,51 @@ class App extends Component{
     hidealarm(){
         this.refs.Workview.hidealarm();
     }
-    footButtonShow(breturn,bback,bconfigure,bsave,bcalibration,btozero,bdebug,bdelete,bexport,blanguage){
-        this.refs.foot.show_return_button(breturn);
-        this.refs.foot.show_back_button(bback);
-        this.refs.foot.show_configure_button(bconfigure);
-        this.refs.foot.show_save_button(bsave);
-        this.refs.foot.show_calibration_button(bcalibration);
-        this.refs.foot.show_to_zero_button(btozero);
+    headButtonShow(buser){
+
+        this.refs.head.show_user_button(buser);
+    }
+    footButtonShow(blanguage,bmain,bdebug){
+        this.refs.foot.show_return_button(bmain);
+        this.refs.foot.show_brick_button(bmain);
+        this.refs.foot.show_configure_button(bmain);
+        this.refs.foot.show_calibration_button(bmain);
         this.refs.foot.show_debug_button(bdebug);
-        this.refs.foot.show_delete_button(bdelete);
-        this.refs.foot.show_export_button(bexport);
+        this.refs.foot.show_export_button(bmain);
         this.refs.foot.show_language_button(blanguage);
+    }
+    footButtonShowAssistant(bsave,btozero,bdelete){
+        this.refs.foot.show_to_zero_button(btozero);
+        this.refs.foot.show_delete_button(bdelete);
+        this.refs.foot.show_save_button(bsave);
     }
     initializeWork(work2brickcallback,work2alarmremovecallback){
         this.refs.Workview.update_callback(work2brickcallback,work2alarmremovecallback);
     }
+    userview(){
+        this.refs.Calibrationview.hide();
+        this.refs.Workview.hide();
+        this.refs.Loginview.hide();
+        this.refs.foot.hide_all();
+        this.refs.Brickview.hide();
+        this.refs.Sysconfview.hide();
+        this.refs.Sysdebugview.hide();
+        this.refs.Exportview.hide();
+        this.refs.Languageview.hide();
+
+        this.refs.Userview.show();
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+
+        else
+            this.footButtonShow(false,true,false);
+        //console.log(this.state.language);
+        this.tipsinfo("");
+    }
     loginview(){
         this.removeuser();
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.show();
@@ -205,11 +253,14 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,false,false,false,false,false,false,false,false,true);
+        this.footButtonShowAssistant(false,false,false);
+        this.footButtonShow(true,false,false);
         //console.log(this.state.language);
         this.tipsinfo(this.state.language.message.title5);
+        this.refs.head.hide_button();
     }
     brickview(){
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.hide();
@@ -218,14 +269,16 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
+        this.footButtonShowAssistant(false,false,false);
         if(this.state.username === "admin")
-            this.footButtonShow(true,false,true,false,true,false,true,false,true,false);
+            this.footButtonShow(false,true,true);
 
         else
-        this.footButtonShow(true,false,true,false,true,false,false,false,false,false);
+            this.footButtonShow(false,true,false);
 
     }
     languageview(){
+        this.refs.Userview.hide();
         this.refs.Languageview.show();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
@@ -234,10 +287,12 @@ class App extends Component{
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
-        this.footButtonShow(false,false,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        this.footButtonShow(false,false,false);
         this.tipsinfo("");
     }
     workview_run(configure){
+        this.refs.Userview.hide();
         //this.refs.Workview.billboardview();
         this.refs.Calibrationview.hide();
         this.refs.Loginview.hide();
@@ -246,13 +301,18 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,true,false,true,false,false);
+        this.footButtonShowAssistant(false,true,true);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.refs.Workview.runview(configure);
         if(configure!=null) this.tipsinfo(configure.name);
         this.state.forceflashback();
     }
     workview_running(configure){
         //this.refs.Workview.billboardview();
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Loginview.hide();
         this.refs.Brickview.hide();
@@ -260,12 +320,14 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,false,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        this.footButtonShow(false,false,false);
         this.refs.Workview.runningview(configure);
         if(configure!=null) this.tipsinfo(configure.name);
     }
     workview_mod(configure){
         //this.refs.Workview.billboardview();
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Loginview.hide();
         this.refs.Brickview.hide();
@@ -273,11 +335,16 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.refs.Workview.modview(configure);
         if(configure!=null) this.tipsinfo(configure.name);
     }
     sysconfview(){
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.hide();
@@ -287,10 +354,15 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,true,false,false,false,false,false,false);
+        this.footButtonShowAssistant(true,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title4);
     }
     sysdebugview(){
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.hide();
@@ -300,10 +372,15 @@ class App extends Component{
         this.refs.Sysdebugview.show();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title3);
     }
     exportview(){
+        this.refs.Userview.hide();
         this.refs.Calibrationview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.hide();
@@ -313,10 +390,15 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.show();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title6);
     }
     workview_new(configure){
+        this.refs.Userview.hide();
         //this.refs.Workview.billboardview();
         this.refs.Calibrationview.hide();
         this.refs.Loginview.hide();
@@ -325,11 +407,16 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.refs.Workview.newview(configure);
         this.tipsinfo(this.state.language.message.title2);
     }
     calibrationview(){
+        this.refs.Userview.hide();
         this.refs.Workview.hide();
         this.refs.Loginview.hide();
         //this.refs.foot.hide_all();
@@ -339,20 +426,27 @@ class App extends Component{
         this.refs.Exportview.hide();
         this.refs.Calibrationview.show();
         this.refs.Languageview.hide();
-        this.footButtonShow(false,true,false,false,false,false,false,false,false,false);
+        this.footButtonShowAssistant(false,false,false);
+        if(this.state.username === "admin")
+            this.footButtonShow(false,true,true);
+        else
+            this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title1);
     }
     update_status(status){
-        this.refs.Workview.update_billboard_status(status);
+        //this.refs.Workview.update_billboard_status(status);
     }
     get_active_configuration(){
         return this.refs.Workview.get_active_configuration();
     }
     update_light(light){
-        this.refs.Workview.update_billboard_light(light);
+        //this.refs.Workview.update_billboard_light(light);
     }
     update_cali_status(balanceNo,status,weight){
         this.refs.Calibrationview.update_balance_status(balanceNo,status,weight);
+    }
+    update_cali_dynamic_status(status){
+        this.refs.Calibrationview.update_dynamic_status(status);
     }
     configureview(){
         alert("not support yet!");
@@ -363,12 +457,6 @@ class App extends Component{
     work_run(){
         this.refs.Workview.billboardview();
     }
-    setuser(username,userid){
-        this.setState({userid:userid,username:username});
-        this.refs.head.update_username(username);
-
-    }
-
     update_animateview_chamber(data){
         this.refs.Workview.update_animateview_chamber(data);
     }
@@ -381,10 +469,16 @@ class App extends Component{
     initialize_animateview_chamber(data){
         this.refs.Workview.initialize_animateview_chamber(data);
     }
+    setuser(username,userid){
+        this.setState({userid:userid,username:username});
+        this.refs.head.update_username(username);
+        this.refs.Userview.Initialize(username);
 
+    }
     seticonlistanddrag(iconlist,drag){
         this.setState({iconlist:iconlist});
         this.refs.Workview.update_configuration(iconlist,drag);
+        this.refs.Userview.update_drag(drag);
     }
     removeuser(){
         this.setState({userid:"user",username:this.state.language.app.userunknown});
@@ -392,6 +486,12 @@ class App extends Component{
     }
     getuser(){
         return this.state.userid;
+    }
+    calistart(){
+        this.state.caliruncallback(true);
+    }
+    calistop(){
+        this.state.caliruncallback(false);
     }
     startcase(configure){
         this.state.runcallback(true,configure);
@@ -417,25 +517,54 @@ class App extends Component{
     export_label_update(msg){
         this.refs.Exportview.update_msg(msg);
     }
+    update_clock(clock){
+        this.refs.head.update_clock(clock);
+    }
+    set_user_list(list){
+        this.refs.Userview.update_user_list(list);
+    }
+    update_user_functions(newuser,deluser,resetuser,listuser,changepassword){
+        this.setState({newusercallback:newuser,delusercallback:deluser,resetusercallback:resetuser,listusercallback:listuser,changepasswordcallback:changepassword});
+    }
+    newuser(username){
+        this.state.newusercallback(username);
+    }
+    deluser(username){
+        this.state.delusercallback(username);
+    }
+    resetuser(username){
+        this.state.resetusercallback(username);
+    }
+    listuser(){
+        this.state.listusercallback();
+    }
+    changepassword(username,oldpassword,newpassword){
+        this.state.changepasswordcallback(username,oldpassword,newpassword);
+    }
     render() {
         return(
-        <div>
+        <div style={{overflowY:'hidden',overflowX:'hidden'}}>
             <div>
-                <Head ref="head"/>
+                <Head ref="head" headcallbackuser={this._headcallbackuser}/>
             </div>
             <div>
                 <Sysconfview ref="Sysconfview"/>
                 <Sysdebug ref="Sysdebugview"/>
                 <Exportview ref="Exportview"/>
-                <Calibrationview ref="Calibrationview"/>
+                <Calibrationview ref="Calibrationview" calistartcase={this._calistartcase} calistopcase={this._calistopcase} workcontrolfoot={this._workcontrolfoot} workcontrolhead={this._workcontrolhead}/>
                 <Languageview ref="Languageview"/>
                 <Loginview ref="Loginview"/>
                 <Brickview ref="Brickview"/>
-                <Workview ref="Workview" workstartcase={this._workstartcase} workstopcase={this._workstopcase} workcontrolfoot={this._workcontrolfoot} worksavenewcase={this._worksavenewcase} worksavemodcase={this._worksavemodcase}/>
+                <Workview ref="Workview" workstartcase={this._workstartcase} workstopcase={this._workstopcase} workcontrolfoot={this._workcontrolfoot} worksavenewcase={this._worksavenewcase} worksavemodcase={this._worksavemodcase} workcontrolhead={this._workcontrolhead}/>
+                <Userview ref="Userview" newusercallback={this._newusercallback}
+                          delusercallback={this._delusercallback}
+                          resetusercallback={this._resetusercallback}
+                          listusercallback={this._listusercallback}
+                          changepasswordcallback={this._changepasswordcallback}/>
             </div>
             <div>
                 <Foot ref="foot" footcallbackreturn={this._footcallbackreturn} footcallbackconfigure={this._footcallbackconfigure} footcallbackdebug={this._footcallbackdebug} footcallbackexport={this._footcallbackexport} footcallbackcalibration={this._footcallbackcalibration}
-                      footcallbacklanguage={this._footcallbacklanguage}/>
+                      footcallbacklanguage={this._footcallbacklanguage} footcallbackbrick={this._footcallbackbrick}/>
             </div>
             <div className="modal fade" id="ExpiredAlarm" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" >
                 <div className="modal-dialog" role="document">
@@ -450,6 +579,22 @@ class App extends Component{
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">{this.state.language.app.modalcancel}</button>
                             <button type="button" className="btn btn-default" data-dismiss="modal" id="ExpiredConfirm">{this.state.language.app.modalconfirm}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="modal fade" id="ExpiredAlarm2" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 className="modal-title" id="ExpiredAlertModalLabel2">{this.state.language.app.modalhead}</h4>
+                        </div>
+                        <div className="modal-body" id="ExpiredAlertModalContent2">
+                            {this.state.language.app.modaltips}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal" >{this.state.language.app.modalconfirm}</button>
                         </div>
                     </div>
                 </div>
@@ -479,16 +624,19 @@ react_element = <App/>;
 get_size();
 app_handle = ReactDOM.render(react_element,document.getElementById('app'));
 app_handle.initializeSize(winWidth,winHeight);
-//var runcycle=setInterval(xhbalancegetstatus,250);
-var alarmcycle=setInterval(balance_get_alarm,3000);
-//var lightcycle=setInterval(xhbalancegetlight,250);
-var versioncycle=setInterval(sysversionfetch,30000);
 
+//var runcycle=setInterval(xhbalancegetstatus,250);
+//var alarmcycle=setInterval(balance_get_alarm,1000);
+//var lightcycle=setInterval(xhbalancegetlight,250);
+//var versioncycle=setInterval(sysversionfetch,3000);
+var clockcycle=setInterval(updateclock,10000);
 //syslanguagefetch();
 syslanguagelistfetch();
 var client;
-initialize_mqtt();
+//initialize_mqtt();
+fetchmqtt();
 function initialize_mqtt(){
+    /*
     client = mqtt.connect('ws://127.0.0.1:3000/mqtt' ,{
         username:"username",
         password:"password",
@@ -498,6 +646,17 @@ function initialize_mqtt(){
 
         console.log('mqtt connect :)');
         client.subscribe('MQTT_XH_Double_Line_Balance_UI');
+    });*/
+    //console.log(mqttconf);
+    client = mqtt.connect(mqttconf.server ,{
+        username:mqttconf.username,
+        password:mqttconf.password,
+        clientId:mqttconf.clientId
+    });
+    client.on('connect', function () {
+
+        console.log('mqtt connect :)');
+        client.subscribe(mqttconf.subscribe);
     });
     client.on("error", function (error) {
         console.log(error.toString());
@@ -506,9 +665,31 @@ function initialize_mqtt(){
     client.on("message", function (topic, payload) {
         //console.log('收到topic = ' + topic + ' 消息: ' + payload.toString());
         let ret = JSON.parse(payload.toString());
-        if(Running===false)return;
+        //if(Running===false)return;
         switch(ret.action)
         {
+            /*case "XH_Double_Line_Balance_statistics_status":
+                app_handle.update_status(ret.data);
+                //console.log("updated");
+                break;*/
+            case "XH_Double_Line_Balance_version_status":
+                app_handle.updateVersion(ret.data);
+                //app_handle.initialize_animateview_chamber(ret.data);
+                break;
+            case "XH_Double_Line_Balance_alarm_status":
+                app_handle.showalarm(ret.data.msg);
+                //app_handle.update_animateview_chamber(ret.data);
+                break;
+            case "XH_Double_Line_Balance_debug_status":
+                app_handle.debug_label_update(ret.data);
+                //app_handle.update_animateview_statistics(ret.data);
+                break;
+            case "XH_Double_Line_Balance_calibration_zero_status":
+                app_handle.update_cali_status(ret.data.balance,1,ret.data.msg);break;
+            case "XH_Double_Line_Balance_calibration_weight_status":
+                app_handle.update_cali_status(ret.data.balance,2,ret.data.msg);break;
+            case "XH_Double_Line_Balance_calibration_dynamic_status":
+                app_handle.update_cali_dynamic_status(ret.data);break;
             case "XH_Double_Line_Balance_package_status":
                 app_handle.update_animateview_package(ret.data);
                 break;
@@ -527,8 +708,6 @@ function initialize_mqtt(){
     });
 }
 
-
-
 function systemstart(){
     xhbalanceiconlist();
 
@@ -542,20 +721,23 @@ function systemstart(){
 
 
 //app_handle.initializefoot(footcallback_return,footcallback_back,footcallback_configure);
-    app_handle.initializefoot(footcallback_back,footcallback_save,xhbalancetozeroshortcut,show_expiredModule);
+    flushuserlistfetch();
+    app_handle.initializefoot(footcallback_save,xhbalancetozeroshortcut,show_expiredModule);
     app_handle.initializehead();
     app_handle.initializeLogin(xhbalancelogin);
     app_handle.initializeWork(newviewabort,balance_clear_alarm);
-    app_handle.initializerunstop(xhbalancestartcase,xhbalancestartcase);
+    app_handle.initializerunstop(xhbalancestartcase,xhbalancestartcase,balance_dynamic_cali);
     app_handle.initializerunsave(xhbalancesavenewconf,xhbalancesavemodconf);
     app_handle.initializeforceflash(xhbalanceforceflashstatus);
     app_handle.initializeCalibration(balance_to_zero,balance_to_countweight);
+    app_handle.update_user_functions(newuserfetch,deluserfetch,resetuserfetch,flushuserlistfetch,changepasswordfetch);
     app_handle.loginview();
-
 
     initializedrag("brickview");
     initializedrag("NewConfigureModelContentBody");
     initializedrag("sysconfview");
+    initializedrag("userview");
+    updateclock();
     $('#ExpiredConfirm').on('click',delete_configure);
 }
 
@@ -571,7 +753,10 @@ var footcallback_back= function(){
 //}
 
 
-
+function updateclock(){
+    var date = new Date();
+    app_handle.update_clock(date.pattern("yy-MM-dd HH:mm"));
+}
 
 
 
@@ -944,7 +1129,7 @@ function xhbalancetozeroshortcutcallback(res){
 }
 function xhbalanceforceflashstatus(){
     xhbalancegetstatus_force();
-    xhbalancegetlight_force();
+    //xhbalancegetlight_force();
 
 }
 function xhbalancestartcasecallback(res){
@@ -1043,8 +1228,8 @@ function xhbalancestatuscallback(res){
     if(res.jsonResult.auth == "false"){
         return;
     }
-    let detailstatus = res.jsonResult.ret;
-    app_handle.update_status(detailstatus);
+    //let detailstatus = res.jsonResult.ret;
+    //app_handle.update_status(detailstatus);
 }
 
 function xhbalancegetlight(){
@@ -1275,7 +1460,7 @@ function xhbalancerunsysdebugcallback(res){
     if(res.jsonResult.auth == "false"){
         return;
     }
-    app_handle.debug_label_update(res.jsonResult.msg);
+    //app_handle.debug_label_update(res.jsonResult.msg);
     tips(language.message.message3);
 }
 
@@ -1432,6 +1617,48 @@ function footcallback_save(){
     xhbalancesavesysconf(app_handle.getsysconfset());
 
 }
+function balance_dynamic_cali(bool){
+    let action="stop";
+    if(bool) action = "start";
+    let body={
+        action:action
+    }
+    var map={
+        action:"XH_Balance_cali_run",
+        body:body,
+        type:"mod",
+        lang:default_language,
+        user:app_handle.getuser()
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(balance_dynamic_cali_callback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function balance_dynamic_cali_callback(res){
+    //let balanceNo= res.jsonResult.ret.balance;
+    if(res.jsonResult.status == "false"){
+        //app_handle.update_cali_status(balanceNo,3,"");
+        return;
+    }
+    if(res.jsonResult.auth == "false"){
+        //app_handle.update_cali_status(balanceNo,3,"");
+        return;
+    }
+    //app_handle.update_cali_status(balanceNo,1,res.jsonResult.msg);
+}
+
+
 function balance_to_zero(balanceno){
     var body={
         balance:(balanceno)+""
@@ -1459,18 +1686,18 @@ function balance_to_zero(balanceno){
         });
 }
 function balance_to_zero_callback(res){
-    let balanceNo= res.jsonResult.ret.balance;
+    //let balanceNo= res.jsonResult.ret.balance;
     if(res.jsonResult.status == "false"){
-        app_handle.update_cali_status(balanceNo,3,"");
+        //app_handle.update_cali_status(balanceNo,3,"");
         return;
     }
     if(res.jsonResult.auth == "false"){
-        app_handle.update_cali_status(balanceNo,3,"");
+        //app_handle.update_cali_status(balanceNo,3,"");
         return;
     }
-    app_handle.update_cali_status(balanceNo,1,res.jsonResult.msg);
+    //app_handle.update_cali_status(balanceNo,1,res.jsonResult.msg);
 }
-function balance_to_countweight(balanceno,callback){
+function balance_to_countweight(balanceno){
     var body={
         balance:(balanceno)+""
     }
@@ -1497,16 +1724,16 @@ function balance_to_countweight(balanceno,callback){
         });
 }
 function balance_to_countweight_callback(res){
-    let balanceNo= res.jsonResult.ret.balance;
+    //let balanceNo= res.jsonResult.ret.balance;
     if(res.jsonResult.status == "false"){
-        app_handle.update_cali_status(balanceNo,3,"");
+        //app_handle.update_cali_status(balanceNo,3,"");
         return;
     }
     if(res.jsonResult.auth == "false"){
-        app_handle.update_cali_status(balanceNo,3,"");
+        //app_handle.update_cali_status(balanceNo,3,"");
         return;
     }
-    app_handle.update_cali_status(balanceNo,2,res.jsonResult.msg);
+    //app_handle.update_cali_status(balanceNo,2,res.jsonResult.msg);
 }
 
 function balance_get_alarm(){
@@ -1595,13 +1822,18 @@ function modal_middle(modal){
 function show_expiredModule(){
     activeconf = app_handle.get_active_configuration();
     if(activeconf === null) return;
-    let warning_content =  language.message5+" ["+activeconf.name+"]?";
+    let warning_content =  language.message.message5+" ["+activeconf.name+"]?";
     $('#ExpiredAlertModalContent').empty();
     $('#ExpiredAlertModalContent').append(warning_content);
     modal_middle($('#ExpiredAlarm'));
     $('#ExpiredAlarm').modal('show') ;
 }
-
+function show_Module(msg){
+    $('#ExpiredAlertModalContent2').empty();
+    $('#ExpiredAlertModalContent2').append(msg);
+    modal_middle($('#ExpiredAlarm2'));
+    $('#ExpiredAlarm2').modal('show') ;
+}
 function delete_configure(){
     if(activeconf === null) return;
     var body = {
@@ -1749,16 +1981,241 @@ function sysversionfetch(){
 }
 function sysversionfetchcallback(res){
     if(res.jsonResult.status == "false"){
-        alert("Fetal Error, Can not get language file!");
+        alert("Fetal Error, Can not get version info!");
         windows.close();
     }
     if(res.jsonResult.auth == "false"){
-        alert("Fetal Error, Can not get language file!");
+        alert("Fetal Error, Can not get version info!");
         windows.close();
     }
     let version=res.jsonResult.ret;
     app_handle.updateVersion(version);
 
+}
+function changepasswordfetch(username,oldpassword,newpassword){
+    var body={
+        username:username,
+        password:oldpassword,
+        newpassword:newpassword
+    }
+    var map={
+        action:"XH_Balance_change_passwd",
+        body:body,
+        type:"mod",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(changepasswordfetchcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function changepasswordfetchcallback(res){
+    if(res.jsonResult.status == "false"){
+        show_Module(res.msg);
+        return;//windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not change password!");
+        windows.close();
+    }
+    //show_Module("修改成功，请重新登陆");
+    show_Module(language.message.message11);
+    app_handle.loginview();
+
+}
+function flushuserlistfetch(){
+    var map={
+        action:"XH_Balance_get_user_list",
+        type:"query",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(flushuserlistfetchcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function flushuserlistfetchcallback(res){
+    if(res.jsonResult.status == "false"){
+        alert("Fetal Error, Can not get user list!");
+        windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not get user list!");
+        windows.close();
+    }
+    let userlist = res.jsonResult.ret;
+    app_handle.set_user_list(userlist);
+}
+function resetuserfetch(username){
+    var map={
+        action:"XH_Balance_reset_user",
+        body:{
+            username:username
+        },
+        type:"mod",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(resetuserfetchcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function resetuserfetchcallback(res){
+    if(res.jsonResult.status == "false"){
+        alert("Fetal Error, Can not reset user password!");
+        windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not reset user password!");
+        windows.close();
+    }
+    //show_Module("重置成功，默认密码为123456！");
+    show_Module(language.message.message12);
+}
+
+function newuserfetch(username){
+    var map={
+        action:"XH_Balance_new_user",
+        body:{
+            username:username
+        },
+        type:"mod",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(newuserfetchcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function newuserfetchcallback(res){
+    if(res.jsonResult.status == "false"){
+        show_Module(res.msg);
+        return;
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not new user!");
+        windows.close();
+    }
+    //show_Module("新建成功，默认密码为123456！");
+    show_Module(language.message.message13);
+    flushuserlistfetch();
+}
+function deluserfetch(username){
+    var map={
+        action:"XH_Balance_del_user",
+        body:{
+            username:username
+        },
+        type:"mod",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(deluserfetchcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function deluserfetchcallback(res){
+    if(res.jsonResult.status == "false"){
+        alert("Fetal Error, Can not delete user!");
+        windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not delete user!");
+        windows.close();
+    }
+    //show_Module("删除成功！");
+    show_Module(language.message.message2);
+    flushuserlistfetch();
+}
+
+function fetchmqtt(username){
+    var map={
+        action:"XH_Balance_mqtt_conf",
+        type:"query",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(fetchmqttcallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function fetchmqttcallback(res){
+    if(res.jsonResult.status == "false"){
+        alert("Fetal Error, Can not get mqtt configure!");
+        windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not get mqtt configur!");
+        windows.close();
+    }
+    mqttconf = res.jsonResult.ret;
+    initialize_mqtt();
 }
 
 
@@ -1945,6 +2402,8 @@ function initializedrag(id){
     var drag = function drag(id){
         this.dragWrap = $("#"+id);
         this.init.apply(this,arguments);
+
+        //console.log("band drag to "+id);
     };
     drag.prototype = {
         constructor:drag,
@@ -1963,6 +2422,7 @@ function initializedrag(id){
             $('body').on('mousedown','#'+this.dragWrap.attr("id"),function(e){
                 //e && e.preventDefault();
                 if ( !t.move) {
+                    //console.log("mouse down");
                     t.mouseDown(e);
                 }
             });
@@ -1986,7 +2446,7 @@ function initializedrag(id){
             dom.scrollTop = (this._top + y);
         },
         mouseUp : function (e) {
-                e && e.preventDefault();
+            e && e.preventDefault();
             this.move = false;
             this.down = false;
             this.dragWrap.css('cursor','');
@@ -2001,66 +2461,39 @@ function initializedrag(id){
             this.dragWrap.css('cursor','move');
         }
     };
-    /*
-    drag.prototype = {
-        constructor:drag,
-        _dom : {},
-        _x : 0,
-        _y : 0,
-        _top :0,
-        _left: 0,
-        move : false,
-        down : false,
-        init : function () {
-            this.bindEvent();
-        },
-        bindEvent : function () {
-            var t = this;
-            $('body').on('mousedown','#brickview',function(e){
-                e && e.preventDefault();
-                if ( !t.move) {
-                    t.mouseDown(e);
-                }
-            });
-            $('body').on('mouseup','#brickview',function(e){
-                t.mouseUp(e);
-            });
-            $('body').on('mousemove','#brickview',function(e){
-                if (t.down) {
-                    t.mouseMove(e);
-                }
-            });
-        },
-        mouseMove : function (e) {
-            e && e.preventDefault();
-            this.move = true;
-            var x = this._x - e.clientX,
-                y = this._y - e.clientY,
-                dom = document.getElementById('brickview');
-            dom.scrollLeft = (this._left + x);
-            dom.scrollTop = (this._top + y);
-        },
-        mouseUp : function (e) {
-            e && e.preventDefault();
-            this.move = false;
-            this.down = false;
-            this.dragWrap.css('cursor','');
-        },
-        mouseDown : function (e) {
-            this.move = false;
-            this.down = true;
-            this._x = e.clientX;
-            this._y = e.clientY;
-            this._top = document.getElementById('brickview').scrollTop;
-            this._left = document.getElementById('brickview').scrollLeft;
-            this.dragWrap.css('cursor','move');
-        }
-    };*/
     var dragbrickview = new drag(id);
-    /*
-    var dragbrickview = new drag("brickview");
-    var dragNewConfigureModelContentBody = new drag("NewConfigureModelContentBody");
-    var dragsysconfview = new drag("sysconfview");
-    var dragconfigurationview = new drag("configurationview");
-    var dragiconselectview = new drag("iconselectview");*/
+}
+
+Date.prototype.pattern=function(fmt) {
+    var o = {
+        "M+" : this.getMonth()+1, //月份
+        "d+" : this.getDate(), //日
+        "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时
+        "H+" : this.getHours(), //小时
+        "m+" : this.getMinutes(), //分
+        "s+" : this.getSeconds(), //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S" : this.getMilliseconds() //毫秒
+    };
+    var week = {
+        "0" : "/u65e5",
+        "1" : "/u4e00",
+        "2" : "/u4e8c",
+        "3" : "/u4e09",
+        "4" : "/u56db",
+        "5" : "/u4e94",
+        "6" : "/u516d"
+    };
+    if(/(y+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    }
+    if(/(E+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);
+    }
+    for(var k in o){
+        if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+    return fmt;
 }

@@ -27,7 +27,8 @@ export default class chambermodule extends Component {
             error:false,
             volume:0,
             reject:0,
-            id:0
+            id:0,
+            process:"0",
 
         }
     }
@@ -38,9 +39,10 @@ export default class chambermodule extends Component {
         this.setState({id:id});
     }
     update_status(chamberstatus){
+        //console.log(chamberstatus);
         if(chamberstatus.status !=this.state.status){
-            console.log("status change!");
-            this.setState({status:chamberstatus.status,error:false,volume:0,reject:0});
+            //console.log("status change!");
+            this.setState({status:chamberstatus.status,error:false,volume:0,reject:0,process:chamberstatus.chamberprocess});
             this.chamberremoveerror();
             return;
         }else if(this.state.status == false){
@@ -48,10 +50,10 @@ export default class chambermodule extends Component {
         }else{
            if (chamberstatus.error == true){
                //console.log("get error!");
-               this.setState({error:true,volume:chamberstatus.volume,reject:chamberstatus.reject},this.chambererror);
+               this.setState({error:true,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess},this.chambererror);
                return;
            }else{
-               this.setState({error:false,volume:chamberstatus.volume,reject:chamberstatus.reject});
+               this.setState({error:false,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess});
                this.chamberremoveerror();
                if(chamberstatus.package == true){
                    this.chamberclean();
@@ -114,21 +116,17 @@ export default class chambermodule extends Component {
             }
         }
         let volume=
-        <div style={{position:"relative",width:"auto"}}>
-        <span className="pull-right" style={{marginRight:"5px"}}>
-            <a >
-                <i style={{fontSize:"10px",color:"#5599ff"}}>
+        <div style={{position:"relative",width:"100%"}}>
+        <span className="pull-right" style={{width:"100%",textAlign:"center"}}>
+                <p style={{fontSize:"20px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
                     {this.state.volume}
-                </i>
-            </a>
+                </p>
 		</span></div>;
-        let reject = <div style={{position:"relative",width:"auto"}}>
-        <span  className="pull-right" style={{marginRight:"5px"}}>
-            <a >
-            <i style={{fontSize:"10px", color:"#b94fff"}}>
-                {this.state.reject}
-        </i>
-        </a>
+        let reject = <div style={{position:"relative",width:"100%"}}>
+        <span  className="pull-right" style={{width:"100%",textAlign:"center"}}>
+                <p style={{fontSize:"10px", color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                    {this.state.reject}
+                </p>
         </span></div>;
         let maininfo = <span id={"animationSandbox"+this.state.id} key={this.state.id} style={{display: "block",opacity: 0}} className="pull-right">
                     <a  style={{marginLeft:"17px"}}>
@@ -144,19 +142,23 @@ export default class chambermodule extends Component {
                     {temp}
                     </div>
                     <div className="clearfix"></div>
-                    {reject}
-                    <div className="clearfix"></div>
-                    {volume}
-                    <div className="clearfix"></div>
+                    <div style={{position:"relative",marginBottom:"10px",marginLeft:"10px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
+                        {reject}
+                        <div className="clearfix"></div>
+                        {volume}
+                        <div className="clearfix"></div>
+                    </div>
                 </div>
             );
         }else{
             return (
                 <div style={{position:"relative",width:"auto"}}>
-                    {volume}
-                    <div className="clearfix"></div>
-                    {reject}
-                    <div className="clearfix"></div>
+                    <div style={{position:"relative",marginTop:"10px",marginLeft:"10px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
+                        {volume}
+                        <div className="clearfix"></div>
+                        {reject}
+                        <div className="clearfix"></div>
+                    </div>
                     <div style={{position:"relative",width:"auto"}}>
                     {maininfo}
                     {temp}

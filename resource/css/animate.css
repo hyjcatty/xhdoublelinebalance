@@ -132,12 +132,12 @@
     }
 
     10%, 30%, 50%, 70%, 90% {
-        transform: translate3d(-10px, 0, 0);
+        transform: translate3d(0, -10px, 0);
         color:#FF0033;
     }
 
     20%, 40%, 60%, 80% {
-        transform: translate3d(10px, 0, 0);
+        transform: translate3d(0, 10px, 0);
         color:#FF6633;
     }
 }
