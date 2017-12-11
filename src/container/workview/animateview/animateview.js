@@ -21,16 +21,16 @@ export default class animateview extends Component {
         super(props);
 
         this.colorlist={
-            RED:"#d95349",
-            ORANGE:"#f0ad4e",
-            BLUE:"#3498db",
-            GREEN:"#26b99a",
-            GRAY:"#73879c",
-            PURPLE:"#9B59B6",
-            LBLUE:"#5bc0de",
-            LGREEN:"#5cb85c",
-            LGRAY:"#2a3f54",
-            DBLUE:"#34495e"
+            RED:"#880000",
+            ORANGE:"#bb5500",
+            BLUE:"#000088",
+            GREEN:"#227700",
+            GRAY:"#878787",
+            PURPLE:"#4b0082",
+            LBLUE:"#003377",
+            LGREEN:"#008800",
+            LGRAY:"#696969",
+            DBLUE:"#191970"
         };
 
         this.state={
@@ -52,22 +52,24 @@ export default class animateview extends Component {
     }
     update_size(width,height){
         this.setState({height:height,width:width});
-        for(let i=1;i<31;i++){
+        for(let i=1;i<33;i++){
             this.refs["Chamber2x"+i].update_reverse(true);
         }
         this.refs.Process1.update_size(width*0.98,70);
         this.refs.Process2.update_size(width*0.98,70);
         this.refs.Process1.initialize("1");
         this.refs.Process2.initialize("2");
-        for(let i=1;i<31;i++){
+        for(let i=1;i<33;i++){
             this.refs["Chamber1x"+i].update_id("1x"+i);
             this.refs["Chamber2x"+i].update_id("2x"+i);
         }
     }
     update_statistics(data){
-        this.refs.Labelbigboard.updateprop(data.biglabel.status);
-        this.refs.Labelbigboard.initialize(data.biglabel.title,data.biglabel.note);
-        for(let i=1;i<7;i++){
+        this.refs.Labelbigboard1.updateprop(data.biglabel1.status);
+        this.refs.Labelbigboard1.initialize(data.biglabel1.title,data.biglabel1.note);
+        this.refs.Labelbigboard2.updateprop(data.biglabel2.status);
+        this.refs.Labelbigboard2.initialize(data.biglabel2.title,data.biglabel2.note);
+        for(let i=1;i<13;i++){
             this.refs['Label'+i].updateprop(this.colorlist[data.labellist[i-1].color],data.labellist[i-1].value);
             this.refs['Label'+i].initialize(data.labellist[i-1].title,data.labellist[i-1].note);
         }
@@ -76,14 +78,14 @@ export default class animateview extends Component {
     }
     initialize_chamber(data){
         for(let i=0;i<data.array1.length;i++){
-            if(data.array1[i].id >0 && data.array1[i].id<31){
+            if(data.array1[i].id >0 && data.array1[i].id<33){
                 //console.log(data.array1[i]);
                 this.update_chamber(data.array1[i]);
             }
         }
 
         for(let i=0;i<data.array2.length;i++){
-            if(data.array2[i].id >0 && data.array2[i].id<31){
+            if(data.array2[i].id >0 && data.array2[i].id<33){
                 //console.log(data.array1[i]);
                 this.update_chamber(data.array2[i]);
             }
@@ -104,23 +106,23 @@ export default class animateview extends Component {
     }
     render() {
         let chamberlist1=[];
-        for(let i=1;i<31;i++){
+        for(let i=1;i<33;i++){
             chamberlist1.push(
-                <div style={{width:this.state.width*0.032,float: "left",position:"relative"}} key={"Chamber1x"+i}>
+                <div style={{width:this.state.width*0.03,float: "left",position:"relative"}} key={"Chamber1x"+i}>
                     <Chamber ref={"Chamber1x"+i} />
                 </div>
             );
         }
         let chamberlist2=[];
-        for(let i=1;i<31;i++){
+        for(let i=1;i<33;i++){
             chamberlist2.push(
-                <div style={{width:this.state.width*0.032,float: "left",position:"relative"}}  key={"Chamber2x"+i}>
+                <div style={{width:this.state.width*0.03,float: "left",position:"relative"}}  key={"Chamber2x"+i}>
                 <Chamber ref={"Chamber2x"+i} /></div>);
         }
         let labellist=[];
-        for(let i=1;i<7;i++){
+        for(let i=1;i<13;i++){
             labellist.push(
-                <div key = {"Label"+i}  style={{width:"30%",float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                <div key = {"Label"+i}  style={{width:"24%",float: "left",position:"relative",marginLeft:this.state.width*0.005}}>
                     <Label1 ref={"Label"+i}/>
                 </div>);
         }
@@ -139,10 +141,13 @@ export default class animateview extends Component {
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
                         {chamberlist2}
                     </div>
-                    <div style={{width:this.state.width*0.24,float: "left",position:"relative",paddingTop: "15px"}}>
-                        <Labelbig ref="Labelbigboard"/>
+                    <div style={{width:this.state.width*0.22,float: "left",position:"relative",paddingTop: "5px"}}>
+                        <Labelbig ref="Labelbigboard1"/>
                     </div>
-                    <div style={{width:this.state.width*0.74,float: "left",position:"relative"}}>
+                    <div style={{width:this.state.width*0.22,float: "left",position:"relative",paddingTop: "5px",marginLeft:this.state.width*0.005}}>
+                        <Labelbig ref="Labelbigboard2"/>
+                    </div>
+                    <div style={{width:this.state.width*0.53,float: "left",position:"relative"}}>
                         {labellist}
                     </div>
                 </div>

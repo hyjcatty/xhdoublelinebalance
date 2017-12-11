@@ -47,7 +47,7 @@ client.on('connect', function () {
     setInterval(function(){
         if(!start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildalarminfo());
-    },600000);
+    },60000);
     setInterval(function(){
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildversioninfo());
     },600000);
@@ -226,10 +226,15 @@ function buildcalibrationdynamicinfo(){
 }
 
 function buildstatisticsinfo(){
-    var biglabel= {
+    var biglabel1= {
         title: "Test BIG Title",
-        note: "Status Report",
-        status: GetRandomNum(1,3000)+"g"
+        note: "Status",
+        status: GetRandomNum(1,3000)
+    };
+    var biglabel2= {
+        title: "Test BIG Title2",
+        note: "Status",
+        status: GetRandomNum(1,3000)
     };
     var colorlist=[
         "RED",
@@ -242,9 +247,9 @@ function buildstatisticsinfo(){
         "LGRAY",
         "DBLUE"];
     var smalllabellist=[];
-    for(var i=0;i<8;i++){
+    for(var i=0;i<12;i++){
         var templabel={
-            title:"test title",
+            title:"test title"+i,
             note:"note",
             color:colorlist[GetRandomNum(0,8)],
             value:GetRandomNum(0,300)+"kg"
@@ -254,7 +259,8 @@ function buildstatisticsinfo(){
     var ret={
         action:"XH_Double_Line_Balance_statistics_status",
         data:{
-            biglabel:biglabel,
+            biglabel1:biglabel1,
+            biglabel2:biglabel2,
             labellist:smalllabellist
         }
     }
@@ -263,7 +269,7 @@ function buildstatisticsinfo(){
 
 
 function buildchamberinfo(){
-    var number = GetRandomNum(1,30);
+    var number = GetRandomNum(1,32);
     var status = true;
     var error = false;
     var package = false;
@@ -312,7 +318,7 @@ function buildpackageinfo(){
         data:{
             process:GetRandomNum(1,2),
             weight:GetRandomNum(1,1500),
-            target:GetRandomNum(1,30)
+            target:GetRandomNum(1,32)
         }
     }
     return JSON.stringify(ret);
@@ -322,7 +328,7 @@ function build_status_message(){
     var list2 = [];
 
     var chamberprocesslist=["0",'10','20','30','40','50','60','70','80','90','100'];
-    for(var i=0;i<31;i++){
+    for(var i=0;i<33;i++){
         var temp = {
             process:1,
             id:i,
@@ -336,7 +342,7 @@ function build_status_message(){
         }
         list1.push(temp);
     }
-    for(var i=0;i<31;i++){
+    for(var i=0;i<33;i++){
         var temp = {
 
             process:2,

@@ -75,7 +75,7 @@ export default class alarmbar extends Component {
         return (
             <div style={{position:"relative",background:"#FFFF6F",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
                 <div style={{marginTop:this.state.margintop,marginLeft:this.state.marginsize,width:this.state.bricksize,height:this.state.bricksize,float: "left",position:"relative",borderStyle:"solid none solid none",borderWidth:"5px"}}>
-                    <form style={{marginTop:this.state.bricksize*0.2,position:"relative",height:this.state.bricksize*0.8,width:this.state.bricksize,textAlign:'center'}}>
+                    <form style={{marginTop:this.state.bricksize/9,position:"relative",height:this.state.bricksize*0.8,width:this.state.bricksize,textAlign:'center'}}>
                         <h1  style={{fontSize:this.state.bricksize*0.1,marginLeft:0,textAlign:'center'}}>
                             {this.state.content}
                         </h1>
@@ -96,7 +96,7 @@ export default class alarmbar extends Component {
                 <div style={{marginTop:this.state.margintop,marginLeft:this.state.marginsize,width:this.state.bricksize,height:this.state.bricksize,float: "left",position:"relative",display:this.state.button2hide}}>
                     <button type="button" className="btn" style={{background:"#D94600",height:this.state.bricksize,width:this.state.bricksize,verticalAlign:"middle"}} onClick={this.handle_click.bind(this)}><i>
                         <a style={{position:"relative",height:this.state.bricksize*0.3,display:'table-cell',verticalAlign:'middle'}}>
-                        <span className="framelabel"  style={{fontSize:this.state.bricksize*0.1,marginLeft:0,color:"#000000"}}>
+                        <span className="framelabel"  style={{fontSize:this.state.bricksize*0.2,marginLeft:0,color:"#000000"}}>
                             {this.state.button}
                         </span>
                         </a>

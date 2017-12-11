@@ -44,7 +44,7 @@ export default class workview extends Component {
         this.refs.Billboardview.update_language(language.billboardview);
     }
     update_size(width,height){
-        this.setState({height:height,width:width,leftwidth:width*0.17,rightwidth:(width-width*0.17)},this.update_subsize);
+        this.setState({height:height,width:width,leftwidth:width*0.12,rightwidth:(width-width*0.12)},this.update_subsize);
     }
     update_subsize(){
         this.refs.Buttonbar.update_size(this.state.leftwidth,this.state.height);

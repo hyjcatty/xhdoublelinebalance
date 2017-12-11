@@ -79,7 +79,7 @@
     }
 
     50% {
-        transform: scale3d(1.05, 1.05, 1.05);
+        transform: scale3d(1.15, 1.15, 1.15);
     }
 
     to {
@@ -1620,7 +1620,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(3.3%, 0, 0);
+        transform: translate3d(3.125%, 0, 0);
     }
 }
 
@@ -1629,7 +1629,7 @@
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
     animation-duration: 0.133s;
-    -webkit-animation-duration: 133ms;
+    -webkit-animation-duration: 125ms;
     animation-fill-mode: both;
 }
 
@@ -1640,7 +1640,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(6.6%, 0, 0);
+        transform: translate3d(6.25%, 0, 0);
     }
 }
 
@@ -1648,7 +1648,7 @@
     animation-name: RunRight2;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 266ms;
+    -webkit-animation-duration: 250ms;
     animation-fill-mode: both;
 }
 @keyframes RunRight3 {
@@ -1658,7 +1658,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(10%, 0, 0);
+        transform: translate3d(9.375%, 0, 0);
     }
 }
 
@@ -1666,7 +1666,7 @@
     animation-name: RunRight3;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 0.375s;
     animation-fill-mode: both;
 }
 
@@ -1677,7 +1677,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(13.33%, 0, 0);
+        transform: translate3d(12.5%, 0, 0);
     }
 }
 
@@ -1685,7 +1685,7 @@
     animation-name: RunRight4;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 0.533s;
+    -webkit-animation-duration: 0.5s;
     animation-fill-mode: both;
 }
 @keyframes RunRight5 {
@@ -1695,7 +1695,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(16.66%, 0, 0);
+        transform: translate3d(15.625%, 0, 0);
     }
 }
 
@@ -1703,7 +1703,7 @@
     animation-name: RunRight5;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 0.666s;
+    -webkit-animation-duration: 0.625s;
     animation-fill-mode: both;
 }
 @keyframes RunRight6 {
@@ -1713,7 +1713,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(20%, 0, 0);
+        transform: translate3d(18.75%, 0, 0);
     }
 }
 
@@ -1721,7 +1721,7 @@
     animation-name: RunRight6;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 0.80s;
+    -webkit-animation-duration: 0.75s;
     animation-fill-mode: both;
 }
 @keyframes RunRight7 {
@@ -1731,7 +1731,7 @@
 
      to {
          opacity: 1;
-         transform: translate3d(23.33%, 0, 0);
+         transform: translate3d(21.875%, 0, 0);
      }
  }
 
@@ -1739,7 +1739,7 @@
     animation-name: RunRight7;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 0.933s;
+    -webkit-animation-duration: 0.875s;
     animation-fill-mode: both;
 }
 @keyframes RunRight8 {
@@ -1749,7 +1749,7 @@
 
      to {
          opacity: 1;
-         transform: translate3d(26.66%, 0, 0);
+         transform: translate3d(25%, 0, 0);
      }
  }
 
@@ -1757,7 +1757,7 @@
     animation-name: RunRight8;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.066s;
+    -webkit-animation-duration: 1s;
     animation-fill-mode: both;
 }
 @keyframes RunRight9 {
@@ -1767,7 +1767,7 @@
 
      to {
          opacity: 1;
-         transform: translate3d(30%, 0, 0);
+         transform: translate3d(28.125%, 0, 0);
      }
  }
 
@@ -1775,7 +1775,7 @@
     animation-name: RunRight9;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.2s;
+    -webkit-animation-duration: 1.125s;
     animation-fill-mode: both;
 }
 
@@ -1786,7 +1786,7 @@
 
      to {
          opacity: 1;
-         transform: translate3d(33.33%, 0, 0);
+         transform: translate3d(31.25%, 0, 0);
      }
  }
 
@@ -1794,7 +1794,7 @@
     animation-name: RunRight10;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.333s;
+    -webkit-animation-duration: 1.25s;
     animation-fill-mode: both;
 }
 @keyframes RunRight11 {
@@ -1804,7 +1804,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(36.66%, 0, 0);
+        transform: translate3d(34.375%, 0, 0);
     }
 }
 
@@ -1812,7 +1812,7 @@
     animation-name: RunRight11;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.466s;
+    -webkit-animation-duration: 1.375s;
     animation-fill-mode: both;
 }
 
@@ -1823,7 +1823,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(40%, 0, 0);
+        transform: translate3d(37.5%, 0, 0);
     }
 }
 
@@ -1831,7 +1831,7 @@
     animation-name: RunRight12;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.6s;
+    -webkit-animation-duration: 1.5s;
     animation-fill-mode: both;
 }
 @keyframes RunRight13 {
@@ -1841,7 +1841,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(43.33%, 0, 0);
+        transform: translate3d(40.625%, 0, 0);
     }
 }
 
@@ -1849,7 +1849,7 @@
     animation-name: RunRight13;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.733s;
+    -webkit-animation-duration: 1.625s;
     animation-fill-mode: both;
 }
 
@@ -1860,7 +1860,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(46.66%, 0, 0);
+        transform: translate3d(43.75%, 0, 0);
     }
 }
 
@@ -1868,10 +1868,28 @@
     animation-name: RunRight14;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 1.866s;
+    -webkit-animation-duration: 1.75s;
     animation-fill-mode: both;
 }
 @keyframes RunRight15 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(46.875%, 0, 0);
+    }
+}
+
+.RunRight15 {
+    animation-name: RunRight15;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 1.875s;
+    animation-fill-mode: both;
+}
+@keyframes RunRight16 {
     from {
         opacity: 1;
     }
@@ -1882,29 +1900,11 @@
     }
 }
 
-.RunRight15 {
-    animation-name: RunRight15;
-    animation-timing-function: linear;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2s;
-    animation-fill-mode: both;
-}
-@keyframes RunRight16 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 1;
-        transform: translate3d(53.33%, 0, 0);
-    }
-}
-
 .RunRight16 {
     animation-name: RunRight16;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.133s;
+    -webkit-animation-duration: 2s;
     animation-fill-mode: both;
 }
 @keyframes RunRight17 {
@@ -1914,7 +1914,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(56.66%, 0, 0);
+        transform: translate3d(53.125%, 0, 0);
     }
 }
 
@@ -1922,7 +1922,7 @@
     animation-name: RunRight17;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.266s;
+    -webkit-animation-duration: 2.125s;
     animation-fill-mode: both;
 }
 @keyframes RunRight18 {
@@ -1932,7 +1932,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(60%, 0, 0);
+        transform: translate3d(56.25%, 0, 0);
     }
 }
 
@@ -1940,7 +1940,7 @@
     animation-name: RunRight18;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.4s;
+    -webkit-animation-duration: 2.25s;
     animation-fill-mode: both;
 }
 @keyframes RunRight19 {
@@ -1950,7 +1950,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(63.33%, 0, 0);
+        transform: translate3d(59.375%, 0, 0);
     }
 }
 
@@ -1958,7 +1958,7 @@
     animation-name: RunRight19;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.533s;
+    -webkit-animation-duration: 2.375s;
     animation-fill-mode: both;
 }
 
@@ -1969,7 +1969,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(66.66%, 0, 0);
+        transform: translate3d(62.5%, 0, 0);
     }
 }
 
@@ -1977,7 +1977,7 @@
     animation-name: RunRight20;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.666s;
+    -webkit-animation-duration: 2.5s;
     animation-fill-mode: both;
 }
 @keyframes RunRight21 {
@@ -1987,7 +1987,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(70%, 0, 0);
+        transform: translate3d(65.625%, 0, 0);
     }
 }
 
@@ -1995,7 +1995,7 @@
     animation-name: RunRight21;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.8s;
+    -webkit-animation-duration: 2.625s;
     animation-fill-mode: both;
 }
 
@@ -2006,7 +2006,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(73.33%, 0, 0);
+        transform: translate3d(68.75%, 0, 0);
     }
 }
 
@@ -2014,7 +2014,7 @@
     animation-name: RunRight22;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 2.933s;
+    -webkit-animation-duration: 2.75s;
     animation-fill-mode: both;
 }
 @keyframes RunRight23 {
@@ -2024,7 +2024,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(76.66%, 0, 0);
+        transform: translate3d(71.875%, 0, 0);
     }
 }
 
@@ -2032,7 +2032,7 @@
     animation-name: RunRight23;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.066s;
+    -webkit-animation-duration: 2.875s;
     animation-fill-mode: both;
 }
 
@@ -2043,7 +2043,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(80%, 0, 0);
+        transform: translate3d(75%, 0, 0);
     }
 }
 
@@ -2051,7 +2051,7 @@
     animation-name: RunRight24;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.2s;
+    -webkit-animation-duration: 3s;
     animation-fill-mode: both;
 }
 @keyframes RunRight25 {
@@ -2061,7 +2061,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(83.33%, 0, 0);
+        transform: translate3d(78.125%, 0, 0);
     }
 }
 
@@ -2069,7 +2069,7 @@
     animation-name: RunRight25;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.333s;
+    -webkit-animation-duration: 3.125s;
     animation-fill-mode: both;
 }
 @keyframes RunRight26 {
@@ -2079,7 +2079,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(86.66%, 0, 0);
+        transform: translate3d(81.25%, 0, 0);
     }
 }
 
@@ -2087,7 +2087,7 @@
     animation-name: RunRight26;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.466s;
+    -webkit-animation-duration: 3.25s;
     animation-fill-mode: both;
 }
 @keyframes RunRight27 {
@@ -2097,7 +2097,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(90%, 0, 0);
+        transform: translate3d(84.375%, 0, 0);
     }
 }
 
@@ -2105,7 +2105,7 @@
     animation-name: RunRight27;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.6s;
+    -webkit-animation-duration: 3.375s;
     animation-fill-mode: both;
 }
 @keyframes RunRight28 {
@@ -2115,7 +2115,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(93.33%, 0, 0);
+        transform: translate3d(87.5%, 0, 0);
     }
 }
 
@@ -2123,7 +2123,7 @@
     animation-name: RunRight28;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.733s;
+    -webkit-animation-duration: 3.5s;
     animation-fill-mode: both;
 }
 @keyframes RunRight29 {
@@ -2133,7 +2133,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(96.66%, 0, 0);
+        transform: translate3d(90.625%, 0, 0);
     }
 }
 
@@ -2141,7 +2141,7 @@
     animation-name: RunRight29;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 3.866s;
+    -webkit-animation-duration: 3.625s;
     animation-fill-mode: both;
 }
 
@@ -2152,12 +2152,50 @@
 
     to {
         opacity: 1;
-        transform: translate3d(100%, 0, 0);
+        transform: translate3d(93.75%, 0, 0);
     }
 }
 
 .RunRight30 {
     animation-name: RunRight30;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 3.75s;
+    animation-fill-mode: both;
+}
+
+@keyframes RunRight31 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(96.875%, 0, 0);
+    }
+}
+
+.RunRight31 {
+    animation-name: RunRight31;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 3.875s;
+    animation-fill-mode: both;
+}
+
+@keyframes RunRight32 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.RunRight32 {
+    animation-name: RunRight32;
     animation-timing-function: linear;
     -webkit-animation-timing-function: linear;
     -webkit-animation-duration: 4s;

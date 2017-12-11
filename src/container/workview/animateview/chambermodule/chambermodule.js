@@ -67,7 +67,7 @@ export default class chambermodule extends Component {
     chambererror(){
         $('#animationpackage'+this.state.id).attr("display","block");
         //$('#changetopackage').removeClass().addClass("fa fa-archive");
-        $('#animationpackage'+this.state.id).removeClass().addClass('shake animated infinite pull-right');
+        $('#animationpackage'+this.state.id).removeClass().addClass('pulse animated infinite pull-right');
         $('#changetopackage'+this.state.id).removeClass().addClass("fa fa-inbox");
     }
     chamberremoveerror(){
