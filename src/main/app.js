@@ -182,6 +182,8 @@ class App extends Component{
         this.refs.foot.update_callback_save(callback_save);
         this.refs.foot.update_callback_tozero(callback_tozero);
         this.refs.foot.update_callback_delete(callback_delete);
+        this.refs.Workview.update_callback_tozero(callback_tozero);
+        this.refs.Workview.update_callback_delete(callback_delete);
         //this.refs.foot.update_callback_configure(callback_configure);
     }
     initializerunstop(runcallback,stopcallback,caliruncallback){
@@ -301,7 +303,7 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShowAssistant(false,true,true);
+        this.footButtonShowAssistant(false,false,false);
         if(this.state.username === "admin")
             this.footButtonShow(false,true,true);
         else
@@ -555,7 +557,13 @@ class App extends Component{
                 <Languageview ref="Languageview"/>
                 <Loginview ref="Loginview"/>
                 <Brickview ref="Brickview"/>
-                <Workview ref="Workview" workstartcase={this._workstartcase} workstopcase={this._workstopcase} workcontrolfoot={this._workcontrolfoot} worksavenewcase={this._worksavenewcase} worksavemodcase={this._worksavemodcase} workcontrolhead={this._workcontrolhead}/>
+                <Workview ref="Workview" workstartcase={this._workstartcase}
+                          workstopcase={this._workstopcase}
+                          workcontrolfoot={this._workcontrolfoot}
+                          worksavenewcase={this._worksavenewcase}
+                          worksavemodcase={this._worksavemodcase}
+                          workcontrolhead={this._workcontrolhead}
+                />
                 <Userview ref="Userview" newusercallback={this._newusercallback}
                           delusercallback={this._delusercallback}
                           resetusercallback={this._resetusercallback}
@@ -577,8 +585,8 @@ class App extends Component{
                             {this.state.language.app.modaltips}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal">{this.state.language.app.modalcancel}</button>
-                            <button type="button" className="btn btn-default" data-dismiss="modal" id="ExpiredConfirm">{this.state.language.app.modalconfirm}</button>
+                            <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px"}}>{this.state.language.app.modalcancel}</button>
+                            <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px",marginLeft:25}} id="ExpiredConfirm">{this.state.language.app.modalconfirm}</button>
                         </div>
                     </div>
                 </div>
@@ -594,7 +602,7 @@ class App extends Component{
                             {this.state.language.app.modaltips}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal" >{this.state.language.app.modalconfirm}</button>
+                            <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px"}}>{this.state.language.app.modalconfirm}</button>
                         </div>
                     </div>
                 </div>
