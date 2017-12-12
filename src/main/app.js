@@ -184,6 +184,7 @@ class App extends Component{
         this.refs.foot.update_callback_delete(callback_delete);
         this.refs.Workview.update_callback_tozero(callback_tozero);
         this.refs.Workview.update_callback_delete(callback_delete);
+        this.refs.Sysconfview.update_callback_save(callback_save);
         //this.refs.foot.update_callback_configure(callback_configure);
     }
     initializerunstop(runcallback,stopcallback,caliruncallback){
@@ -356,7 +357,7 @@ class App extends Component{
         this.refs.Sysdebugview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
-        this.footButtonShowAssistant(true,false,false);
+        this.footButtonShowAssistant(false,false,false);
         if(this.state.username === "admin")
             this.footButtonShow(false,true,true);
         else

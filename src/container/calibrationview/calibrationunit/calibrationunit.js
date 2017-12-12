@@ -118,13 +118,13 @@ export default class Calibrationunit extends Component {
                         width:"100%",height:(this.state.height*2),verticalAlign:'middle',display:'table-cell'}}>
                             <p style={{fontSize:"45px",paddingTop:this.state.height*0.3,color:"#ffffff",fontWeight:700}}> {this.state.note}</p>
                         </div>
-                        <div style={{float: "left",position:"relative",marginRight:"5px",marginTop:"15px",height:(this.state.height-10),width:(this.state.height-10)*3,display:this.state.hideBack}}>
-                            <button  type="button" className={lightcircle1} style={{height:(this.state.height-10),width:(this.state.height-10)*3,display:this.state.hideBack}} disabled={this.state.lockdisabled} onClick={this.handle_click_back1.bind(this)}>
+                        <div style={{float: "left",position:"relative",marginRight:"5px",marginTop:"15px",height:(this.state.height-10),width:"45%",display:this.state.hideBack}}>
+                            <button  type="button" className={lightcircle1} style={{height:(this.state.height-10),width:"100%",display:this.state.hideBack}} disabled={this.state.lockdisabled} onClick={this.handle_click_back1.bind(this)}>
                                 <i className="fa fa-upload" style={{fontSize:"24px"}}> </i>
                             </button>
                         </div>
-                        <div style={{float: "right",position:"relative",marginLeft:"5px",marginTop:"15px",height:(this.state.height-10),width:(this.state.height-10)*3,display:this.state.hideBack}}>
-                            <button  type="button" className={lightbrick1} style={{height:(this.state.height-10),width:(this.state.height-10)*3,display:this.state.hideBack,marginRight:0}} disabled={this.state.disabled} onClick={this.handle_click_back2.bind(this)}>
+                        <div style={{float: "right",position:"relative",marginLeft:"5px",marginTop:"15px",height:(this.state.height-10),width:"45%",display:this.state.hideBack}}>
+                            <button  type="button" className={lightbrick1} style={{height:(this.state.height-10),width:"100%",display:this.state.hideBack,marginRight:0}} disabled={this.state.disabled} onClick={this.handle_click_back2.bind(this)}>
                                 <i className="fa fa-download" style={{fontSize:"24px"}}> </i>
                             </button>
                         </div>
