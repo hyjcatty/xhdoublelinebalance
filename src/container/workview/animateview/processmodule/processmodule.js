@@ -62,49 +62,71 @@ export default class processmodule extends Component {
         });
     }
     render() {
+        let temp=[];
+        for(let i=0;i<32;i++){
+            if(i==0){
+
+                temp.push(
+                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginRight:"-5px",marginBottom:"0px",marginTop:"10px"}}>{32-i}</p>
+                )
+            }else{
+
+                temp.push(
+                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginBottom:"0px",marginTop:"10px"}}>{32-i}</p>
+                )
+            }
+        }
         return(
-        <div  style={{marginTop:10,marginBottom:10,display: "block",width:"100%",height:this.state.height-20,background: "#00FF00 url(./resource/image/timg.png) repeat fixed center"}}>
-            <span id={this.state.id+"animationprocess1"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess2"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a ><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess3"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess4"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess5"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess6"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess7"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a ><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess8"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess9"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-            <span id={this.state.id+"animationprocess10"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
-                <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
-                </i></a>
-            </span>
-        </div>
+            <div>
+                <div  style={{marginTop:10,marginBottom:10,display: "block",width:"100%",height:this.state.height-20,background: "#00FF00 url(./resource/image/timg.png) repeat fixed center",zIndex:0}}>
+
+                        {temp}
+                </div>
+                <div  style={{marginTop:(this.state.height-10)*(-1),marginBottom:10,display: "block",width:"100%",height:this.state.height-20,zIndex:10}}>
+                    <span id={this.state.id+"animationprocess1"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess2"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a ><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess3"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess4"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess5"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess6"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess7"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a ><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess8"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess9"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                    <span id={this.state.id+"animationprocess10"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >
+                        <a><i className = "fa fa-gift" style={{fontSize:'40px'}}>
+                        </i></a>
+                    </span>
+                </div>
+            </div>
+
+
         );
 
     }

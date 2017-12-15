@@ -27,6 +27,7 @@ export default class chambermodule extends Component {
             error:false,
             volume:0,
             reject:0,
+            box:0,
             id:0,
             process:"0",
 
@@ -42,7 +43,7 @@ export default class chambermodule extends Component {
         //console.log(chamberstatus);
         if(chamberstatus.status !=this.state.status){
             //console.log("status change!");
-            this.setState({status:chamberstatus.status,error:false,volume:0,reject:0,process:chamberstatus.chamberprocess});
+            this.setState({status:chamberstatus.status,error:false,volume:0,reject:0,box:0,process:chamberstatus.chamberprocess});
             this.chamberremoveerror();
             return;
         }else if(this.state.status == false){
@@ -50,10 +51,10 @@ export default class chambermodule extends Component {
         }else{
            if (chamberstatus.error == true){
                //console.log("get error!");
-               this.setState({error:true,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess},this.chambererror);
+               this.setState({error:true,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess,box:chamberstatus.box},this.chambererror);
                return;
            }else{
-               this.setState({error:false,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess});
+               this.setState({error:false,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess,box:chamberstatus.box});
                this.chamberremoveerror();
                if(chamberstatus.package == true){
                    this.chamberclean();
@@ -115,10 +116,17 @@ export default class chambermodule extends Component {
                 </span>;
             }
         }
+        let box=
+            <div style={{position:"relative",width:"100%"}}>
+        <span className="pull-right" style={{width:"100%",textAlign:"center"}}>
+                <p style={{fontSize:"16px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                    {this.state.box}
+                </p>
+		</span></div>;
         let volume=
         <div style={{position:"relative",width:"100%"}}>
         <span className="pull-right" style={{width:"100%",textAlign:"center"}}>
-                <p style={{fontSize:"20px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                <p style={{fontSize:"16px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
                     {this.state.volume}
                 </p>
 		</span></div>;
@@ -147,6 +155,8 @@ export default class chambermodule extends Component {
                         <div className="clearfix"></div>
                         {volume}
                         <div className="clearfix"></div>
+                        {box}
+                        <div className="clearfix"></div>
                     </div>
                 </div>
             );
@@ -154,6 +164,8 @@ export default class chambermodule extends Component {
             return (
                 <div style={{position:"relative",width:"auto"}}>
                     <div style={{position:"relative",marginTop:"10px",marginLeft:"10px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
+                        {box}
+                        <div className="clearfix"></div>
                         {volume}
                         <div className="clearfix"></div>
                         {reject}

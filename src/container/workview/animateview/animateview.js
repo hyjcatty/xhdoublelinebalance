@@ -128,7 +128,7 @@ export default class animateview extends Component {
         }
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
-                <div key = "leftpanel" style={{width:this.state.width*0.98,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.01,marginTop:this.state.width*0.01}}>
+                <div key = "leftpanel" style={{width:this.state.width*0.98,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.01}}>
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
                         {chamberlist1}
                     </div>
