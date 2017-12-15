@@ -305,6 +305,7 @@ function buildchamberinfo(){
             package:package,
             fillin:fillin,
             volume:volume,
+            box:GetRandomNum(0,1000),
             reject:GetRandomNum(0,100),
             chamberprocess:chamberprocesslist[GetRandomNum(0,10)]
         }
@@ -338,6 +339,7 @@ function build_status_message(){
             fillin:false,
             volume:0,
             reject:0,
+            box:0,
             chamberprocess:'0'
         }
         list1.push(temp);
@@ -353,6 +355,7 @@ function build_status_message(){
             fillin:false,
             volume:0,
             reject:0,
+            box:0,
             chamberprocess:'0'
         }
         list2.push(temp);
