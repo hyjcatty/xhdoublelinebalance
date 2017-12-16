@@ -129,7 +129,7 @@ export default class calibrationview extends Component {
                             <div key="statuspanel" className="count" style={{fontSize:24}}>{this.state.language.titlestatic}</div>
                             <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12" >
                                 <div key="rightpanel"
-                                     style={{width:"90%",height:550,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                                     style={{width:"90%",height:550,float: "left",position:"relative",marginLeft:"5%"}}>
 
                                     <div key="Lightboard"
                                          style={{width:"100%",float: "left",position:"relative"}}>
@@ -142,9 +142,9 @@ export default class calibrationview extends Component {
                     <div className="col-xs-8 col-md-8 col-sm-8 col-lg-8">
                         <div className="tile-stats"  style={{marginTop:"15px"}}>
                             <div key="statuspanel" className="count" style={{fontSize:24}}>{this.state.language.titledynamic}</div>
-                            <div style={{width:"100%",height:550,float: "left",position:"relative",marginLeft:this.state.width*0.02}}>
+                            <div style={{width:"100%",height:550,float: "left",position:"relative"}}>
                                 <div key="rightpanel" className="col-xs-12 col-md-12 col-sm-12 col-lg-12">
-                                    <button type="button" id="calibration_start" data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} disabled={this.state.disabled} onClick={this.dynamic_action.bind(this)} >
+                                    <button type="button" id="calibration_start" data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000",marginLeft:20}} disabled={this.state.disabled} onClick={this.dynamic_action.bind(this)} >
                                         {title_info}
                                     </button>
                                 </div>
