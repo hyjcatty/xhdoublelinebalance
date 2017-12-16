@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 174 181" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd"><defs><style type="text/css">
+   
+    .fil1 {fill:black}
+    .fil0 {fill:black;fill-rule:nonzero}
+   
+  </style></defs><g><path class="fil0" d="M7 0c-9,0 -9,14 0,14l1 0 22 167 114 0 22 -167 1 0c9,0 9,-14 0,-14l-160 0zm16 14l128 0 -19 153 -90 0 -19 -153z"></path><path class="fil1" d="M87 23c5,0 10,5 10,10 0,5 -4,9 -9,10l-73 84c-6,7 -17,-2 -11,-9l73 -84 0 -1c0,-5 5,-10 10,-10z"></path></g></svg>

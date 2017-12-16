@@ -119,20 +119,20 @@ export default class chambermodule extends Component {
         let box=
             <div style={{position:"relative",width:"100%"}}>
         <span className="pull-right" style={{width:"100%",textAlign:"center"}}>
-                <p style={{fontSize:"16px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                <p style={{fontSize:"12px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
                     {this.state.box}
                 </p>
 		</span></div>;
         let volume=
         <div style={{position:"relative",width:"100%"}}>
         <span className="pull-right" style={{width:"100%",textAlign:"center"}}>
-                <p style={{fontSize:"16px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                <p style={{fontSize:"12px",color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
                     {this.state.volume}
                 </p>
 		</span></div>;
         let reject = <div style={{position:"relative",width:"100%"}}>
         <span  className="pull-right" style={{width:"100%",textAlign:"center"}}>
-                <p style={{fontSize:"10px", color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
+                <p style={{fontSize:"16px", color:"#000000",textAlign:"center",width:"100%",borderBottom:"1px solid #dddddd",marginBottom:0}}>
                     {this.state.reject}
                 </p>
         </span></div>;

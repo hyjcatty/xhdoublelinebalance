@@ -128,6 +128,17 @@ export default class animateview extends Component {
         }
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
+                <div style={{position:"absolute",  left:"15px",top:"7px"}}>
+
+                    <img src="./resource/image/box.svg"  style={{height:16,width:16}}></img><br/>
+                    <img src="./resource/image/grab.svg"  style={{height:16,width:16}}></img><br/>
+                    <img src="./resource/image/orga.svg"  style={{height:16,width:16}}></img><br/>
+                </div>
+                <div style={{position:"absolute",  left:"15px",top:"291px"}}>
+                    <img src="./resource/image/orga.svg"  style={{height:16,width:16}}></img><br/>
+                    <img src="./resource/image/grab.svg"  style={{height:16,width:16}}></img><br/>
+                    <img src="./resource/image/box.svg"  style={{height:16,width:16}}></img><br/>
+                </div>
                 <div key = "leftpanel" style={{width:this.state.width*0.98,height:this.state.height,float: "left",position:"relative",marginLeft:this.state.width*0.01}}>
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
                         {chamberlist1}
