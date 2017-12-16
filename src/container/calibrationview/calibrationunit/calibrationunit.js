@@ -111,7 +111,7 @@ export default class Calibrationunit extends Component {
         light.push(
             <div key="light" style={{width:"100%",float: "left",position:"relative",marginTop:this.state.width*0.00,display:'table'}}>
                 <div style={{marginTop:"10px",position:"relative",float:"left",width:"100%",display:'table'}}>
-                    <h3 style={{width:"100%",fontSize:15,marginTop:"6px",marginLeft:5,marginBottom:"3px",textAlign:"center"}} className="pull-left">{this.state.title}</h3>
+                    <h3 style={{width:"100%",fontSize:15,marginTop:"6px",marginLeft:5,marginBottom:"3px",textAlign:"center",color:"#000000",fontWeight:700}} className="pull-left">{this.state.title}</h3>
                     <div style={{width:"100%",float: "left",position:"relative",display:'table'}}>
 
                         <div className={lightnote1} role="alert" style={{textAlign:"center",float: "right",position:"relative",backgroundColor:this.state.colornote,borderColor:this.state.colornote,padding:10,marginBottom:0,top: "50%",

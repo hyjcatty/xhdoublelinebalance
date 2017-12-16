@@ -354,7 +354,7 @@ export default class brickview extends Component {
             );
         }else{
             return (
-             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'scroll',overflowX:'hidden',overflowY:'hidden',backgroundImage: "url(./resource/image/ctw_black.png)"}}>
+             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'scroll',overflowX:'hidden',overflowY:'hidden',backgroundImage: "url(./resource/image/ctw_black_wide.png)"}}>
                     <div className="container">
                         <div className="leaderboard" style={{marginTop: this.state.margintop}}>
                             <div className="panel panel-default" id="kuang" >
