@@ -80,7 +80,7 @@ export default class processmodule extends Component {
             <div>
                 <div  style={{marginTop:10,marginBottom:10,display: "block",width:"100%",height:this.state.height-20,background: "#00FF00 url(./resource/image/timg.png) repeat fixed center",zIndex:0}}>
 
-                        {temp}
+
                 </div>
                 <div  style={{marginTop:(this.state.height-10)*(-1),marginBottom:10,display: "block",width:"100%",height:this.state.height-20,zIndex:10}}>
                     <span id={this.state.id+"animationprocess1"} style={{marginTop:"5px",position:'absolute',display: 'block',width:this.state.width,transitionTimingFunction: 'linear',WebkitTransitionTimingFunction: 'linear'}} >

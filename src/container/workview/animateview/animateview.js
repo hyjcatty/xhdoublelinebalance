@@ -126,6 +126,20 @@ export default class animateview extends Component {
                     <Label1 ref={"Label"+i}/>
                 </div>);
         }
+        let temp=[];
+        for(let i=0;i<32;i++){
+            if(i==0){
+
+                temp.push(
+                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginRight:"-5px",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                )
+            }else{
+
+                temp.push(
+                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                )
+            }
+        }
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflowY:'hidden',overflowX:'hidden'}}>
                 <div style={{position:"absolute",  left:"15px",top:"7px"}}>
@@ -143,10 +157,14 @@ export default class animateview extends Component {
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
                         {chamberlist1}
                     </div>
-                    <div style={{width:this.state.width*0.98,float: "left",position:"relative"}}>
+                    <div style={{width:this.state.width*0.98,float: "left",position:"relative",zIndex:0}}>
                         <Process ref={"Process1"}/>
                     </div>
-                    <div style={{width:this.state.width*0.98,float: "left",position:"relative"}}>
+                    <div  style={{marginTop:0,marginBottom:0,display: "block",width:"100%",height:70,zIndex:99}}>
+
+                        {temp}
+                    </div>
+                    <div style={{width:this.state.width*0.98,float: "left",position:"relative",marginTop:"-16px",zIndex:0}}>
                         <Process ref={"Process2"}/>
                     </div>
                     <div style={{marginLeft:this.state.width*0.02,width:this.state.width*0.98,float: "left",position:"relative"}}>
