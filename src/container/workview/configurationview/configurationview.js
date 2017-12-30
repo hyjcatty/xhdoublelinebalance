@@ -280,7 +280,7 @@ export default class configurationview extends Component {
 
         if ($(".configure-js-switch")[0]) {
             var elems = Array.prototype.slice.call(document.querySelectorAll('.configure-js-switch'));
-            console.log("switchery list lenght:"+elems.length);
+            //console.log("switchery list lenght:"+elems.length);
             elems.forEach(function (html) {
                 var switchery = new Switchery(html, {
                     color: '#26B99A'
@@ -437,6 +437,7 @@ export default class configurationview extends Component {
                 </div>);
         }
         let preemption =[];
+        /*
         for(let i=0;i<this.state.configuration.parameter.preemption.length;i++){
             if(this.state.configuration.parameter.preemption[i]){
                 let temp =<div className = "col-xs-3 col-md-3 col-sm-3 col-lg-3" key={"preemption_"+i} >
@@ -455,6 +456,18 @@ export default class configurationview extends Component {
             }
 
         }
+
+         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
+         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
+         <h4>{this.state.language.preemption}</h4>
+         </div>
+         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 "  id="preemption_tab">
+         {preemption}
+         </div>
+         </div>
+         <div className="clearfix"></div>
+
+        */
 /*
         for(let i=0;i<this.state.configuration.parameter.preemption.length;i++){
             if(this.state.configuration.parameter.preemption[i]){
@@ -517,15 +530,7 @@ export default class configurationview extends Component {
                         </div>
                     </div>
                     <div className="clearfix"></div>
-                    <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
-                        <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
-                            <h4>{this.state.language.preemption}</h4>
-                        </div>
-                        <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 "  id="preemption_tab">
-                            {preemption}
-                        </div>
-                    </div>
-                    <div className="clearfix"></div>
+
                     <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
                         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12 " >
                             <h4>{this.state.language.detailparameter}</h4>
