@@ -27,6 +27,8 @@ client.on('connect', function () {
         if(!calibration_start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationdynamicinfo());
     },6000);
+
+
     setInterval(function(){
         if(!start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
@@ -49,11 +51,12 @@ client.on('connect', function () {
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildalarminfo());
     },60000);
     setInterval(function(){
-        client.publish('MQTT_XH_Double_Line_Balance_UI', buildversioninfo());
-    },600000);
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildreportinfo());
+    },30000);
     setInterval(function(){
         client.publish('MQTT_XH_Double_Line_Balance_UI', builddebuginfo());
     },600000);
+
     //client.publish('MQTT_TOPIC_UI_TO_HCU', 'Hello mqtt['+i+']');
 });
 
@@ -161,6 +164,20 @@ function buildalarminfo(){
     var version = {
         action:"XH_Double_Line_Balance_alarm_status",
         data:ret
+    }
+    return JSON.stringify(version);
+}
+function buildreportinfo(){
+    var number = GetRandomNum(1,50);
+    var msg = "status report:";
+    for(var i=0;i<number;i++){
+        msg = msg+" x"+i;
+    }
+
+
+    var version = {
+        action:"XH_Double_Line_Balance_report_status",
+        data:msg
     }
     return JSON.stringify(version);
 }
@@ -305,7 +322,7 @@ function buildchamberinfo(){
             package:package,
             fillin:fillin,
             volume:volume,
-            box:GetRandomNum(0,1000),
+            box:GetRandomNum(0,10000),
             reject:GetRandomNum(0,100),
             chamberprocess:chamberprocesslist[GetRandomNum(0,10)]
         }
