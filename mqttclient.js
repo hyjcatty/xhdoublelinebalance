@@ -331,9 +331,15 @@ function buildchamberinfo(){
     return JSON.stringify(chamber);
 }
 function buildpackageinfo(){
+    var biglabel= {
+        title: "Test BIG Title",
+        note: "Status",
+        status: GetRandomNum(1,3000)
+    };
     var ret = {
         action:"XH_Double_Line_Balance_package_status",
         data:{
+            biglabel:biglabel,
             process:GetRandomNum(1,2),
             weight:GetRandomNum(1,1500),
             target:GetRandomNum(1,32)

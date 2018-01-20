@@ -65,10 +65,10 @@ export default class animateview extends Component {
         }
     }
     update_statistics(data){
-        this.refs.Labelbigboard1.updateprop(data.biglabel1.status);
-        this.refs.Labelbigboard1.initialize(data.biglabel1.title,data.biglabel1.note);
-        this.refs.Labelbigboard2.updateprop(data.biglabel2.status);
-        this.refs.Labelbigboard2.initialize(data.biglabel2.title,data.biglabel2.note);
+        //this.refs.Labelbigboard1.updateprop(data.biglabel1.status);
+        //this.refs.Labelbigboard1.initialize(data.biglabel1.title,data.biglabel1.note);
+        //this.refs.Labelbigboard2.updateprop(data.biglabel2.status);
+        //this.refs.Labelbigboard2.initialize(data.biglabel2.title,data.biglabel2.note);
         for(let i=1;i<13;i++){
             this.refs['Label'+i].updateprop(this.colorlist[data.labellist[i-1].color],data.labellist[i-1].value);
             this.refs['Label'+i].initialize(data.labellist[i-1].title,data.labellist[i-1].note);
@@ -96,6 +96,8 @@ export default class animateview extends Component {
     }
     update_package(data){
         this.refs["Process"+data.process].throwbox(data.target);
+        this.refs["Labelbigboard"+data.process].updateprop(data.biglabel.status);
+        this.refs["Labelbigboard"+data.process].initialize(data.biglabel.title,data.biglabel.note);
     }
 
     hide(){
