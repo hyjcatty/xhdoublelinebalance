@@ -76,7 +76,7 @@ client.on('message', function (topic, message) {
      }else if(msg.action== "XH_Double_Line_Balance_config_stop"){
          start = false;
      }else if(msg.action== "XH_Double_Line_Balance_force_flush"){
-         client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
+         client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_info());
          client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_message());
      }else if(msg.action == "XH_Double_Line_Balance_calibration_dynamic_start"){
          calibration_start = true
@@ -264,20 +264,24 @@ function buildstatisticsinfo(){
         "LGRAY",
         "DBLUE"];
     var smalllabellist=[];
-    for(var i=0;i<12;i++){
+    var tempseed= GetRandomNum(0,1);
+    for(var i=0;i<6;i++){
         var templabel={
-            title:"test title"+i,
-            note:"note",
-            color:colorlist[GetRandomNum(0,8)],
-            value:GetRandomNum(0,300)+"kg"
+            key:'Label'+(i*2+tempseed+1),
+            value:{
+                title:"test title"+(i*2+tempseed+1),
+                note:"note"+tempseed,
+                color:colorlist[GetRandomNum(0,8)],
+                value:GetRandomNum(0,300)+"kg"
+            }
         }
         smalllabellist.push(templabel);
     }
     var ret={
         action:"XH_Double_Line_Balance_statistics_status",
         data:{
-            biglabel1:biglabel1,
-            biglabel2:biglabel2,
+            //biglabel1:biglabel1,
+            //biglabel2:biglabel2,
             labellist:smalllabellist
         }
     }
@@ -393,7 +397,50 @@ function build_status_message(){
     return JSON.stringify(message);
 }
 
-
+function build_status_info(){
+    var biglabel1= {
+        title: "Initialize Big1",
+        note: "Initialized",
+        status: 0
+    };
+    var biglabel2= {
+        title: "Initialize Big2",
+        note: "Initialized",
+        status: 0
+    };
+    var colorlist=[
+        "RED",
+        "ORANGE",
+        "BLUE",
+        "GREEN",
+        "GRAY",
+        "PURPLE",
+        "LBLUE",
+        "LGRAY",
+        "DBLUE"];
+    var smalllabellist=[];
+    for(var i=0;i<12;i++){
+        var templabel={
+            key:'Label'+(i+1),
+            value:{
+                title:"init title"+(i+1),
+                note:"note",
+                color:colorlist[GetRandomNum(0,8)],
+                value:GetRandomNum(0,300)+"kg"
+            }
+        }
+        smalllabellist.push(templabel);
+    }
+    var ret={
+        action:"XH_Double_Line_Balance_flash_status",
+        data:{
+            biglabel1:biglabel1,
+            biglabel2:biglabel2,
+            labellist:smalllabellist
+        }
+    }
+    return JSON.stringify(ret);
+}
 
 
 function GetRandomNum(Min,Max)

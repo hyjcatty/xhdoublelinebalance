@@ -473,6 +473,9 @@ class App extends Component{
     update_animateview_statistics(data){
         this.refs.Workview.update_animateview_statistics(data);
     }
+    flash_animateview_statistics(data){
+        this.refs.Workview.flash_animateview_statistics(data);
+    }
     initialize_animateview_chamber(data){
         this.refs.Workview.initialize_animateview_chamber(data);
     }
@@ -700,7 +703,6 @@ function initialize_mqtt(){
                 break;
             case "XH_Double_Line_Balance_debug_status":
                 app_handle.debug_label_update(ret.data);
-                //app_handle.update_animateview_statistics(ret.data);
                 break;
             case "XH_Double_Line_Balance_calibration_zero_status":
                 app_handle.update_cali_status(ret.data.balance,1,ret.data.msg);break;
@@ -719,6 +721,9 @@ function initialize_mqtt(){
                 break;
             case "XH_Double_Line_Balance_statistics_status":
                 app_handle.update_animateview_statistics(ret.data);
+                break;
+            case "XH_Double_Line_Balance_flash_status":
+                app_handle.flash_animateview_statistics(ret.data);
                 break;
             default:
                 return;

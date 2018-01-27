@@ -63,7 +63,7 @@ export default class animateview extends Component {
             this.refs["Chamber1x"+i].update_id("1x"+i);
             this.refs["Chamber2x"+i].update_id("2x"+i);
         }
-    }
+    }/*
     update_statistics(data){
         //this.refs.Labelbigboard1.updateprop(data.biglabel1.status);
         //this.refs.Labelbigboard1.initialize(data.biglabel1.title,data.biglabel1.note);
@@ -73,8 +73,22 @@ export default class animateview extends Component {
             this.refs['Label'+i].updateprop(this.colorlist[data.labellist[i-1].color],data.labellist[i-1].value);
             this.refs['Label'+i].initialize(data.labellist[i-1].title,data.labellist[i-1].note);
         }
+    }*/
+    update_statistics(data){
+        for(let i=0;i<data.labellist.length;i++){
+            this.refs[data.labellist[i].key].updateprop(this.colorlist[data.labellist[i].value.color],data.labellist[i].value.value);
+            this.refs[data.labellist[i].key].initialize(data.labellist[i].value.title,data.labellist[i].value.note);
+        }
     }
-    clearbillboard(){
+    clearbillboard(data){
+        this.refs.Labelbigboard1.updateprop(data.biglabel1.status);
+        this.refs.Labelbigboard1.initialize(data.biglabel1.title,data.biglabel1.note);
+        this.refs.Labelbigboard2.updateprop(data.biglabel2.status);
+        this.refs.Labelbigboard2.initialize(data.biglabel2.title,data.biglabel2.note);
+        for(let i=0;i<data.labellist.length;i++){
+            this.refs[data.labellist[i].key].updateprop(this.colorlist[data.labellist[i].value.color],data.labellist[i].value.value);
+            this.refs[data.labellist[i].key].initialize(data.labellist[i].value.title,data.labellist[i].value.note);
+        }
     }
     initialize_chamber(data){
         for(let i=0;i<data.array1.length;i++){
@@ -175,11 +189,11 @@ export default class animateview extends Component {
                     <div style={{width:this.state.width*0.22,float: "left",position:"relative",paddingTop: "5px"}}>
                         <Labelbig ref="Labelbigboard1"/>
                     </div>
-                    <div style={{width:this.state.width*0.22,float: "left",position:"relative",paddingTop: "5px",marginLeft:this.state.width*0.005}}>
-                        <Labelbig ref="Labelbigboard2"/>
-                    </div>
                     <div style={{width:this.state.width*0.53,float: "left",position:"relative"}}>
                         {labellist}
+                    </div>
+                    <div style={{width:this.state.width*0.22,float: "left",position:"relative",paddingTop: "5px",marginLeft:this.state.width*0.005}}>
+                        <Labelbig ref="Labelbigboard2"/>
                     </div>
                 </div>
             </div>

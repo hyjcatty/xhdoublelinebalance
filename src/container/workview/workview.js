@@ -79,6 +79,9 @@ export default class workview extends Component {
     update_animateview_statistics(data){
         this.refs.Billboardview.update_statistics(data);
     }
+    flash_animateview_statistics(data){
+        this.refs.Billboardview.clearbillboard(data);
+    }
     initialize_animateview_chamber(data){
         this.refs.Billboardview.initialize_chamber(data);
     }
@@ -110,7 +113,7 @@ export default class workview extends Component {
         if(configuration!==null){
             this.setState({configuration:configuration,status:"run"});
             this.refs.Billboardview.update_configuration(configuration);
-            this.refs.Billboardview.clearbillboard();
+            //this.refs.Billboardview.clearbillboard();
         }else{
             this.setState({status:"run"});
         }
