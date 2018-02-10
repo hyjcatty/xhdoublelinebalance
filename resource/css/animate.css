@@ -2171,7 +2171,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(96.875%, 0, 0);
+        transform: translate3d(95.875%, 0, 0);
     }
 }
 
@@ -2190,7 +2190,7 @@
 
     to {
         opacity: 1;
-        transform: translate3d(100%, 0, 0);
+        transform: translate3d(97.8%, 0, 0);
     }
 }
 
@@ -2200,4 +2200,29 @@
     -webkit-animation-timing-function: linear;
     -webkit-animation-duration: 4s;
     animation-fill-mode: both;
+}
+@keyframes RunRight33 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.RunRight33 {
+    animation-name: RunRight33;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 4s;
+    animation-fill-mode: both;
+}
+.redpackage{
+    color:#FF0000;
+}
+.redpackage a i {
+
+    color:#FF0000;
 }
