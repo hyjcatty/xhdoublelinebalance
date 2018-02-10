@@ -12,7 +12,8 @@ import Buttonbar from "./buttonbar/buttonbar"
 import Alarmbar from "./alarmbar/alarmbar"
 //import Billboardview from "./billboardview/billboardview"
 import Billboardview from "./animateview/animateview"
-import Configurationview from "./configurationview/configurationview"
+//import Configurationview from "./configurationview/configurationview"
+import Configurationview from "./dlconfigurationview/dlconfigurationview"
 import './workview.css';
 
 
@@ -43,6 +44,9 @@ export default class workview extends Component {
         this.refs.Alarmbar.update_language(language.alarmbar);
         this.refs.Configurationview.update_language(language.configurationview);
         this.refs.Billboardview.update_language(language.billboardview);
+    }
+    updateline(lines){
+        this.refs.Configurationview.updateline(lines);
     }
     update_size(width,height){
         this.setState({height:height,width:width,leftwidth:width*0.12,rightwidth:(width-width*0.12)},this.update_subsize);
@@ -184,7 +188,7 @@ export default class workview extends Component {
 
             }
         }else if(this.state.status == "running"){
-            this.props.workstopcase(this.state.configuration);
+           // this.props.workstopcase(this.state.configuration);
             switch(i){
                 case 0:
                     this.props.workstopcase(this.state.configuration);

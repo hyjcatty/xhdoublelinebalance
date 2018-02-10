@@ -55,11 +55,19 @@ export default class processmodule extends Component {
         this.processlist_run.push(temp);
         //console.log("processlist_run size:"+this.processlist_run.length);
         //console.log("RunRight"+target);
-        $('#'+this.state.id+'animationprocess'+temp).removeClass().addClass('RunRight'+target+' linear').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', this,function(event){
-            $(this).removeClass();
-            $(this).attr("display","none");
-            event.data.removefromlist($(this));
-        });
+        if(target != 0){
+            $('#'+this.state.id+'animationprocess'+temp).removeClass().addClass('RunRight'+target+' linear').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', this,function(event){
+                $(this).removeClass();
+                $(this).attr("display","none");
+                event.data.removefromlist($(this));
+            });
+        }else{
+            $('#'+this.state.id+'animationprocess'+temp).removeClass().addClass('RunRight33 linear redpackage').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', this,function(event){
+                $(this).removeClass();
+                $(this).attr("display","none");
+                event.data.removefromlist($(this));
+            });
+        }
     }
     render() {
         let temp=[];

@@ -108,7 +108,16 @@
       "configurename":"配置名称",
       "icon":"图标:",
       "preemption":"优先权:",
-      "detailparameter":"具体参数:"
+      "detailparameter":"具体参数:",
+      "line":"线 - ",
+      "group":",组 -",
+      "free":" 空闲",
+      "freehopper":"空闲料斗",
+      "localhopper":"已分配料斗",
+      "selecticon":"请点选一个图标:",
+      "cancel":"取消",
+      "confirm":"确定",
+      "delete":"删除"
     },
     "billboardview":{
       "Label1x1":{

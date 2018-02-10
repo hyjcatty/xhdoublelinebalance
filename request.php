@@ -850,6 +850,20 @@ switch ($key){
             $jsonencode = _encode($retval);
 
             echo $jsonencode; break;
+        case "XH_Balance_get_line_chamber_status":
+            $retarray = getfiledetail("./sysconf/line.json");
+            //echo "file content".$retarray;
+            $obj=json_decode($retarray,true);
+            $retval=array(
+                'status'=>'true',
+                'auth'=>'true',
+                'ret'=>$obj,
+                'msg'=>''
+            );
+
+            $jsonencode = _encode($retval);
+
+            echo $jsonencode; break;
 	default:
 
 	break;

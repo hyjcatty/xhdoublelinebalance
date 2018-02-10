@@ -41,6 +41,9 @@ export default class chambermodule extends Component {
     }
     update_status(chamberstatus){
         //console.log(chamberstatus);
+        //buffer:0,//volume:0,
+            //group:0,//reject:0,
+            //basket:0,//box:0,
         if(chamberstatus.status !=this.state.status){
             //console.log("status change!");
             this.setState({status:chamberstatus.status,error:false,volume:0,reject:0,box:0,process:chamberstatus.chamberprocess});
@@ -51,10 +54,10 @@ export default class chambermodule extends Component {
         }else{
            if (chamberstatus.error == true){
                //console.log("get error!");
-               this.setState({error:true,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess,box:chamberstatus.box},this.chambererror);
+               this.setState({error:true,volume:chamberstatus.buffer,reject:chamberstatus.group,process:chamberstatus.chamberprocess,box:chamberstatus.basket},this.chambererror);
                return;
            }else{
-               this.setState({error:false,volume:chamberstatus.volume,reject:chamberstatus.reject,process:chamberstatus.chamberprocess,box:chamberstatus.box});
+               this.setState({error:false,volume:chamberstatus.buffer,reject:chamberstatus.group,process:chamberstatus.chamberprocess,box:chamberstatus.basket});
                this.chamberremoveerror();
                if(chamberstatus.package == true){
                    this.chamberclean();

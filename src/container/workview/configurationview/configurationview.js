@@ -39,8 +39,6 @@ export default class configurationview extends Component {
             drag:null
         }
         this._iconcallback = this.handle_icon_selection.bind(this);
-        //this.keyboard_initialize();
-
     }
     update_language(language){
         this.setState({language:language});

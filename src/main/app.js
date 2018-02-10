@@ -28,6 +28,7 @@ require('es6-promise').polyfill();
 var winWidth;
 var winHeight;
 var mqttconf={};
+var lineconf={};
 var basic_address = getRelativeURL()+"/";
 var request_head= basic_address+"request.php";
 class App extends Component{
@@ -226,6 +227,9 @@ class App extends Component{
     }
     initializeWork(work2brickcallback,work2alarmremovecallback){
         this.refs.Workview.update_callback(work2brickcallback,work2alarmremovecallback);
+    }
+    updateline(lines){
+        this.refs.Workview.updateline(lines);
     }
     userview(){
         this.refs.Calibrationview.hide();
@@ -558,12 +562,12 @@ class App extends Component{
                 <Head ref="head" headcallbackuser={this._headcallbackuser}/>
             </div>
             <div>
+                <Loginview ref="Loginview"/>
                 <Sysconfview ref="Sysconfview"/>
                 <Sysdebug ref="Sysdebugview"/>
                 <Exportview ref="Exportview"/>
                 <Calibrationview ref="Calibrationview" calistartcase={this._calistartcase} calistopcase={this._calistopcase} workcontrolfoot={this._workcontrolfoot} workcontrolhead={this._workcontrolhead}/>
                 <Languageview ref="Languageview"/>
-                <Loginview ref="Loginview"/>
                 <Brickview ref="Brickview"/>
                 <Workview ref="Workview" workstartcase={this._workstartcase}
                           workstopcase={this._workstopcase}
@@ -1027,6 +1031,7 @@ function xhbalancelogincallback(res){
     let userinfo = res.jsonResult.ret;
     app_handle.setuser(userinfo.username,userinfo.userid);
     xhbalanceconfiglist();
+    fetchlinechamber();
     tips("");
 }
 function xhbalanceiconlist(){
@@ -1447,6 +1452,7 @@ function xhbalancesavesysconfcallback(res){
     }
     xhbalanceconfiglist();
     sysconffetch();
+    fetchlinechamber();
     tips(language.message.message4);
 }
 function xhbalancerunsysdebug(configure){
@@ -2240,9 +2246,40 @@ function fetchmqttcallback(res){
     mqttconf = res.jsonResult.ret;
     initialize_mqtt();
 }
-
-
-
+function fetchlinechamber(){
+    var map={
+        action:"XH_Balance_get_line_chamber_status",
+        type:"query",
+        lang:default_language,
+        user:null
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(fetchlinechambercallback)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
+function fetchlinechambercallback(res){
+    if(res.jsonResult.status == "false"){
+        alert("Fetal Error, Can not get line and balance configure!");
+        windows.close();
+    }
+    if(res.jsonResult.auth == "false"){
+        alert("Fetal Error, Can not get line and balance configur!");
+        windows.close();
+    }
+    lineconf = res.jsonResult.ret;
+    app_handle.updateline(res.jsonResult.ret);
+}
 function searchlanguage(key){
     if(key === null || key === undefined|| key ==""){
         return "";

@@ -321,13 +321,16 @@ function buildchamberinfo(){
         data:{
             process:GetRandomNum(1,2),
             id:number,
-            error:error,
-            status:status,
             package:package,
             fillin:fillin,
+            error:error,
+            status:status,
             volume:volume,
-            box:GetRandomNum(0,10000),
-            reject:GetRandomNum(0,100),
+            buffer:volume,//volume:0,
+            //group:0,//reject:0,
+            //basket:0,//box:0,
+            basket:GetRandomNum(0,10000),
+            group:GetRandomNum(0,100),
             chamberprocess:chamberprocesslist[GetRandomNum(0,10)]
         }
     }
@@ -346,7 +349,8 @@ function buildpackageinfo(){
             biglabel:biglabel,
             process:GetRandomNum(1,2),
             weight:GetRandomNum(1,1500),
-            target:GetRandomNum(1,32)
+            target:GetRandomNum(0,32)
+            //target:GetRandomNum(0,32)
         }
     }
     return JSON.stringify(ret);
@@ -364,9 +368,9 @@ function build_status_message(){
             error:false,
             package:false,
             fillin:false,
-            volume:0,
-            reject:0,
-            box:0,
+            buffer:0,//volume:0,
+            group:0,//reject:0,
+            basket:0,//box:0,
             chamberprocess:'0'
         }
         list1.push(temp);
@@ -380,9 +384,9 @@ function build_status_message(){
             error:false,
             package:false,
             fillin:false,
-            volume:0,
-            reject:0,
-            box:0,
+            buffer:0,//volume:0,
+            group:0,//reject:0,
+            basket:0,//box:0,
             chamberprocess:'0'
         }
         list2.push(temp);

@@ -108,7 +108,16 @@
       "configurename":"CONFIG NAME",
       "icon":"icon:",
       "preemption":"Preemption:",
-      "detailparameter":"Detail Parameter:"
+      "detailparameter":"Detail Parameter:",
+      "line":"Line - ",
+      "group":",Group -",
+      "free":" free",
+      "freehopper":"Free Hopper",
+      "localhopper":"Local Hopper",
+      "selecticon":"Please select an icon:",
+      "cancel":"cancel",
+      "confirm":"confirm",
+      "delete":"delete"
     },
     "billboardview":{
       "Label1x1":{
