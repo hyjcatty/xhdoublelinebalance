@@ -26,8 +26,8 @@ export default class calibrationview extends Component {
             disabled:"",
             running:false,
             language:{
-                buttontitlestart:"start",
-                buttontitlestop:"stop",
+                buttontitlestart:"Zero Calibration",
+                buttontitlestop:"Full Calibration",
                 titlestatic:"Static Calibration",
                 titledynamic:"Dynamic Calibration"
             }
@@ -140,7 +140,7 @@ export default class calibrationview extends Component {
                         </div>
                     </div>
                     <div className="col-xs-8 col-md-8 col-sm-8 col-lg-8">
-                        <div className="tile-stats"  style={{marginTop:"15px"}}>
+                        <div className="tile-stats"  style={{marginTop:"15px",minHeight:"596.5px"}}>
                             <div key="statuspanel" className="count" style={{fontSize:24}}>{this.state.language.titledynamic}</div>
                             <div style={{width:"100%",height:550,float: "left",position:"relative"}}>
                                 <div key="rightpanel" className="col-xs-12 col-md-12 col-sm-12 col-lg-12">

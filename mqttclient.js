@@ -221,7 +221,12 @@ function buildcalibrationdynamicinfo(){
     var balance="1";
     var status = false;
     var temp = GetRandomNum(0,500);
-    if(temp>400) status = true
+    if(temp>400) status = true;
+    if(temp%2 == 0) balance="2";
+    var message = "";
+    for(var i=0;i<temp;i++){
+        message = message+" x";
+    }
     var ret = {
         action:"XH_Double_Line_Balance_calibration_dynamic_status",
         data:{
@@ -231,11 +236,8 @@ function buildcalibrationdynamicinfo(){
                     name:'trynumber',
                     value:GetRandomNum(0,50),
                 },{
-                    name:'bias',
-                    value:GetRandomNum(0,100)+"%",
-                },{
                     name:"msg",
-                    value:"ret msg",
+                    value:"ret msg:"+message
                 }]
         }
     }
