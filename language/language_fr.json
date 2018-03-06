@@ -21,6 +21,7 @@
     "pnotifytitle":"当前系统版本:"
   },
   "calibrationview":{
+    "lines":"产线序号:",
     "buttontitlestart":"零值校准",
     "buttontitlestop":"满值校准",
     "titlestatic":"静态校准",

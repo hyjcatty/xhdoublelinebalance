@@ -5,7 +5,7 @@ import React, {
     Component,
     PropTypes
     } from 'react';
-
+//import ReactDOM from 'react-dom'
 import classNames from 'classnames';
 import '../../../resource/css/font-awesome.min.css';
 import './calibrationview.css';
@@ -26,6 +26,7 @@ export default class calibrationview extends Component {
             disabled:"",
             running:false,
             language:{
+                lines:"Line",
                 buttontitlestart:"Zero Calibration",
                 buttontitlestop:"Full Calibration",
                 titlestatic:"Static Calibration",
@@ -76,14 +77,19 @@ export default class calibrationview extends Component {
     }
     dynamic_action(){
         if(this.state.running){
-            this.props.calistopcase();
+            //console.log(this.refs.linechoice.value);
+            this.refs.linechoice.disabled = false;
+            this.props.calistopcase(this.refs.linechoice.value);
             this.setState({running:false});
             this.lockall(false);
             this.props.workcontrolhead(true);
             this.props.workcontrolfoot(false,true,false);
         }else{
 
-            this.props.calistartcase();
+            //console.log(this.refs.linechoice.value);
+
+            this.refs.linechoice.disabled =true;
+            this.props.calistartcase(this.refs.linechoice.value);
             this.setState({running:true});
             this.lockall(true);
             this.props.workcontrolhead(false);
@@ -143,12 +149,26 @@ export default class calibrationview extends Component {
                         <div className="tile-stats"  style={{marginTop:"15px",minHeight:"596.5px"}}>
                             <div key="statuspanel" className="count" style={{fontSize:24}}>{this.state.language.titledynamic}</div>
                             <div style={{width:"100%",height:550,float: "left",position:"relative"}}>
-                                <div key="rightpanel" className="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                <div key="rightpanel" className="col-xs-6 col-md-6 col-sm-6 col-lg-6">
+                                    <div className="input-group">
+                                        <span className="input-group-addon"  style={{minWidth: "100px",fontSize:"12px"}}>{this.state.language.lines}</span>
+                                        <select className={"form-control "+"sys_conf_choice"} placeholder="CONFIG Value" aria-describedby="basic-addon1"
+                                                ref="linechoice"
+                                                defaultValue="1" >
+                                            <option value="1" >1</option>
+                                            <option value="2" >2</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div className="col-xs-6 col-md-6 col-sm-6 col-lg-6">
                                     <button type="button" id="calibration_start" data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000",marginLeft:20}} disabled={this.state.disabled} onClick={this.dynamic_action.bind(this)} >
                                         {title_info}
                                     </button>
                                 </div>
-                                {dynamiclist}
+
+                                <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                {dynamiclist}</div>
                             </div>
                         </div>
 

@@ -501,11 +501,11 @@ class App extends Component{
     getuser(){
         return this.state.userid;
     }
-    calistart(){
-        this.state.caliruncallback(true);
+    calistart(id){
+        this.state.caliruncallback(true,id);
     }
-    calistop(){
-        this.state.caliruncallback(false);
+    calistop(id){
+        this.state.caliruncallback(false,id);
     }
     startcase(configure){
         this.state.runcallback(true,configure);
@@ -1646,11 +1646,12 @@ function footcallback_save(){
     xhbalancesavesysconf(app_handle.getsysconfset());
 
 }
-function balance_dynamic_cali(bool){
+function balance_dynamic_cali(bool,id){
     let action="stop";
     if(bool) action = "start";
     let body={
-        action:action
+        action:action,
+        id:id
     }
     var map={
         action:"XH_Balance_cali_run",
