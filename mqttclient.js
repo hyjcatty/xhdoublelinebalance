@@ -11,6 +11,7 @@ var mqtt  = require('mqtt');
 //});
 
 var start = false;
+var pause = false;
 var calibration_start=false;
 
 var client  = mqtt.connect('mqtt://127.0.0.1',{
@@ -22,23 +23,32 @@ var client  = mqtt.connect('mqtt://127.0.0.1',{
 client.on('connect', function () {
     console.log('connected.....');
     client.subscribe('MQTT_XH_Double_Line_Balance_HCU');
-
+    /*
     setInterval(function(){
         if(!calibration_start) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationdynamicinfo());
-    },6000);
+    },6000);*/
 
 
     setInterval(function(){
         if(!start) return;
+        if(pause) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
     },600);
     setInterval(function(){
         if(!start) return;
+        if(pause) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildchamberinfo());
-    },600);
+        /*
+        var list = buildchamberinfolist();
+        //console.log(list);
+        for(var i=0;i<list.length;i++){
+            client.publish('MQTT_XH_Double_Line_Balance_UI', JSON.stringify(list[i]));
+        }*/
+    },1600);
     setInterval(function(){
         if(!start) return;
+        if(pause) return;
         client.publish('MQTT_XH_Double_Line_Balance_UI', buildpackageinfo());
     },600);
     /*
@@ -72,16 +82,23 @@ client.on('message', function (topic, message) {
          client.publish('MQTT_XH_Double_Line_Balance_UI', buildstatisticsinfo());
 
          start = true;
-
+         pause = false;
      }else if(msg.action== "XH_Double_Line_Balance_config_stop"){
          start = false;
+         pause = false;
+     }else if(msg.action== "XH_Double_Line_Balance_config_pause"){
+         pause = true;
+     }else if(msg.action== "XH_Double_Line_Balance_config_resume"){
+         pause = false;
      }else if(msg.action== "XH_Double_Line_Balance_force_flush"){
          client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_info());
          client.publish('MQTT_XH_Double_Line_Balance_UI', build_status_message());
      }else if(msg.action == "XH_Double_Line_Balance_calibration_dynamic_start"){
          calibration_start = true
+         buildcalibrationzeroinfo();
      }else if(msg.action == "XH_Double_Line_Balance_calibration_dynamic_stop"){
          calibration_start = false;
+         buildcalibrationfullinfo();
      }else if(msg.action == "XH_Double_Line_Balance_calibration_zero_trigger"){
          client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationzeroinfo());
      }else if(msg.action == "XH_Double_Line_Balance_calibration_weight_trigger"){
@@ -243,7 +260,32 @@ function buildcalibrationdynamicinfo(){
     }
     return JSON.stringify(ret);
 }
-
+function buildcalibrationzeroinfo(){
+    let number = 6;
+    let intervalhandle = setInterval(function(){
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationdynamicinfo());
+        number --;
+        if(number ===0){
+            clearInterval(intervalhandle);
+            client.publish('MQTT_XH_Double_Line_Balance_UI', JSON.stringify({
+                action:"XH_Double_Line_Balance_calibration_zero_finish",
+            }));
+        }
+    },6000);
+}
+function buildcalibrationfullinfo(){
+    let number = 6;
+    let intervalhandle = setInterval(function(){
+        client.publish('MQTT_XH_Double_Line_Balance_UI', buildcalibrationdynamicinfo());
+        number --;
+        if(number ===0){
+            clearInterval(intervalhandle);
+            client.publish('MQTT_XH_Double_Line_Balance_UI', JSON.stringify({
+                action:"XH_Double_Line_Balance_calibration_full_finish",
+            }));
+        }
+    },6000);
+}
 function buildstatisticsinfo(){
     var biglabel1= {
         title: "Test BIG Title",
@@ -289,7 +331,33 @@ function buildstatisticsinfo(){
     }
     return JSON.stringify(ret);
 }
-
+function buildchamberinfolist(){
+    var chamberprocesslist=["0",'10','20','30','40','50','60','70','80','90','100'];
+    var retlist = [];
+    for(var i=0;i<11;i++){
+        var chamber = {
+            action:"XH_Double_Line_Balance_chamber_status",
+            data:{
+                process:1,
+                id:(i+1),
+                package:false,
+                fillin:false,
+                error:false,
+                status:true,
+                volume:i*10,
+                buffer:i*10,//volume:0,
+                //group:0,//reject:0,
+                //basket:0,//box:0,
+                basket:GetRandomNum(0,10000),
+                group:GetRandomNum(0,100),
+                chamberprocess:chamberprocesslist[i]
+            }
+        }
+        retlist.push(chamber);
+    }
+    //console.log(retlist);
+    return retlist;
+}
 
 function buildchamberinfo(){
     var number = GetRandomNum(1,32);
@@ -351,8 +419,8 @@ function buildpackageinfo(){
             biglabel:biglabel,
             process:GetRandomNum(1,2),
             weight:GetRandomNum(1,1500),
+            //target:0
             target:GetRandomNum(0,32)
-            //target:GetRandomNum(0,32)
         }
     }
     return JSON.stringify(ret);

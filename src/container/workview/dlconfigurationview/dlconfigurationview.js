@@ -381,23 +381,13 @@ export default class configurationview extends Component {
         console.log(handleid);
         $("#"+handleid).checked=!($("#"+handleid).checked);*/
     }
-    handleBlur(e){/*
-        let handleid = e.currentTarget.getAttribute("id");
-        console.log(handleid);
-        let handle = $("#"+handleid);
-        console.log("key="+handle.val()+";min="+handle.attr("data-min")+";max="+handle.attr("data-max"));
-        let max = parseFloat(handle.attr("data-max"));
-        let min = parseFloat(handle.attr("data-min"));
-        let value = parseFloat(handle.val());
-        console.log("key="+value+";min="+min+";max="+max);
-        if(value<min){
-            handle.val(min);
-        }
-        else if(value>max){
-            handle.val(max);
-        }else  {
-            handle.val(value);
-        }*/
+    handleBlur(e){
+
+
+
+    }
+    handletitleblur(){
+        this.setState({configuration:JSON.parse(JSON.stringify(this.getUpdatedValue()))});
     }
     handle_plus1(){
         let freeitem = null;
@@ -480,6 +470,34 @@ export default class configurationview extends Component {
 
     }
     handle_save_group(event){
+        let line = event.target.getAttribute("data-line");
+        let active = "";
+        let linekey = "Line"+ line;
+        let localconf = this.state.configuration;
+        if(line === "1"){
+            active = this.state.line1active;
+        }else{
+            active = this.state.line2active;
+        }
+        if(active === null){ return;}
+        for(let i=0;i< this.state.configuration[linekey][active].list.length;i++){
+            if(this.state.configuration[linekey][active].list[i].max === ""){
+                localconf[linekey][active].list[i].value = $("#"+linekey+"conf_detail_P"+i+"_Choice").val();
+                //console.log("modify ["+i+"] parameter to ["+$("#conf_detail_P"+i+"_Choice").val()+"]");
+            }else{
+                localconf[linekey][active].list[i].value = $("#"+linekey+"conf_detail_P"+i+"_Input").val();
+                //console.log("modify ["+i+"] parameter to ["+$("#conf_detail_P"+i+"_Input").val()+"]");
+            }
+        }
+        console.log(localconf);
+        let lines = this.rebuildlineinfo(localconf);
+        if(line === "1"){
+            this.setState({configuration:localconf,lines:lines});
+        }else{
+            this.setState({configuration:localconf,lines:lines});
+        }
+    }
+    handle_save_group_quit(event){
         let line = event.target.getAttribute("data-line");
         let active = "";
         let linekey = "Line"+ line;
@@ -609,7 +627,8 @@ export default class configurationview extends Component {
                                 <input type="text" className={className} placeholder="CONFIG Value" aria-describedby="basic-addon1"
                                        key={this.state.key2+"G"+"P"+j+"input"} id={"Line1conf_detail_P"+j+"_Input"} data-parameter={j}
                                        value={this.state.configuration.Line1[this.state.line1active].list[j].value}
-                                       onChange={this.handleChange} onBlur={this.handleBlur}
+                                       onChange={this.handleChange} onBlur={this.handle_save_group.bind(this)}
+                                       data-line = "1"
                                        data-min={this.state.configuration.Line1[this.state.line1active].list[j].min}
                                        data-max={this.state.configuration.Line1[this.state.line1active].list[j].max}/>
                             </div>
@@ -630,7 +649,8 @@ export default class configurationview extends Component {
                             <div className="input-group">
                                 <span className="input-group-addon"  style={{minWidth: "100px",fontSize:"12px"}}>{this.state.configuration.Line1[this.state.line1active].list[j].paraname+":"}</span>
                                 <select className={className} placeholder="CONFIG Value" aria-describedby="basic-addon1"
-                                        key={this.state.key2+"P"+j+"Choice"} id={"Line1conf_detail_P"+j+"_Choice"} data-parameter={j} onChange={this.handleChange}
+                                        key={this.state.key2+"P"+j+"Choice"} id={"Line1conf_detail_P"+j+"_Choice"} data-parameter={j} onChange={this.handle_save_group.bind(this)}
+                                        data-line = "1"
                                         defaultValue={this.state.configuration.Line1[this.state.line1active].list[j].value} >{choice_items}</select>
                             </div>
                             <h3 style={{fontSize:15,marginRight:5,color:"#333"}}  >{contentline}</h3>
@@ -682,7 +702,7 @@ export default class configurationview extends Component {
                             {localbalancebutton}
                         </div>
                         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12"     style={{textAlign: "center",marginTop:"20px",marginBottom:"20px"}}>
-                            <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{marginRight:50,minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="1" onClick={this.handle_save_group.bind(this)} >
+                            <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{marginRight:50,minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="1" onClick={this.handle_save_group_quit.bind(this)} >
                                 {this.state.language.confirm}
                             </button>
                             <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="1" onClick={this.handle_delete_group.bind(this)} >
@@ -724,7 +744,8 @@ export default class configurationview extends Component {
                                 <input type="text" className={className} placeholder="CONFIG Value" aria-describedby="basic-addon1"
                                        key={this.state.key2+"G"+"P"+j+"input"} id={"Line2conf_detail_P"+j+"_Input"} data-parameter={j}
                                        value={this.state.configuration.Line2[this.state.line2active].list[j].value}
-                                       onChange={this.handleChange} onBlur={this.handleBlur}
+                                       onChange={this.handleChange} onBlur={this.handle_save_group.bind(this)}
+                                       data-line = "1"
                                        data-min={this.state.configuration.Line2[this.state.line2active].list[j].min}
                                        data-max={this.state.configuration.Line2[this.state.line2active].list[j].max}/>
                             </div>
@@ -745,7 +766,8 @@ export default class configurationview extends Component {
                             <div className="input-group">
                                 <span className="input-group-addon"  style={{minWidth: "100px",fontSize:"12px"}}>{this.state.configuration.Line2[this.state.line2active].list[j].paraname+":"}</span>
                                 <select className={className} placeholder="CONFIG Value" aria-describedby="basic-addon1"
-                                        key={this.state.key2+"P"+j+"Choice"} id={"Line2conf_detail_P"+j+"_Choice"} data-parameter={j} onChange={this.handleChange}
+                                        key={this.state.key2+"P"+j+"Choice"} id={"Line2conf_detail_P"+j+"_Choice"} data-parameter={j} onChange={this.handle_save_group.bind(this)}
+                                        data-line = "1"
                                         defaultValue={this.state.configuration.Line2[this.state.line2active].list[j].value} >{choice_items}</select>
                             </div>
                             <h3 style={{fontSize:15,marginRight:5,color:"#333"}}  >{contentline}</h3>
@@ -798,7 +820,7 @@ export default class configurationview extends Component {
                             {localbalancebutton}
                         </div>
                         <div className="col-xs-12 col-md-12 col-sm-12 col-lg-12"     style={{textAlign: "center",marginTop:"20px",marginBottom:"20px"}}>
-                            <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{marginRight:50,minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="2" onClick={this.handle_save_group.bind(this)} >
+                            <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{marginRight:50,minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="2" onClick={this.handle_save_group_quit.bind(this)} >
                                 {this.state.language.confirm}
                             </button>
                             <button type="button"  data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000"}} data-line="2" onClick={this.handle_delete_group.bind(this)} >
@@ -817,7 +839,7 @@ export default class configurationview extends Component {
                         <div className="col-xs-9 col-md-9 col-sm-9 col-lg-9" style={{display:this.state.head}}>
                             <div className="input-group">
                                 <span className="input-group-addon" id="CONFIG_NAME" style={{minWidth: "150px"}}>{this.state.language.configurename}</span>
-                                <input type="text" className="form-control" placeholder={this.state.language.configurename} aria-describedby="basic-addon1" id="ConfigureName_Input" value={this.state.configuration.name} onChange={this.handleChange.bind(this)}/>
+                                <input type="text" className="form-control" placeholder={this.state.language.configurename} aria-describedby="basic-addon1" id="ConfigureName_Input" value={this.state.configuration.name} onChange={this.handleChange.bind(this)} onBlur={this.handletitleblur.bind(this)}/>
                             </div>
                         </div>
                         <div className="col-xs-9 col-md-9 col-sm-9 col-lg-9" style={{display:this.state.head,margonTop:50}}>

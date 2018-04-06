@@ -157,6 +157,17 @@ export default class workview extends Component {
         this.refs.Alarmbar.hide();
         this.show();
     }
+    pauseview(configuration){
+        this.props.workcontrolhead(false);
+        this.props.workcontrolfoot(false,false,false);
+        this.setState({status:"pause"});
+        this.refs.Configurationview.hide();
+        this.refs.Billboardview.show();
+        this.refs.Buttonbar.pause_configure();
+        this.refs.Buttonbar.show();
+        this.refs.Alarmbar.hide();
+        this.show();
+    }
     showalarm(alarm){
         this.refs.Alarmbar.setError(alarm);
         this.refs.Buttonbar.hide();
@@ -191,6 +202,21 @@ export default class workview extends Component {
            // this.props.workstopcase(this.state.configuration);
             switch(i){
                 case 0:
+                    this.props.workpausecase(this.state.configuration);
+                    return;
+                case 1:
+                    this.props.workstopcase(this.state.configuration);
+                    return;
+                default:
+
+            }
+        }else if(this.state.status == "pause"){
+            // this.props.workstopcase(this.state.configuration);
+            switch(i){
+                case 0:
+                    this.props.workresumecase(this.state.configuration);
+                    return;
+                case 1:
                     this.props.workstopcase(this.state.configuration);
                     return;
                 default:

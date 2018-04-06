@@ -101,7 +101,11 @@
         "button2":"ABORT"
       },
       "running_configure":{
-        "button1":"STOP",
+        "button1":"PAUSE",
+        "button2":"STOP"
+      },
+      "pause_configure":{
+        "button1":"RESUME",
         "button2":"STOP"
       }
     },

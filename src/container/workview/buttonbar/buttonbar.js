@@ -51,7 +51,11 @@ export default class buttonbar extends Component {
                     "button2":"ABORT"
                 },
                 "running_configure":{
-                    "button1":"STOP",
+                    "button1":"PAUSE",
+                    "button2":"STOP"
+                },
+                "pause_configure":{
+                    "button1":"RESUME",
                     "button2":"STOP"
                 }
             }
@@ -110,7 +114,12 @@ export default class buttonbar extends Component {
     running_configure(){
         this.setState({button:[this.state.language.running_configure.button1,
             this.state.language.running_configure.button2
-        ],status:0,buttonnumber:1},this.calculatesize);
+        ],status:0,buttonnumber:2},this.calculatesize);
+    }
+    pause_configure(){
+        this.setState({button:[this.state.language.pause_configure.button1,
+            this.state.language.pause_configure.button2
+        ],status:0,buttonnumber:2},this.calculatesize);
     }
     /*
     hidebutton2(){

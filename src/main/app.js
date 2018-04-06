@@ -31,6 +31,7 @@ var mqttconf={};
 var lineconf={};
 var basic_address = getRelativeURL()+"/";
 var request_head= basic_address+"request.php";
+var timeouthandle = null;
 class App extends Component{
     constructor(props) {
         super(props);
@@ -45,6 +46,7 @@ class App extends Component{
             buttonlist: [],
             iconlist:[],
             runcallback:null,
+            pausecallback:null,
             caliruncallback:null,
             stopcallback:null,
             savenewback:null,
@@ -105,6 +107,8 @@ class App extends Component{
         this._calistopcase=this.calistop.bind(this);
         this._workstartcase=this.startcase.bind(this);
         this._workstopcase=this.stopcase.bind(this);
+        this._workpausecase=this.pausecase.bind(this);
+        this._workresumecase=this.resumecase.bind(this);
         this._workcontrolfoot=this.footButtonShow.bind(this);
         this._workcontrolhead=this.headButtonShow.bind(this);
         this._worksavenewcase=this.savenewcase.bind(this);
@@ -192,8 +196,8 @@ class App extends Component{
         this.refs.Sysconfview.update_callback_save(callback_save);
         //this.refs.foot.update_callback_configure(callback_configure);
     }
-    initializerunstop(runcallback,stopcallback,caliruncallback){
-        this.setState({runcallback:runcallback,stopcallback:stopcallback,caliruncallback:caliruncallback});
+    initializerunstop(runcallback,stopcallback,caliruncallback,pausecallback){
+        this.setState({runcallback:runcallback,stopcallback:stopcallback,caliruncallback:caliruncallback,pausecallback:pausecallback});
     }
     initializerunsave(newsave,modsave){
         this.setState({savenewback:newsave,savemodback:modsave});
@@ -286,6 +290,7 @@ class App extends Component{
 
         else
             this.footButtonShow(false,true,false);
+        this.tipsinfo("");
 
     }
     languageview(){
@@ -334,6 +339,21 @@ class App extends Component{
         this.footButtonShowAssistant(false,false,false);
         this.footButtonShow(false,false,false);
         this.refs.Workview.runningview(configure);
+        if(configure!=null) this.tipsinfo(configure.name);
+    }
+    workview_pause(configure){
+        //this.refs.Workview.billboardview();
+        this.refs.Userview.hide();
+        this.refs.Calibrationview.hide();
+        this.refs.Loginview.hide();
+        this.refs.Brickview.hide();
+        this.refs.Sysconfview.hide();
+        this.refs.Sysdebugview.hide();
+        this.refs.Exportview.hide();
+        this.refs.Languageview.hide();
+        this.footButtonShowAssistant(false,false,false);
+        this.footButtonShow(false,false,false);
+        this.refs.Workview.pauseview(configure);
         if(configure!=null) this.tipsinfo(configure.name);
     }
     workview_mod(configure){
@@ -444,6 +464,12 @@ class App extends Component{
             this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title1);
     }
+    calibration_zero_finish(){
+        this.refs.Calibrationview.zero_finish();
+    }
+    calibration_full_finish(){
+        this.refs.Calibrationview.full_finish();
+    }
     update_status(status){
         //this.refs.Workview.update_billboard_status(status);
     }
@@ -513,6 +539,12 @@ class App extends Component{
     stopcase(configure){
         this.state.runcallback(false,configure);
     }
+    pausecase(configure){
+        this.state.pausecallback(true);
+    }
+    resumecase(configure){
+        this.state.pausecallback(false);
+    }
     savenewcase(configure){
         this.state.savenewback(configure);
     }
@@ -523,6 +555,13 @@ class App extends Component{
         return this.refs.Sysconfview.getUpdatedValue();
     }
     tipsinfo(tips){
+        if(timeouthandle != null)  {
+            clearTimeout(timeouthandle);
+            timeouthandle = null;
+        }
+        this.refs.head.write_log(tips);
+    }
+    tipsinfo_withtimeout(tips){
         this.refs.head.write_log(tips);
     }
     debug_label_update(msg){
@@ -571,6 +610,8 @@ class App extends Component{
                 <Brickview ref="Brickview"/>
                 <Workview ref="Workview" workstartcase={this._workstartcase}
                           workstopcase={this._workstopcase}
+                          workpausecase={this._workpausecase}
+                          workresumecase={this._workresumecase}
                           workcontrolfoot={this._workcontrolfoot}
                           worksavenewcase={this._worksavenewcase}
                           worksavemodcase={this._worksavemodcase}
@@ -729,6 +770,10 @@ function initialize_mqtt(){
             case "XH_Double_Line_Balance_flash_status":
                 app_handle.flash_animateview_statistics(ret.data);
                 break;
+            case "XH_Double_Line_Balance_calibration_zero_finish":
+                app_handle.calibration_zero_finish();break;
+            case "XH_Double_Line_Balance_calibration_full_finish":
+                app_handle.calibration_full_finish();break;
             default:
                 return;
         }
@@ -753,7 +798,7 @@ function systemstart(){
     app_handle.initializehead();
     app_handle.initializeLogin(xhbalancelogin);
     app_handle.initializeWork(newviewabort,balance_clear_alarm);
-    app_handle.initializerunstop(xhbalancestartcase,xhbalancestartcase,balance_dynamic_cali);
+    app_handle.initializerunstop(xhbalancestartcase,xhbalancestartcase,balance_dynamic_cali,xhbalancepausecase);
     app_handle.initializerunsave(xhbalancesavenewconf,xhbalancesavemodconf);
     app_handle.initializeforceflash(xhbalanceforceflashstatus);
     app_handle.initializeCalibration(balance_to_zero,balance_to_countweight);
@@ -809,7 +854,7 @@ window.onresize= function(){
     location.reload(true);
 }
 function tips(tip){
-    app_handle.tipsinfo(tip);
+    app_handle.tipsinfo_withtimeout(tip);
 }
 function GetRandomNum(Min,Max)
 {
@@ -986,6 +1031,9 @@ function xhbalanceconfiglistcallback(res){
     baselist = res.jsonResult.ret.base;
     app_handle.initializeBrick(bricklist,baselist,brickclickfetch,bricknewclickfetch);
     app_handle.brickview();
+    //console.log("timeouthandle="+timeouthandle);
+
+    tips("");
 }
 function xhbalancelogin(username,password){
 
@@ -1111,7 +1159,45 @@ function xhbalancestartcase(boolinput,configure){
             return { error };
         });
 }
-
+function xhbalancepausecase(boolinput){
+    let body;
+    let actioncallback;
+    if(boolinput){
+        //console.log("start a case");
+        body={
+            action:"pause"
+        }
+        actioncallback=xhbalancepausecasecallback;
+    }else{
+        //console.log("stop a case");
+        body={
+            action:"resume"
+        }
+        actioncallback=xhbalanceresumecasecallback;
+    }
+    var map={
+        action:"XH_Balance_Pause",
+        body:body,
+        type:"query",
+        lang:default_language,
+        user:"null"
+    };
+    fetch(request_head,
+        {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(map)
+        }).then(jsonParse)
+        .then(actioncallback)
+        //.then(fetchlist)
+        .catch( (error) => {
+            console.log('request error', error);
+            return { error };
+        });
+}
 function xhbalancetozeroshortcut(){
     //let body;
     let actioncallback;
@@ -1187,7 +1273,33 @@ function xhbalancestopcasecallback(res){
     Running=false;
     app_handle.workview_run(null);
 }
-
+function xhbalancepausecasecallback(res){
+    if(res.jsonResult.status == "false"){
+        alert(language.message.alert4);
+        app_handle.initializeLogin(xhbalancelogin);
+        app_handle.loginview();
+        return;
+    }
+    if(res.jsonResult.auth == "false"){
+        return;
+    }
+    //Running=true;
+    app_handle.workview_pause(null);
+}
+function xhbalanceresumecasecallback(res){
+    if(res.jsonResult.status == "false"){
+        alert(language.message.alert5);
+        app_handle.initializeLogin(xhbalancelogin);
+        app_handle.loginview();
+        Running=false;
+        return;
+    }
+    if(res.jsonResult.auth == "false"){
+        return;
+    }
+    Running=true;
+    app_handle.workview_running(null);
+}
 function xhbalancegetstatus(){
     if(Running===false)return;
     activeconf = app_handle.get_active_configuration();
@@ -1374,8 +1486,17 @@ function xhbalancesavenewconfcallback(res){
     if(res.jsonResult.auth == "false"){
         return;
     }
+    let configuration = res.jsonResult.ret;
+
+    //app_handle.workview_run(configuration);
     xhbalanceconfiglist();
+    /*
     tips(language.message.message4);
+    timeouthandle = setTimeout(
+        function(value){tips(value); timeouthandle = null;},
+        5000, configuration.name
+    );*/
+    //console.log("save timeouthandle = "+timeouthandle);
 }
 
 function xhbalancesavemodconf(configure){
@@ -1412,8 +1533,16 @@ function xhbalancesavemodconfcallback(res){
     if(res.jsonResult.auth == "false"){
         return;
     }
-    xhbalanceconfiglist();
+    let configuration = res.jsonResult.ret;
+
+    app_handle.workview_run(configuration);
+    //xhbalanceconfiglist();
     tips(language.message.message4);
+    timeouthandle = setTimeout(
+        function(value){tips(value); timeouthandle = null;},
+        5000, configuration.name
+    );
+    console.log("save timeouthandle = "+timeouthandle);
 }
 
 function xhbalancesavesysconf(configure){

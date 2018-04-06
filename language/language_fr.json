@@ -101,8 +101,12 @@
         "button2":"放弃"
       },
       "running_configure":{
-        "button1":"停止",
-        "button2":"停止"
+        "button1":"暂停",
+        "button2":"关停"
+      },
+      "pause_configure":{
+        "button1":"继续",
+        "button2":"关停"
       }
     },
     "configurationview":{

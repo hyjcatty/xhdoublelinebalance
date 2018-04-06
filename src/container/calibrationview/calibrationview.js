@@ -24,6 +24,7 @@ export default class calibrationview extends Component {
             key:"calibrationbutton",
             key2:"calibrationlight",
             disabled:"",
+            zeroorfull:false,
             running:false,
             language:{
                 lines:"Line",
@@ -76,8 +77,8 @@ export default class calibrationview extends Component {
         }
     }
     dynamic_action(){
+        /*
         if(this.state.running){
-            //console.log(this.refs.linechoice.value);
             this.refs.linechoice.disabled = false;
             this.props.calistopcase(this.refs.linechoice.value);
             this.setState({running:false});
@@ -85,16 +86,43 @@ export default class calibrationview extends Component {
             this.props.workcontrolhead(true);
             this.props.workcontrolfoot(false,true,false);
         }else{
-
-            //console.log(this.refs.linechoice.value);
-
             this.refs.linechoice.disabled =true;
             this.props.calistartcase(this.refs.linechoice.value);
             this.setState({running:true});
             this.lockall(true);
             this.props.workcontrolhead(false);
             this.props.workcontrolfoot(false,false,false);
+        }*/
+        if(this.state.zeroorfull){
+            this.refs.linechoice.disabled = true;
+            this.props.calistopcase(this.refs.linechoice.value);
+            this.setState({running:true});
+            this.lockall(true);
+            this.props.workcontrolhead(false);
+            this.props.workcontrolfoot(false,false,false);
+            this.lockbutton();
+        }else{
+            this.refs.linechoice.disabled =true;
+            this.props.calistartcase(this.refs.linechoice.value);
+            this.setState({running:true});
+            this.lockall(true);
+            this.props.workcontrolhead(false);
+            this.props.workcontrolfoot(false,false,false);
+            this.lockbutton()
         }
+    }
+    zero_finish(){
+        this.setState({zeroorfull:true});
+        this.releasebutton();
+    }
+    full_finish(){
+        this.setState({zeroorfull:false});
+        this.refs.linechoice.disabled = false;
+        this.setState({running:false});
+        this.lockall(false);
+        this.props.workcontrolhead(true);
+        this.props.workcontrolfoot(false,true,false);
+        this.releasebutton();
     }
     lockall(bool){
         for(let i=0;i<1;i++){
@@ -126,7 +154,7 @@ export default class calibrationview extends Component {
         }
 
         let title_info = this.state.language.buttontitlestart;
-        if(this.state.running) title_info= this.state.language.buttontitlestop;
+        if(this.state.zeroorfull) title_info= this.state.language.buttontitlestop;
         return (
             <div style={{position:"relative",background:"#FFFFFF",height:this.state.height,maxHeight:this.state.height,width:'100%',display:this.state.hide,overflow:'scroll',overflowX:'hidden'}}>
                 <div className="container">
