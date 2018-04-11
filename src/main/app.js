@@ -1132,7 +1132,8 @@ function xhbalancestartcase(boolinput,configure){
     }else{
         //console.log("stop a case");
         body={
-            action:"stop"
+            action:"stop",
+            configure:configure
         }
         actioncallback=xhbalancestopcasecallback;
     }
