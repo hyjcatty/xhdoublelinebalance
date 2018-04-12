@@ -92,7 +92,7 @@ export default class buttonbar extends Component {
             this.state.language.run_configure.button2,
             this.state.language.run_configure.button3,
             this.state.language.run_configure.button4
-        ],status:0,buttonnumber:4},this.calculatesize);
+        ],status:0,buttonnumber:3},this.calculatesize);
 
     }
     calibration_configure(){

@@ -193,7 +193,7 @@ export default class workview extends Component {
                     this.state.callbackDelete();
                     return;
                 case 3:
-                    this.state.callbackTozero();
+                    //this.state.callbackTozero();
                     return;
                 default:
 
