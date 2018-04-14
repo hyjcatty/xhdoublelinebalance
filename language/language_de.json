@@ -4,6 +4,7 @@
   "app":{
     "modalhead":"Warning",
     "modaltips":"Are u want do delete this configuration?",
+    "modaltips2":"Are u want stop current configuration?",
     "modalconfirm":"confirm",
     "modalcancel":"cancel",
     "userunknown":"Please login"
@@ -174,7 +175,7 @@
     "message3":"run successfully!",
     "message4":"Save successfully!",
     "message5":"Please confirm if want to delete:",
-    "message6":"",
+    "message6":"Please confirm if want to stop:",
     "message7":"",
     "message8":"",
     "message9":"",

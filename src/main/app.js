@@ -61,6 +61,7 @@ class App extends Component{
                 "app":{
                     "modalhead":"Warning",
                     "modaltips":"Are u want do delete this configuration?",
+                    "modaltips2":"Are u want stop current configuration?",
                     "modalconfirm":"confirm",
                     "modalcancel":"cancel",
                     "userunknown":"Please login"
@@ -537,7 +538,7 @@ class App extends Component{
         this.state.runcallback(true,configure);
     }
     stopcase(configure){
-        this.state.runcallback(false,configure);
+        this.state.stopcallback();
     }
     pausecase(configure){
         this.state.pausecallback(true);
@@ -641,6 +642,23 @@ class App extends Component{
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px"}}>{this.state.language.app.modalcancel}</button>
                             <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px",marginLeft:25}} id="ExpiredConfirm">{this.state.language.app.modalconfirm}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="modal fade" id="ExpiredAlarm3" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 className="modal-title" id="ExpiredAlertModalLabel">{this.state.language.app.modalhead}</h4>
+                        </div>
+                        <div className="modal-body" id="ExpiredAlertModalContent3">
+                            {this.state.language.app.modaltips2}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px"}}>{this.state.language.app.modalcancel}</button>
+                            <button type="button" className="btn btn-default" data-dismiss="modal" style={{marginBottom:5,width:"160px",marginLeft:25}} id="ExpiredConfirm_stop">{this.state.language.app.modalconfirm}</button>
                         </div>
                     </div>
                 </div>
@@ -798,7 +816,7 @@ function systemstart(){
     app_handle.initializehead();
     app_handle.initializeLogin(xhbalancelogin);
     app_handle.initializeWork(newviewabort,balance_clear_alarm);
-    app_handle.initializerunstop(xhbalancestartcase,xhbalancestartcase,balance_dynamic_cali,xhbalancepausecase);
+    app_handle.initializerunstop(xhbalancestartcase,show_stopModule,balance_dynamic_cali,xhbalancepausecase);
     app_handle.initializerunsave(xhbalancesavenewconf,xhbalancesavemodconf);
     app_handle.initializeforceflash(xhbalanceforceflashstatus);
     app_handle.initializeCalibration(balance_to_zero,balance_to_countweight);
@@ -811,6 +829,7 @@ function systemstart(){
     initializedrag("userview");
     updateclock();
     $('#ExpiredConfirm').unbind('click').on('click',delete_configure);
+    $('#ExpiredConfirm_stop').unbind('click').on('click',stop_configure);
 }
 
 //var footcallback_return= function(){
@@ -1988,11 +2007,25 @@ function show_expiredModule(){
     modal_middle($('#ExpiredAlarm'));
     $('#ExpiredAlarm').modal('show') ;
 }
+function show_stopModule(){
+    activeconf = app_handle.get_active_configuration();
+    if(activeconf === null) return;
+    let warning_content =  language.message.message6+" ["+activeconf.name+"]?";
+    $('#ExpiredAlertModalContent3').empty();
+    $('#ExpiredAlertModalContent3').append(warning_content);
+    modal_middle($('#ExpiredAlarm3'));
+    $('#ExpiredAlarm3').modal('show') ;
+}
 function show_Module(msg){
     $('#ExpiredAlertModalContent2').empty();
     $('#ExpiredAlertModalContent2').append(msg);
     modal_middle($('#ExpiredAlarm2'));
     $('#ExpiredAlarm2').modal('show') ;
+}
+
+function stop_configure(){
+    if(activeconf === null) return;
+    xhbalancestartcase(false,activeconf);
 }
 function delete_configure(){
     if(activeconf === null) return;

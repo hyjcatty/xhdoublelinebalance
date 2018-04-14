@@ -244,6 +244,20 @@ function buildcalibrationdynamicinfo(){
     for(var i=0;i<temp;i++){
         message = message+" x";
     }
+    var process = GetRandomNum(0,100);
+    var process_bar = "";
+    console.log("process ="+process+";grid="+Math.round(process/2));
+    var total = 50;
+    for(var i=0;i<Math.round(process/2);i++){
+        process_bar = process_bar+"█";
+    }
+    for(var i=0;i<(total-Math.round(process/2));i++){
+        process_bar = process_bar+"░";
+    }
+    process_bar = process_bar+"";
+    if(Math.round(process/2)<10) process_bar = process_bar +"  ";
+    if(Math.round(process/2)<100) process_bar = process_bar +"  ";
+    process_bar = process_bar +process+"%";
     var ret = {
         action:"XH_Double_Line_Balance_calibration_dynamic_status",
         data:{
@@ -251,7 +265,7 @@ function buildcalibrationdynamicinfo(){
                 status:status,
                 value:[{
                     name:'trynumber',
-                    value:GetRandomNum(0,50),
+                    value:process_bar
                 },{
                     name:"msg",
                     value:"ret msg:"+message
