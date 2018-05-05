@@ -14,6 +14,7 @@ import Loginview from "../container/loginview/loginview"
 import Languageview from "../container/languageview/languageview"
 import Sysconfview from "../container/sysconfview/sysconfview"
 import Sysdebug from "../container/debugview/sysdebug"
+import Syserror from "../container/errorview/syserror"
 import Exportview from "../container/exportview/exportview"
 import Calibrationview from "../container/calibrationview/calibrationview"
 import Brickview from "../container/brickview/brickview"
@@ -81,7 +82,7 @@ class App extends Component{
                     "message2":"Delete successfully!",
                     "message3":"run successfully!",
                     "message4":"Save successfully!",
-                    "message5":"",
+                    "message5":"Fetal Error",
                     "message6":"",
                     "message7":"",
                     "message8":"",
@@ -93,7 +94,7 @@ class App extends Component{
                     "title4":"System Configuration",
                     "title5":"Please Login",
                     "title6":"Log Export",
-
+                    "title7":"Fetal Error",
                 }
             },
         };
@@ -133,6 +134,7 @@ class App extends Component{
         this.refs.Workview.update_language(language.workview);
         this.refs.Calibrationview.update_language(language.calibrationview);
         this.refs.Userview.update_language(language.userview);
+        this.refs.Syserrorview.update_language(language.syserrorview);
     }
     updateVersion(version){
         this.refs.foot.updateversion(version);
@@ -154,6 +156,7 @@ class App extends Component{
         this.refs.Workview.update_size(width,canvasheight);
         this.refs.Sysconfview.update_size(width,canvasheight,headfootheight);
         this.refs.Sysdebugview.update_size(width,canvasheight,headfootheight);
+        this.refs.Syserrorview.update_size(width,height,headfootheight);
         this.refs.Exportview.update_size(width,canvasheight,headfootheight);
         this.refs.Calibrationview.update_size(width,canvasheight,headfootheight);
         this.refs.Userview.update_size(width,canvasheight,headfootheight);
@@ -165,6 +168,10 @@ class App extends Component{
     initializesysdebug(callback,configure){
         this.refs.Sysdebugview.update_callback(callback);
         this.refs.Sysdebugview.update_config(configure);
+    }
+    initializesyserror(callback,configure){
+        this.refs.Syserrorview.update_callback(callback);
+        this.refs.Syserrorview.update_config(configure);
     }
     initializeExport(callback,configure){
         this.refs.Exportview.update_callback(callback);
@@ -244,6 +251,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
 
@@ -267,6 +275,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -283,6 +292,7 @@ class App extends Component{
         this.refs.Brickview.show();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -303,6 +313,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.footButtonShowAssistant(false,false,false);
         this.footButtonShow(false,false,false);
@@ -316,6 +327,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -335,6 +347,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -350,6 +363,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -365,6 +379,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -384,6 +399,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.show();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -402,6 +418,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.show();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -410,6 +427,23 @@ class App extends Component{
         else
             this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title3);
+    }
+    syserrorview(){
+        this.refs.head.hide();
+        this.refs.Userview.hide();
+        this.refs.Calibrationview.hide();
+        this.refs.Workview.hide();
+        this.refs.Loginview.hide();
+        //this.refs.foot.hide_all();
+        this.refs.Brickview.hide();
+        this.refs.Sysconfview.hide();
+        this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.show();
+        this.refs.Exportview.hide();
+        this.refs.Languageview.hide();
+        this.footButtonShowAssistant(false,false,false);
+        this.footButtonShow(false,true,false);
+        this.tipsinfo(this.state.language.message.title7);
     }
     exportview(){
         this.refs.Userview.hide();
@@ -420,6 +454,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.show();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -437,6 +472,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Languageview.hide();
         this.footButtonShowAssistant(false,false,false);
@@ -455,6 +491,7 @@ class App extends Component{
         this.refs.Brickview.hide();
         this.refs.Sysconfview.hide();
         this.refs.Sysdebugview.hide();
+        this.refs.Syserrorview.hide();
         this.refs.Exportview.hide();
         this.refs.Calibrationview.show();
         this.refs.Languageview.hide();
@@ -605,6 +642,7 @@ class App extends Component{
                 <Loginview ref="Loginview"/>
                 <Sysconfview ref="Sysconfview"/>
                 <Sysdebug ref="Sysdebugview"/>
+                <Syserror ref="Syserrorview"/>
                 <Exportview ref="Exportview"/>
                 <Calibrationview ref="Calibrationview" calistartcase={this._calistartcase} calistopcase={this._calistopcase} workcontrolfoot={this._workcontrolfoot} workcontrolhead={this._workcontrolhead}/>
                 <Languageview ref="Languageview"/>
@@ -767,6 +805,10 @@ function initialize_mqtt(){
             case "XH_Double_Line_Balance_debug_status":
                 app_handle.debug_label_update(ret.data);
                 break;
+            case "XH_Double_Line_Balance_fetal_status":
+                app_handle.initializesyserror(resize,ret.data);
+                app_handle.syserrorview();
+                break;
             case "XH_Double_Line_Balance_calibration_zero_status":
                 app_handle.update_cali_status(ret.data.balance,1,ret.data.msg);break;
             case "XH_Double_Line_Balance_calibration_weight_status":
@@ -870,6 +912,9 @@ function get_size(){
     console.log("winHeight= "+winHeight);
 }
 window.onresize= function(){
+    location.reload(true);
+}
+function resize(){
     location.reload(true);
 }
 function tips(tip){

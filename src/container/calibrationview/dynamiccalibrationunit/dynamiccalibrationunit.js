@@ -94,7 +94,6 @@ export default class dynamiccalibrationunit extends Component {
                     <div key="statuspanel" className="count" style={{color:color,fontSize:12,marginTop:10,marginBottom:10,textAlign:"center",fontWeight:900}}>{this.state.showlist.value[i].value}</div>
                 </div>
             );
-
         }
 
         return (
