@@ -38,13 +38,44 @@ export default class animateview extends Component {
             width:600,
             configuration:null,
             hide:"block",
+            maxshow:32,
             language:{}
         };
 
 
     }
     update_configuration(configuration){
-        this.setState({configuration:configuration});
+        this.setState({configuration:configuration},this.get_maxchamberconf);
+    }
+    get_maxchamberconf(){
+        let minchamber = 6;
+        let maxchamber = 0;
+        for(let i=0;i< this.state.configuration.Line1.length;i++){
+            for(let j=0;j< this.state.configuration.Line1[i].chamber.length;j++){
+                if(maxchamber< parseInt(this.state.configuration.Line1[i].chamber[j])) maxchamber = parseInt(this.state.configuration.Line1[i].chamber[j]);
+            }
+        }
+        for(let i=0;i< this.state.configuration.Line2.length;i++){
+            for(let j=0;j< this.state.configuration.Line2[i].chamber.length;j++){
+                if(maxchamber< parseInt(this.state.configuration.Line12[i].chamber[j])) maxchamber = parseInt(this.state.configuration.Line2[i].chamber[j]);
+            }
+        }
+        if(maxchamber < minchamber) maxchamber = minchamber;
+        if(maxchamber > 32) maxchamber = 32;
+        this.setState({maxshow:maxchamber},this.resetchamber);
+        //Step1 change the process bar size
+
+    }
+    resetchamber(){
+        this.refs.Process1.update_size(this.state.width*0.98,70,this.state.maxshow);
+        this.refs.Process2.update_size(this.state.width*0.98,70,this.state.maxshow);
+        for(let i=1;i<=this.state.maxshow;i++){
+            this.refs["Chamber2x"+i].update_reverse(true);
+        }
+        for(let i=1;i<=this.state.maxshow;i++){
+            this.refs["Chamber1x"+i].update_id("1x"+i);
+            this.refs["Chamber2x"+i].update_id("2x"+i);
+        }
     }
     update_language(language){
         //console.log(language);
@@ -55,8 +86,8 @@ export default class animateview extends Component {
         for(let i=1;i<33;i++){
             this.refs["Chamber2x"+i].update_reverse(true);
         }
-        this.refs.Process1.update_size(width*0.98,70);
-        this.refs.Process2.update_size(width*0.98,70);
+        this.refs.Process1.update_size(width*0.98,70,this.state.maxshow);
+        this.refs.Process2.update_size(width*0.98,70,this.state.maxshow);
         this.refs.Process1.initialize("1");
         this.refs.Process2.initialize("2");
         for(let i=1;i<33;i++){
@@ -106,9 +137,12 @@ export default class animateview extends Component {
         }
     }
     update_chamber(data){
+        if((this.state.maxshow) < parseInt(data.id)) return;
         this.refs["Chamber"+data.process+"x"+data.id].update_status(data);
     }
     update_package(data){
+        if((this.state.maxshow) < parseInt(data.target)) return;
+        console.log("THROW TARGET: "+ data.target);
         this.refs["Process"+data.process].throwbox(data.target);
         this.refs["Labelbigboard"+data.process].updateprop(data.biglabel.status);
         this.refs["Labelbigboard"+data.process].initialize(data.biglabel.title,data.biglabel.note);
@@ -122,17 +156,19 @@ export default class animateview extends Component {
     }
     render() {
         let chamberlist1=[];
-        for(let i=1;i<33;i++){
+        //for(let i=1;i<33;i++){
+        for(let i=1;i<(this.state.maxshow+1);i++){
             chamberlist1.push(
-                <div style={{width:this.state.width*0.03,float: "left",position:"relative"}} key={"Chamber1x"+i}>
+                <div style={{width:this.state.width*0.03-10,marginLeft:(this.state.width*0.03*32/this.state.maxshow)-this.state.width*0.03+10,float: "left",position:"relative"}} key={"Chamber1x"+i}>
                     <Chamber ref={"Chamber1x"+i} />
                 </div>
             );
         }
         let chamberlist2=[];
-        for(let i=1;i<33;i++){
+        //for(let i=1;i<33;i++){
+        for(let i=1;i<(this.state.maxshow+1);i++){
             chamberlist2.push(
-                <div style={{width:this.state.width*0.03,float: "left",position:"relative"}}  key={"Chamber2x"+i}>
+                <div style={{width:this.state.width*0.03-10,marginLeft:(this.state.width*0.03*32/this.state.maxshow)-this.state.width*0.03+10,float: "left",position:"relative"}}  key={"Chamber2x"+i}>
                 <Chamber ref={"Chamber2x"+i} /></div>);
         }
         let labellist=[];
@@ -143,16 +179,20 @@ export default class animateview extends Component {
                 </div>);
         }
         let temp=[];
-        for(let i=0;i<32;i++){
+        //for(let i=0;i<32;i++){
+
+        for(let i=0;i<(this.state.maxshow);i++){
             if(i==0){
 
                 temp.push(
-                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginRight:"-5px",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                    //<p className="pull-right" key={"showtag"+i} style={{width:36.05*32/(this.state.maxshow),fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginRight:"-5px",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                    <p className="pull-right" key={"showtag"+i} style={{width:this.state.width*0.03-5,marginLeft:(this.state.width*0.03*32/this.state.maxshow)-this.state.width*0.03+5,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginRight:"0",marginBottom:"0px",marginTop:"-18px"}}>{this.state.maxshow-i}</p>
                 )
             }else{
 
                 temp.push(
-                    <p className="pull-right" key={"showtag"+i} style={{width:36.05,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                    //<p className="pull-right" key={"showtag"+i} style={{width:36.05*32/(this.state.maxshow),fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginBottom:"0px",marginTop:"-18px"}}>{32-i}</p>
+                    <p className="pull-right" key={"showtag"+i} style={{width:this.state.width*0.03-5,marginLeft:(this.state.width*0.03*32/this.state.maxshow)-this.state.width*0.03+5,fontSize:24,fontColor:"#555555",fontWeight:700,textAlign:"center",marginBottom:"0px",marginTop:"-18px"}}>{this.state.maxshow-i}</p>
                 )
             }
         }

@@ -20,12 +20,13 @@ export default class processmodule extends Component {
             width:1000,
             reverse:false,
             hide:"block",
+            maxshow:32
         }
         this.processlist_free = [];
         this.processlist_run = [];
     }
-    update_size(width,height){
-        this.setState({height:height,width:width});
+    update_size(width,height,max){
+        this.setState({height:height,width:width,maxshow:max});
     }
     initialize(id){
         this.setState({id:"p"+id});
@@ -56,12 +57,14 @@ export default class processmodule extends Component {
         //console.log("processlist_run size:"+this.processlist_run.length);
         //console.log("RunRight"+target);
         if(target != 0){
+            $('#'+this.state.id+'animationprocess'+temp).width((this.state.width)/this.state.maxshow*parseInt(target)-(29.95));
             $('#'+this.state.id+'animationprocess'+temp).removeClass().addClass('RunRight'+target+' linear').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', this,function(event){
                 $(this).removeClass();
                 $(this).attr("display","none");
                 event.data.removefromlist($(this));
             });
         }else{
+            $('#'+this.state.id+'animationprocess'+temp).width(this.state.width);
             $('#'+this.state.id+'animationprocess'+temp).removeClass().addClass('RunRight33 linear redpackage').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', this,function(event){
                 $(this).removeClass();
                 $(this).attr("display","none");

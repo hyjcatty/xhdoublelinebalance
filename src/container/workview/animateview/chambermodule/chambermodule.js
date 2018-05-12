@@ -139,12 +139,18 @@ export default class chambermodule extends Component {
                     {this.state.reject}
                 </p>
         </span></div>;
+        /*
         let maininfo = <span id={"animationSandbox"+this.state.id} key={this.state.id} style={{display: "block",opacity: 0}} className="pull-right">
                     <a  style={{marginLeft:"17px"}}>
                         <i className = "fa fa-gift" style={{fontSize:"15px"}}/>
                     </a>
                 </span>;
-
+*/
+        let maininfo = <span id={"animationSandbox"+this.state.id} key={this.state.id} style={{display: "block",opacity: 0}} className="pull-right">
+                    <a  style={{marginLeft:"7px"}}>
+                        <i className = "fa fa-gift" style={{fontSize:"15px"}}/>
+                    </a>
+                </span>;
         if(this.state.reverse){
             return (
                 <div style={{position:"relative",width:"auto"}}>
@@ -153,7 +159,7 @@ export default class chambermodule extends Component {
                     {temp}
                     </div>
                     <div className="clearfix"></div>
-                    <div style={{position:"relative",marginBottom:"10px",marginLeft:"10px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
+                    <div style={{position:"relative",marginBottom:"10px",marginLeft:"0px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
                         {reject}
                         <div className="clearfix"></div>
                         {volume}
@@ -166,7 +172,7 @@ export default class chambermodule extends Component {
         }else{
             return (
                 <div style={{position:"relative",width:"auto"}}>
-                    <div style={{position:"relative",marginTop:"10px",marginLeft:"10px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
+                    <div style={{position:"relative",marginTop:"10px",marginLeft:"0px",width:"auto",backgroundImage:"url('./resource/image/process"+this.state.process+".png')",backgroundRepeat:"no-repeat",backgroundSize:"100% 100%"}}>
                         {box}
                         <div className="clearfix"></div>
                         {volume}
