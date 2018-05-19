@@ -26,10 +26,10 @@ export default class unlockview extends Component {
             callback:null,
             margintop:20,
             language:{
-                "title":"System Login",
-                "username":"UserName",
-                "password":"PassWord",
-                "confirm":"Login"
+                "title":"",
+                "username":"",
+                "password":"",
+                "confirm":""
             }
         }
         //this.keyboard_initialize();

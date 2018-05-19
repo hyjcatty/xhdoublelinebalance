@@ -142,7 +142,7 @@ export default class animateview extends Component {
     }
     update_package(data){
         if((this.state.maxshow) < parseInt(data.target)) return;
-        console.log("THROW TARGET: "+ data.target);
+        //console.log("THROW TARGET: "+ data.target);
         this.refs["Process"+data.process].throwbox(data.target);
         this.refs["Labelbigboard"+data.process].updateprop(data.biglabel.status);
         this.refs["Labelbigboard"+data.process].initialize(data.biglabel.title,data.biglabel.note);

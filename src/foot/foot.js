@@ -391,13 +391,13 @@ export default class foot extends Component {
                     <a style={{position:"relative",height:this.state.height,display:'table-cell',verticalAlign:'middle'}}>
                         < span className="headlabel pull-right" style={{fontSize:this.state.height*0.3,marginRight:this.state.height*0.3}}>{this.state.content}</span>
                     </a>
-                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:this.state.hideSave}} disabled={this.state.disabled} onClick={this.handle_click_save.bind(this)}>
+                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:"none"}} disabled={this.state.disabled} onClick={this.handle_click_save.bind(this)}>
                         <i className="fa fa-save" style={{fontSize:25}}> </i>
                     </button>
-                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:this.state.hideTozero}} disabled={this.state.disabled} onClick={this.handle_click_to_zero.bind(this)}>
+                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:"none"}} disabled={this.state.disabled} onClick={this.handle_click_to_zero.bind(this)}>
                         <i className="fa fa-recycle" style={{fontSize:25}}> </i>
                     </button>
-                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:this.state.hideDelete}} disabled={this.state.disabled} onClick={this.handle_click_delete.bind(this)}>
+                    <button  type="button" className="btn btn-warning btn-sm pull-right" style={{marginLeft:"5px",marginTop:"5px",height:(this.state.height-10),width:(this.state.height-10)*1.6,display:"none"}} disabled={this.state.disabled} onClick={this.handle_click_delete.bind(this)}>
                         <i className="fa fa-trash-o" style={{fontSize:25}}> </i>
                     </button>
                 </div>

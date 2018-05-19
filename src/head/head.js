@@ -22,16 +22,16 @@ export default class head extends Component {
         super(props);
         this.state={
             height:50,
-            username:"no login",
-            "loginfo":"xxxxxxxxx",
-            "clock":"xx-xx-xx xx:xx",
+            username:"",
+            "loginfo":"",
+            "clock":"",
             hideUser:"none",
             hide:"table",
             language:{
                 "icon":"",
-                "nologin":"no login",
-                "title":"Combinational Target Weigher",
-                "greet":"Hello"
+                "nologin":"",
+                "title":"",
+                "greet":""
             }
         }
     }

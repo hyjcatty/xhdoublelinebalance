@@ -60,12 +60,12 @@ class App extends Component{
             changepasswordcallback:null,
             language:{
                 "app":{
-                    "modalhead":"Warning",
-                    "modaltips":"Are u want do delete this configuration?",
-                    "modaltips2":"Are u want stop current configuration?",
-                    "modalconfirm":"confirm",
-                    "modalcancel":"cancel",
-                    "userunknown":"Please login"
+                    "modalhead":"",
+                    "modaltips":"",
+                    "modaltips2":"",
+                    "modalconfirm":"",
+                    "modalcancel":"",
+                    "userunknown":""
                 },
                 "message":{
                     "alert1":"System Error, please contract Admin!",
@@ -96,7 +96,7 @@ class App extends Component{
                     "title6":"Log Export",
                     "title7":"Fetal Error",
                 }
-            },
+            }
         };
         this._footcallbackreturn=this.loginview.bind(this);
         this._footcallbackbrick=this.brickview.bind(this);
@@ -444,6 +444,7 @@ class App extends Component{
         this.footButtonShowAssistant(false,false,false);
         this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title7);
+        this.hideallmodal();
     }
     exportview(){
         this.refs.Userview.hide();
@@ -501,6 +502,9 @@ class App extends Component{
         else
             this.footButtonShow(false,true,false);
         this.tipsinfo(this.state.language.message.title1);
+    }
+    hideallmodal(){
+        $('.modal').modal('hide') ;
     }
     calibration_zero_finish(){
         this.refs.Calibrationview.zero_finish();
@@ -633,6 +637,7 @@ class App extends Component{
         this.state.changepasswordcallback(username,oldpassword,newpassword);
     }
     render() {
+
         return(
         <div style={{overflowY:'hidden',overflowX:'hidden'}}>
             <div>
