@@ -24,6 +24,7 @@ export default class calibrationview extends Component {
             key:"calibrationbutton",
             key2:"calibrationlight",
             disabled:"",
+            style:{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000",marginLeft:20},
             zeroorfull:false,
             running:false,
             language:{
@@ -130,10 +131,10 @@ export default class calibrationview extends Component {
         }
     }
     lockbutton(){
-        this.setState({disabled:"disabled"});
+        this.setState({disabled:"disabled",style:{minWidth: "150px",color:"#000000",fontWeight:700,background:"#ffffff",marginLeft:20}});
     }
     releasebutton(){
-        this.setState({disabled:""})
+        this.setState({disabled:"",style:{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000",marginLeft:20}})
     }
     render() {
 
@@ -190,7 +191,7 @@ export default class calibrationview extends Component {
 
                                 </div>
                                 <div className="col-xs-6 col-md-6 col-sm-6 col-lg-6">
-                                    <button type="button" id="calibration_start" data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={{minWidth: "150px",color:"#ffffff",fontWeight:700,background:"#000000",marginLeft:20}} disabled={this.state.disabled} onClick={this.dynamic_action.bind(this)} >
+                                    <button type="button" id="calibration_start" data-loading-text="Loading..." className="btn btn-primary" autoComplete="off" style={this.state.style} disabled={this.state.disabled} onClick={this.dynamic_action.bind(this)} >
                                         {title_info}
                                     </button>
                                 </div>

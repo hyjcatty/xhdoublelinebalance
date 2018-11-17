@@ -745,7 +745,7 @@ export default class configurationview extends Component {
                                        key={this.state.key2+"G"+"P"+j+"input"} id={"Line2conf_detail_P"+j+"_Input"} data-parameter={j}
                                        value={this.state.configuration.Line2[this.state.line2active].list[j].value}
                                        onChange={this.handleChange} onBlur={this.handle_save_group.bind(this)}
-                                       data-line = "1"
+                                       data-line = "2"
                                        data-min={this.state.configuration.Line2[this.state.line2active].list[j].min}
                                        data-max={this.state.configuration.Line2[this.state.line2active].list[j].max}/>
                             </div>
@@ -767,7 +767,7 @@ export default class configurationview extends Component {
                                 <span className="input-group-addon"  style={{minWidth: "100px",fontSize:"12px"}}>{this.state.configuration.Line2[this.state.line2active].list[j].paraname+":"}</span>
                                 <select className={className} placeholder="CONFIG Value" aria-describedby="basic-addon1"
                                         key={this.state.key2+"P"+j+"Choice"} id={"Line2conf_detail_P"+j+"_Choice"} data-parameter={j} onChange={this.handle_save_group.bind(this)}
-                                        data-line = "1"
+                                        data-line = "2"
                                         defaultValue={this.state.configuration.Line2[this.state.line2active].list[j].value} >{choice_items}</select>
                             </div>
                             <h3 style={{fontSize:15,marginRight:5,color:"#333"}}  >{contentline}</h3>
